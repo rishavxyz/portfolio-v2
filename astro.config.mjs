@@ -12,12 +12,8 @@ const site = import.meta.env.DEV ? "http://localhost:4321"
 export default defineConfig({
   site,
   integrations: [mdx(), sitemap(), svelte(), tailwind()],
-  output: "hybrid",
-  // adapter: vercel({
-  //   imagesConfig: {
-  //     formats: ["image/webp", "image/avif"],
-  //     sizes: [480, 1024]
-  //   }
-  // }),
-  adapter: vercel()
+  output: "server",
+  adapter: vercel({
+    isr: true
+  })
 });

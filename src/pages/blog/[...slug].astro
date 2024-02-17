@@ -71,6 +71,16 @@ const {
   import { animate } from "motion";
   import vibrant from "node-vibrant";
 
+  animate("#hero",
+    { y: ["-100%", 0] },
+    { duration: .8, delay: 0 }
+  );
+
+  animate("#hero--content",
+    { y: [80, 0], opacity: [0,0,1,1] },
+    { duration: 0.8, delay: 1 }
+  );
+
   const img = document.querySelector("figure > img") as HTMLImageElement | undefined;
 
   async function getColorsFromImg(img: HTMLImageElement) {
@@ -85,19 +95,9 @@ const {
       document.documentElement.style.setProperty("--color",
         `hsl(${Math.floor(h*360)} 90 90)`
       );
-      animate("#hero",
-        { y: ["-100%", 0] },
-        { duration: .8, delay: 0 }
-      );
-
       animate("#hero--image",
         { y: [-150, 0], opacity: 1 },
         { duration: 0.4, delay: 0.7 }
-      );
-
-      animate("#hero--content",
-        { y: [80, 0], opacity: [0,0,1,1] },
-        { duration: 0.8, delay: 1 }
       );
     } catch (error) {
       console.error("Error", error);
