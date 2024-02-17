@@ -13,7 +13,7 @@ export default defineConfig({
   site,
   integrations: [mdx(), sitemap(), svelte(), tailwind()],
   output: "server",
-  adapter: vercel({ imageService: true }),
+  adapter: vercel(),
   image: {
     remotePatterns: [{ protocol: "https" }],
   }
