@@ -1,0 +1,79 @@
+---
+title: "My BSPWM config for the minimalists"
+desc: "Desktop environments nowadys use as much memory as Windows seriously! Thanks to the standalone window managers we can create our custom DEs."
+img: "@media/bspwm.png"
+pubon: "feb 18 2024"
+---
+
+## Installation
+
+1. Install [fish shell](https://fishshell.com) first
+2. Clone this repository
+3. And run the following:
+
+```bash
+ cd mnml-bspwm && ./install.fish
+```
+
+## Notes
+
+- This setup **does not** use a display manager
+- After logging in to tty, run `startx` to start bspwm
+- File manager, browser, archiver etc. will not be installed
+- If by any chance scripts are not executable, run `chmod +x SCRIPTFILE`
+
+
+## Programs
+
+```plaintext
+bspwm, polybar, sxhkd, dunst, dmenu, st, slock, feh, brightnessctl, pamixer, xdg-desktop-portal, xdg-desktop-portal-gtk, polkit-gnome, gnome-keyring
+```
+
+
+## Additional configurations
+
+Here are some more tricks
+
+### Touchpad improvements
+
+- **Enable natural scroll and tapping**
+
+Create a drop-in file in `/etc/X11/xorg.conf.d/30-touchpad.conf`
+
+```conf
+Section "InputClass"
+    Identifier "touchpad"
+    Driver "libinput"
+    MatchIsTouchpad "on"
+    Option "Tapping" "on"
+    Option "NaturalScrolling" "true"
+EndSection
+```
+
+- **Use gestures to navigate**
+
+I have use *libinput-getsures* for this. You may want to manually install it.
+
+Head over to [libinput-getsures github](https://github.com/bulletmark/libinput-gestures) and install it on your distro.
+
+> Arch Linux users can just install it from AUR.
+> Package name: `libinput-getsures`
+
+If you don't use a trackpad just skip it. No need!
+
+### Gnome-keyring PAM setup
+
+Edit and add the following in `/etc/pam.d/login`
+
+```plaintext
+auth       optional     pam_gnome_keyring.so
+session    optional     pam_gnome_keyring.so auto_start
+```
+
+### Use gnome-keyring with git
+
+```bash
+git config --global credential.helper /usr/lib/git-core/git-credential-libsecret
+```
+
+Hope you'll like it and feel free to customize it as you like.

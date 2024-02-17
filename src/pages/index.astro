@@ -7,23 +7,23 @@ import { Layout, BlogPost } from "$lib/layouts";
 
 <Layout class="space-y-2">
   <section class="max-w-5xl mx-auto space-y-1">
-    <h1 class="text-3xl md:text-6xl leading-none font-bold font-display uppercase">{AUTHOR}</h1>
-    <h2 class="text-xl md:text-3xl leading-tight font-serif">{DESCRIPTION}.</h2>
+    <h1 id="h1" class="text-3xl md:text-6xl leading-none font-bold font-display uppercase">{AUTHOR}</h1>
+    <h2 id="h2" class="text-xl md:text-3xl leading-tight font-serif">{DESCRIPTION}.</h2>
   </section>
 
-  <section class="space-y-1 max-w-5xl mx-auto">
+  <section id="post" class="space-y-1 max-w-5xl mx-auto">
     <p class="uppercase tracking-wide text-sm">Latest blogs</p>
     <BlogPost />
   </section>
 </Layout>
 
 <style>
-  h1 {
+  #h1, #post {
     will-change: transform, opacity;
     transform: translateY(-50px);
     opacity: 0;
   }
-  h2 {
+  #h2 {
     will-change: transform, opacity;
     transform: rotateY(50px);
     opacity: 0;
@@ -33,12 +33,16 @@ import { Layout, BlogPost } from "$lib/layouts";
 <script>
   import { animate } from "motion";
 
-  animate("h1",
+  animate("#h1",
     { y: [-50, 0], opacity: 1 },
-    { duration: 0.8 }
+    { duration: 0.4 }
   );
-  animate("h2",
+  animate("#h2",
     { y: [50, 0], opacity: 1 },
-    { duration: 0.8, delay: 0.2 }
+    { duration: 0.4, delay: 0.2 }
+  );
+  animate("#post",
+    { y: [-50, 0], opacity: 1 },
+    { duration: 0.4 }
   );
 </script>

@@ -4,8 +4,25 @@ export const prerender = true;
 import { BlogPost, Layout } from "$lib/layouts";
 ---
 <Layout class="space-y-2">
-  <section class="space-y-1 max-w-5xl mx-auto">
+  <section id="post" class="space-y-1 max-w-5xl mx-auto">
     <p class="uppercase tracking-wide text-sm">Latest blogs</p>
     <BlogPost />
   </section>
 </Layout>
+
+<style>
+  #post {
+    opacity: 0;
+    transform: translateY(-50px);
+    will-change: transform, opacity;
+  }
+</style>
+
+<script>
+  import { animate } from "motion";
+
+  animate("#post",
+    { y: [-50, 0], opacity: 1 },
+    { duration: 0.4 }
+  );
+</script>
