@@ -15,7 +15,6 @@ export default defineConfig({
   output: "server",
   adapter: vercel({ imageService: true }),
   image: {
-    domains: ["rishavmandal.xyz"],
     remotePatterns: [{ protocol: "https" }],
   }
 });
