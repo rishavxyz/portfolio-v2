@@ -1,15 +1,37 @@
 ---
+import type { GetStaticPaths } from "astro";
+export const prerender = true;
+
 import { SuperImg, Fdate } from "$lib/components";
 import { ReadingTime, Render } from "$lib/components/md";
 import { Layout } from "$lib/layouts";
-import { getEntry } from "astro:content";
+// import { getEntry } from "astro:content";
+import { getCollection } from "astro:content";
 
+// const { slug } = Astro.params
+// if (!slug) return Astro.redirect("/404");
 
-const { slug } = Astro.params
-if (!slug) return Astro.redirect("/404");
+// const entry = await getEntry("blog", slug);
+// if (!entry) return Astro.redirect("/404");
 
-const entry = await getEntry("blog", slug);
-if (!entry) return Astro.redirect("/404");
+// const {
+//   render,
+//   data: {
+//     title, desc, img, pubon
+//   },
+//   body
+// } = entry;
+
+export const getStaticPaths = (async () => {
+  const entries = await getCollection("blog");
+
+  return entries.map(entry => ({
+    params: {
+      slug: entry.slug
+    },
+    props: { entry }
+  }));
+}) satisfies GetStaticPaths;
 
 const {
   render,
@@ -17,9 +39,7 @@ const {
     title, desc, img, pubon
   },
   body
-} = entry;
-
-
+} = Astro.props.entry;
 ---
 
 <Layout {title} {desc} img={img?.src} class="p-0"
