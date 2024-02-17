@@ -1,0 +1,64 @@
+---
+import { Fdate, SuperImg,  } from "$lib/components";
+
+import {getCollection} from "astro:content";
+
+const unsorted_blogs = await getCollection("blog", ({data}) => !data.draft);
+const blogs = unsorted_blogs?.sort((fst, snd) => snd.data.pubon.valueOf() - fst.data.pubon.valueOf());
+---
+
+<ul class="auto flex flex-col flex-wrap md:flex-row items-stretch justify-stretch gap-y-2 gap-x-4">
+  { blogs.map(d =>
+    <li class="list shrink-0 md:max-w-xs lg:max-w-md">
+      <a href={`/blog/${d.slug}`}>
+        <article class="grid grid-cols-[2rem_1fr_2rem] grid-rows-[1fr_2rem_auto]">
+          { d.data.img &&
+            <figure class="[grid-column:2/4] [grid-row:1/3]">
+              <SuperImg
+                src={d.data.img}
+                alt={`Thumbnail of the post ${d.data.title}`}
+                width={480}
+                loading="eager"
+              />
+            </figure>
+          }
+          <div class="[grid-column:1/3] [grid-row:2/4] pr-1 pt-2 lg:pb-2 space-y-0.25 bg-black text-white">
+            <p class="text-lg font-bold leading-snug">
+              <mark>{d.data.title}</mark>
+            </p>
+            <Fdate date={d.data.pubon} class="text-sm text-neutral-400" />
+            <p class="">{d.data.desc}</p>
+          </div>
+        </article>
+      </a>
+    </li>
+  )}
+</ul>
+
+<style>
+  @media screen and (max-width: 765px) {
+    
+    .list + .list::before {
+      content: "";
+      display: block;
+      width: 90%;
+      height: 1px;
+      background-color: rgb(220 220 220 / 0.25);
+      margin-inline: auto;
+      margin-bottom: 2rem;
+    }
+  }
+  ul {
+    transform: translateY(-50px);
+    opacity: 0;
+    will-change: transform;
+  }
+</style>
+
+<script>
+  import { animate } from "motion";
+
+  animate("ul",
+    { y: [-50, 0], opacity: 1 },
+  );
+</script>

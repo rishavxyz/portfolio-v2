@@ -1,0 +1,13 @@
+---
+import { readingTime } from "$lib/utils";
+
+type Props = {
+  content: string;
+};
+
+const time = await readingTime(Astro.props.content);
+---
+
+<p>
+  {time} minute{time == 1 ? "" : "s"} read 
+</p>

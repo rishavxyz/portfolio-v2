@@ -1,0 +1,23 @@
+---
+import { AUTHOR } from "$lib/consts"
+import A from "./navLink.astro"
+
+const links =
+[ {name: "About", href: "about"}
+// , {name: "Projects", href: "project"}
+, {name: "Blogs", href: "blog"}
+]
+---
+
+<nav style="background-color: var(--color); will-change: background-color;"
+  class="p-1 text-[15px] flex justify-between flex-wrap gap-0.125 z-[9999]"
+>
+  <ul>
+    <li><strong><a href="/">{AUTHOR}</a></strong></li>
+  </ul>
+  <ul class="flex gap-0.5 ml-auto">
+		{ links.map(({name, href}) =>
+			<li><A href={`/${href}`} class="contrast">{name}</A></li>
+		)}
+  </ul>
+</nav>

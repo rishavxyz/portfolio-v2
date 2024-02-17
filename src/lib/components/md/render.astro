@@ -1,0 +1,33 @@
+---
+import type { MarkdownHeading } from "astro";
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+
+import { Table } from "$lib/components/md";
+import { cn } from "$lib/utils";
+
+type Render = {
+  Content: AstroComponentFactory;
+  headings: MarkdownHeading[];
+};
+
+type Props = {
+  render: ()=> Promise<Render>;
+  class?: string;
+};
+
+const { render, class: className } = Astro.props;
+
+const { Content, headings } = await render();
+---
+
+<article
+  class={
+    cn(
+      "prose prose-lg md:prose-xl",
+      "mx-auto font-serif",
+      className
+    )
+  }
+>
+  <Content components={{ table: Table }} />
+</article>

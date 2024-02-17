@@ -1,0 +1,39 @@
+---
+import {Image, getImage } from "astro:assets";
+
+type Props = {
+  src: any;
+  alt: string;
+  width: number;
+  height?: number;
+  class?: string;
+  loading?: "lazy"|"eager";
+  aspect?: string;
+};
+
+const {
+  src, alt, width, height, class: className,
+  loading = "eager", aspect = "3/2"
+} = Astro.props;
+
+const bg = await getImage({src, format: 'webp', width:4, height:4});
+
+const [w, h] = aspect.split("/");
+
+const ratio = {
+  h: Number(h.trim()),
+  w: Number(w.trim())
+};
+---
+
+<Image {src} {alt} {width} {loading} format="webp"
+  height={height || width * ratio.h / ratio.w}
+  style={`
+    background-image:  url(${bg.src});
+    background-repeat: no-repeat;
+    background-size:   cover;
+    object-fit:        cover;
+    aspect-ratio:      ${aspect};
+  `}
+  class={className}
+/>

@@ -1,0 +1,51 @@
+---
+
+import "@fontsource/oswald/400.css";
+import "@fontsource/oswald/600.css";
+import "@fontsource/oswald/700.css";
+import "@fontsource/pt-serif";
+import "@fontsource/ubuntu-mono";
+import "@fontsource/roboto";
+
+import type {CSSProperty} from "astro/types"
+import { Header, Footer, SEO } from "$lib/components"
+import { DESCRIPTION, TITLE } from '$lib/consts';
+
+import { cn } from "$lib/utils";
+
+type Props = {
+	title?: string;
+	desc?: string;
+	img?: string;
+	class?: string;
+	style?: CSSProperty;
+	background?: string;
+	foreground?: string;
+};
+
+const { title = TITLE, desc = DESCRIPTION,
+	img, class: className,
+	background, foreground
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<meta name="content-theme" content="light dark" />
+	<SEO {title} description={desc} image={img} />
+	</head>
+
+	<body class={
+		cn("text-base bg-black text-white",
+		background, foreground)}
+	>
+		<Header />
+		<main class={cn("mx-auto p-1", className)}>
+			<slot />
+		</main>
+		<Footer />
+	</body>	
+</html>

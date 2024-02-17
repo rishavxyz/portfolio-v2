@@ -1,0 +1,21 @@
+---
+import { cn } from '$lib/utils';
+
+interface Props {
+	date: Date;
+	class?: string;
+};
+
+const { date, class: className } = Astro.props;
+const d = new Date();
+
+const today = d.getDate() + d.getMonth() + d.getFullYear();
+const thatDay = date.getDate() + date.getMonth() + date.getFullYear();
+
+let text = today == thatDay ? "Today"
+	: date.toLocaleDateString("en-us", { dateStyle: "medium" })
+---
+
+<time datetime={date.toISOString()} class={cn(className)}>
+	{ text }
+</time>
