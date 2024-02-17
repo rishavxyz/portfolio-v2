@@ -12,7 +12,7 @@ const site = import.meta.env.DEV ? "http://localhost:4321"
 export default defineConfig({
   site,
   integrations: [mdx(), sitemap(), svelte(), tailwind()],
-  output: "hybrid",
+  output: "server",
   adapter: vercel({
     isr: true
   })
