@@ -13,5 +13,9 @@ export default defineConfig({
   site,
   integrations: [mdx(), sitemap(), svelte(), tailwind()],
   output: "server",
-  adapter: vercel()
+  adapter: vercel({ imageService: true }),
+  image: {
+    domains: ["rishavmandal.xyz"],
+    remotePatterns: [{ protocol: "https" }],
+  }
 });

@@ -1,0 +1,112 @@
+---
+import { SuperImg, Fdate, Hr } from "$lib/components";
+import { ReadingTime, Render } from "$lib/components/md";
+import { Layout } from "$lib/layouts";
+import { getEntry } from "astro:content";
+
+
+const { slug } = Astro.params
+if (!slug) return Astro.redirect("/404");
+
+const entry = await getEntry("blog", slug);
+if (!entry) return Astro.redirect("/404");
+
+const {
+  render,
+  data: {
+    title, desc, img, pubon, updatedOn
+  },
+  body
+} = entry;
+
+
+---
+
+<Layout {title} {desc} img={img?.src} class="p-0"
+  background="bg-white" foreground="text-black"
+>
+  <section id="hero" class="rounded-b-[28px]"
+    style="transform: translateY(-100%);"
+  >
+    <div class="max-w-5xl mx-auto px-1 pb-2">
+        { img &&
+        <figure id="hero--image" style="transform:translateY(-150px); opacity:0;">
+          <SuperImg src={img} alt={`blog ${title}`} class="rounded-md"
+          width={1024} height={512} loading="eager" aspect="2/1"
+          />
+        </figure>
+        }
+      <div id="hero--content" style="transform:translateY(80px); opacity:0;"
+        class="text-center py-1 z-[1]
+              md:w-4/5 md:mx-auto"
+              >
+        <h1 class="font-bold leading-tight text-2xl md:text-4xl">{title}</h1>
+        <p class="py-1 text-lg leading-snug">{desc}</p>
+        <div class="flex justify-between gap-0.25 md:justify-end">
+          <Fdate date={pubon} />
+          <span class="hidden md:inline text-black/40">&bull;</span>
+          <ReadingTime content={body} />
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="mt-0 md:mt-2 p-1">
+    <Render {render} />
+  </section>
+</Layout>
+
+<style>
+  #hero {
+    background-color: var(--color, transparent);
+  }
+  #hero, #hero--image,
+  #hero--content {
+    will-change: transform;
+  }
+</style>
+
+<script>
+  import { animate } from "motion";
+  import vibrant from "node-vibrant";
+
+  const img = document.querySelector("figure > img") as HTMLImageElement | undefined;
+
+  async function getColorsFromImg(img: HTMLImageElement) {
+    if (!img) return;
+    
+    try {
+      const palette = await vibrant.from(img.src)
+        .useQuantizer(vibrant.Quantizer.MMCQ).getPalette(); 
+      
+      const [h] = palette.LightVibrant?.getHsl() ?? [245, 245, 245];
+      
+      document.documentElement.style.setProperty("--color",
+        `hsl(${Math.floor(h*360)} 90 90)`
+      );
+      animate("#hero",
+        { y: ["-100%", 0] },
+        { duration: .8, delay: 0 }
+      );
+
+      animate("#hero--image",
+        { y: [-150, 0], opacity: 1 },
+        { duration: 0.4, delay: 0.7 }
+      );
+
+      animate("#hero--content",
+        { y: [80, 0], opacity: [0,0,1,1] },
+        { duration: 0.8, delay: 1 }
+      );
+    } catch (error) {
+      console.error("Error", error);
+    }
+    
+    img.removeEventListener("load", () => getColorsFromImg(img));
+  }
+
+  if (img) {
+    if (img.complete) getColorsFromImg(img);
+    else img.addEventListener("load", ()=> getColorsFromImg(img));
+  }
+
+</script>

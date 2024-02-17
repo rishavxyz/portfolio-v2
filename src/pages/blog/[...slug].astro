@@ -1,5 +1,5 @@
 ---
-import { SuperImg, Fdate, Hr } from "$lib/components";
+import { SuperImg, Fdate } from "$lib/components";
 import { ReadingTime, Render } from "$lib/components/md";
 import { Layout } from "$lib/layouts";
 import { getEntry } from "astro:content";
@@ -14,7 +14,7 @@ if (!entry) return Astro.redirect("/404");
 const {
   render,
   data: {
-    title, desc, img, pubon, updatedOn
+    title, desc, img, pubon
   },
   body
 } = entry;
