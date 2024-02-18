@@ -3,7 +3,7 @@ export const prerender = true;
 
 import type { GetStaticPaths } from "astro";
 
-import { SuperImg, Fdate } from "$lib/components";
+import { SuperImg, Fdate, Divider } from "$lib/components";
 import { ReadingTime, Render } from "$lib/components/md";
 import { Layout } from "$lib/layouts";
 import { getCollection } from "astro:content";
@@ -31,21 +31,17 @@ const {
 <Layout {title} {desc} img={img?.src} class="p-0"
   background="bg-white" foreground="text-black"
 >
-  <section id="hero" class="rounded-b-[28px] relative z-[-1]"
-    style="transform: translateY(-100%);"
-  >
-    <div class="max-w-5xl mx-auto px-1 pb-2">
+  <section id="hero">
+    <div class="max-w-5xl mx-auto px-1">
         { img &&
-        <figure id="hero--image" style="transform:translateY(-150px); opacity:0;">
-          <SuperImg src={img} alt={`blog ${title}`} class="rounded-md"
-          width={1024} aspect="2/1"
+        <figure id="hero--image">
+          <SuperImg src={img} alt={`blog ${title}`}
+            class="rounded-md" width={1024} aspect="2/1"
           />
         </figure>
         }
-      <div id="hero--content" style="transform:translateY(80px); opacity:0;"
-        class="text-center py-1 z-[1]
-              md:w-4/5 md:mx-auto"
-              >
+      <div id="hero--content"
+        class="text-center py-1 z-[1] md:w-4/5 md:mx-auto">
         <h1 class="font-bold leading-tight text-2xl md:text-4xl">{title}</h1>
         <p class="py-1 text-lg leading-snug">{desc}</p>
         <div class="flex justify-between gap-0.25 md:justify-center">
@@ -56,63 +52,73 @@ const {
       </div>
     </div>
   </section>
-  <section class="mt-0 md:mt-2 p-1">
+  <Divider class="w-4/5 my-1 mx-auto" />
+  <section class="p-1">
     <Render {render} />
+  </section>
+  <section class="bg-[var(--color,#abcdef)]">
+    <div class="max-w-[75ch] mx-auto p-1">
+      <p class="text-lg font-bold">More like this</p>
+      <p class="text-center mix-blend-difference text-[#fff]">Work in progress</p>
+    </div>
   </section>
 </Layout>
 
 <style>
   #hero {
-    background-color: var(--color, transparent);
-  }
-  #hero, #hero--image,
-  #hero--content {
     will-change: transform;
+    transform: translate3d(0, -100%, 0);
+    animation: slide-down 800ms ease-out forwards;
+  }
+  #hero--image {
+    will-change: transform;
+    transform: translate3d(0, -100%, 0);
+    animation: slide-down 450ms ease-in forwards;
+    animation-delay: 500ms;
+  }
+
+  @keyframes slide-down {
+    from { transform: translate3d(0, -100%, 0); }
+    to { transform: translate3d(0, 0%, 0); }
   }
 </style>
 
 <script>
-  import { animate } from "motion";
-  import vibrant from "node-vibrant";
-
+  import Vibrant from "node-vibrant";
 
   const img = document.querySelector("figure > img") as HTMLImageElement | undefined;
 
-  animate("#hero",
-    { y: ["-100%", 0] },
-    { duration: .8, delay: 0 }
-  );
-  img && animate("#hero--image",
-    { y: [-150, 0], opacity: 1 },
-    { duration: 0.4, delay: 0.7 }
-  );
-  animate("#hero--content",
-    { y: [80, 0], opacity: [0,0,1,1] },
-    { duration: 0.8, delay: img ? 1 : 0 }
-  );
-
-  async function getColorsFromImg(img: HTMLImageElement) {
-    if (!img) return;
+  async function extractColors(img: HTMLImageElement) {
+    if (typeof img == "undefined") return;
     
+    const { WebWorker, MMCQ } = Vibrant.Quantizer;
+    const quantizer = WebWorker || MMCQ;
+
     try {
-      const palette = await vibrant.from(img.src)
-        .useQuantizer(vibrant.Quantizer.MMCQ).getPalette(); 
+      const palette = await Vibrant.from(img.src)
+        .useQuantizer(quantizer).getPalette(); 
       
-      const [h] = palette.LightVibrant?.getHsl() ?? [245, 245, 245];
+      const [hue] = palette.LightVibrant?.getHsl() ?? [245, 245, 245];
       
       document.documentElement.style.setProperty("--color",
-        `hsl(${Math.floor(h*360)} 90 90)`
+        `hsl(${Math.floor(hue*360)} 95 85)`
       );
+      document.querySelector("body")?.animate(
+        [{ height: "80vh" }], {
+          delay: 480, duration: 800,
+          easing: "ease-in", fill: "forwards",
+          pseudoElement: "::before"
+        }
+      )
     } catch (error) {
-      console.error("Error", error);
+      console.error("Error:", error);
     }
     
-    img.removeEventListener("load", () => getColorsFromImg(img));
+    img.removeEventListener("load", ()=> extractColors(img));
   }
 
   if (img) {
-    if (img.complete) getColorsFromImg(img);
-    else img.addEventListener("load", ()=> getColorsFromImg(img));
+    if (img.complete) extractColors(img);
+    else img.addEventListener("load", ()=> extractColors(img));
   }
-
 </script>

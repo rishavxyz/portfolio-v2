@@ -7,7 +7,9 @@ import "@fontsource/pt-serif";
 import "@fontsource/ubuntu-mono";
 import "@fontsource/roboto";
 
-import type {CSSProperty} from "astro/types"
+import "$lib/styles/colors.css";
+
+import type { CSSProperty } from "astro/types"
 import { Header, Footer, SEO } from "$lib/components"
 import { DESCRIPTION, TITLE } from '$lib/consts';
 
@@ -30,13 +32,33 @@ const { title = TITLE, desc = DESCRIPTION,
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 	<head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	<meta name="content-theme" content="light dark" />
 	<SEO {title} description={desc} image={img} />
 	</head>
+
+	<style>
+		body::before {
+			content: "";
+			position: absolute;
+			inset-inline: 0;
+			height: 0;
+			z-index: -1;
+			background-image: linear-gradient(
+				to bottom, var(--color, transparent), transparent
+			);
+			will-change: height;
+			/* animation: slide 800ms ease-out forwards; */
+			/* animation-delay: 500ms; */
+		}
+		@keyframes slide {
+			from { height: 0vh; }
+			to { height: 70vh; }
+		}
+	</style>
 
 	<body class={
 		cn("text-base bg-black text-white",

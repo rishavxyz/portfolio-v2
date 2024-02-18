@@ -1,21 +1,26 @@
 ---
 import { Fdate, SuperImg } from "$lib/components";
-
 import {getCollection} from "astro:content";
+
+type props = {
+  loading?: "lazy"|"eager";
+};
+
+const { loading } = Astro.props;
 
 const unsorted_blogs = await getCollection("blog", ({data}) => !data.draft);
 const blogs = unsorted_blogs?.sort((fst, snd) => snd.data.pubon.valueOf() - fst.data.pubon.valueOf());
 ---
 
 <ul class="auto flex flex-col flex-wrap md:flex-row items-stretch justify-stretch gap-y-2 gap-x-4">
-  { blogs.map(d =>
+  { blogs.map((d,i) =>
     <li class="list shrink-0 md:max-w-xs lg:max-w-md">
       <a href={`/blog/${d.slug}`}>
         <article class="grid grid-cols-[2rem_1fr_2rem] grid-rows-[1fr_2rem_auto]">
           { d.data.img &&
             <figure class="[grid-column:2/4] [grid-row:1/3]">
               <SuperImg
-                src={d.data.img}
+                src={d.data.img} loading={i <= 3 ? "eager" : "lazy"}
                 alt={`Thumbnail of the post ${d.data.title}`}
                 width={480}
               />
@@ -26,7 +31,7 @@ const blogs = unsorted_blogs?.sort((fst, snd) => snd.data.pubon.valueOf() - fst.
               {"pt-2": d.data.img}
             ]}>
             <p class="text-lg font-bold leading-snug">
-              <mark>{d.data.title}</mark>
+              <span class="mark">{d.data.title}</span>
             </p>
             <Fdate date={d.data.pubon} class="text-sm text-white text-opacity-70" />
             <p>{d.data.desc}</p>

@@ -1,0 +1,12 @@
+---
+import { cn } from "$lib/utils";
+
+type Props = {
+  class?: string;
+};
+---
+<div class={cn(
+  "w-full h-[1px] isolate mix-blend-difference bg-white bg-opacity-25",
+  Astro.props.class
+  )}
+/>

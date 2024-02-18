@@ -13,12 +13,12 @@ import { Layout, BlogPost } from "$lib/layouts";
 
   <section id="post" class="space-y-1 max-w-5xl mx-auto">
     <p class="uppercase tracking-wide text-sm">Latest blogs</p>
-    <BlogPost />
+    <BlogPost loading="lazy" />
   </section>
 </Layout>
 
 <style>
-  #h1, #post {
+  #h1 {
     will-change: transform, opacity;
     transform: translateY(-50px);
     opacity: 0;
@@ -40,9 +40,5 @@ import { Layout, BlogPost } from "$lib/layouts";
   animate("#h2",
     { y: [50, 0], opacity: 1 },
     { duration: 0.4, delay: 0.2 }
-  );
-  animate("#post",
-    { y: [-50, 0], opacity: 1 },
-    { duration: 0.4 }
   );
 </script>

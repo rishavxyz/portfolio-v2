@@ -1,21 +1,27 @@
 ---
 import { AUTHOR } from "$lib/consts"
+import { cn } from "$lib/utils";
 import A from "./navLink.astro"
 
 const links =
 [ {name: "About", href: "about"}
 // , {name: "Projects", href: "project"}
 , {name: "Blogs", href: "blog"}
-]
+];
+
+type Props = {
+  class?: string;
+}
 ---
 
-<nav style="background-color: var(--color); will-change: background-color;"
-  class="p-1 text-[15px] flex justify-between flex-wrap gap-0.125 z-[9999]"
->
+<nav id="top" class={cn(
+  "p-1 text-[1rem] flex justify-between flex-wrap gap-0.125",
+  Astro.props.class
+)}>
   <ul>
     <li><a href="/">{AUTHOR}</a></li>
   </ul>
-  <ul class="flex gap-0.5 ml-auto">
+  <ul class="flex flex-wrap justify-center gap-0.5 ml-auto">
 		{ links.map(({name, href}) =>
 			<li><A href={`/${href}`} class="contrast">{name}</A></li>
 		)}

@@ -1,11 +1,16 @@
 ---
+import { AUTHOR } from "$lib/consts";
+import Header from "./Header.astro";
+
 const today = new Date();
 ---
 
 <footer class="p-1">
-	<p><small>
-		&copy; {today.getFullYear()} Your name here. All rights reserved.
-		</small></p>
+	<Header class="block space-y-0.5" />
+	<p><a href="#top" class="underline">Back to top</a></p>
+	<p class="mt-1 text-sm text-muted">&copy;
+		{today.getFullYear()} { AUTHOR }. All rights reserved.</p
+	>
 </footer>
 	
 <style>

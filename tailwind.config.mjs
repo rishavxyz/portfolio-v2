@@ -39,9 +39,9 @@ export default {
 		},
 		extend: {
 			colors: {
-				black: "rgb(12 15 20)",
-				white: "#f5f5f5",
-				muted: "#525252"
+				black: "#131313",
+				white: "#f7f7f7",
+				muted: "#606060"
 			},
 		},
 	},
