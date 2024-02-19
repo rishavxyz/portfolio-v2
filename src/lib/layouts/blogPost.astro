@@ -2,7 +2,7 @@
 import { Fdate, SuperImg } from "$lib/components";
 import {getCollection} from "astro:content";
 
-type props = {
+type Props = {
   loading?: "lazy"|"eager";
 };
 
@@ -20,7 +20,7 @@ const blogs = unsorted_blogs?.sort((fst, snd) => snd.data.pubon.valueOf() - fst.
           { d.data.img &&
             <figure class="[grid-column:2/4] [grid-row:1/3]">
               <SuperImg
-                src={d.data.img} loading={i <= 3 ? "eager" : "lazy"}
+                src={d.data.img} loading={loading || i <= 3 ? "eager" : "lazy"}
                 alt={`Thumbnail of the post ${d.data.title}`}
                 width={480}
               />
@@ -33,7 +33,7 @@ const blogs = unsorted_blogs?.sort((fst, snd) => snd.data.pubon.valueOf() - fst.
             <p class="text-lg font-bold leading-snug">
               <span class="mark">{d.data.title}</span>
             </p>
-            <Fdate date={d.data.pubon} class="text-sm text-white text-opacity-70" />
+            <Fdate date={d.data.pubon} class="text-sm text-muted-light" />
             <p>{d.data.desc}</p>
           </div>
         </article>
@@ -49,9 +49,9 @@ const blogs = unsorted_blogs?.sort((fst, snd) => snd.data.pubon.valueOf() - fst.
       display: block;
       width: 90%;
       height: 1px;
-      background-color: rgb(245 245 245 / 0.25);
       margin-inline: auto;
       margin-bottom: 2rem;
+      background-color: theme(colors.muted.dark);
     }
   }
 </style>

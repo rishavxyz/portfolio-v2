@@ -7,8 +7,6 @@ import "@fontsource/pt-serif";
 import "@fontsource/ubuntu-mono";
 import "@fontsource/roboto";
 
-import "$lib/styles/colors.css";
-
 import type { CSSProperty } from "astro/types"
 import { Header, Footer, SEO } from "$lib/components"
 import { DESCRIPTION, TITLE } from '$lib/consts';
@@ -51,8 +49,6 @@ const { title = TITLE, desc = DESCRIPTION,
 				to bottom, var(--color, transparent), transparent
 			);
 			will-change: height;
-			/* animation: slide 800ms ease-out forwards; */
-			/* animation-delay: 500ms; */
 		}
 		@keyframes slide {
 			from { height: 0vh; }
@@ -65,9 +61,25 @@ const { title = TITLE, desc = DESCRIPTION,
 		background, foreground)}
 	>
 		<Header />
-		<main class={cn("mx-auto p-1", className)}>
+		<main class={cn("p-1", className)}>
 			<slot />
 		</main>
 		<Footer />
 	</body>	
 </html>
+
+<style is:global>
+	.mark {
+		background-color: #FFFF00;
+		color: black;
+	}
+	.label {
+		text-transform: uppercase;
+		letter-spacing: theme(letterSpacing.wide);
+		font-size: theme(fontSize.sm);
+	}
+	a[href] {
+		text-underline-offset: 4px;
+		text-decoration-thickness: 1px;
+	}
+</style>

@@ -9,5 +9,5 @@ const time = await readingTime(Astro.props.content);
 ---
 
 <p>
-  {time} minute{time == 1 ? "" : "s"} read 
+  {time} minute{time > 1 && "s"} read 
 </p>

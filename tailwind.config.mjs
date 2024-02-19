@@ -41,7 +41,10 @@ export default {
 			colors: {
 				black: "#131313",
 				white: "#f7f7f7",
-				muted: "#606060"
+				muted: {
+					light: "#c2c2c2",
+					dark: "#636363"
+				}
 			},
 		},
 	},

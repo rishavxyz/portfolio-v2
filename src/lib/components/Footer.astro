@@ -3,18 +3,57 @@ import { AUTHOR } from "$lib/consts";
 import Header from "./Header.astro";
 
 const today = new Date();
+
+const socialLinks = {
+	github: { name: "GitHub", href: "https://github.com/rishavxyz" },
+	codewars: { name: "Codewars", href: "https://www.codewars.com/users/rishavxyz" }
+};
+
+const myEmailAddr = "email@rishavmandal.xyz";
 ---
 
-<footer class="p-1">
-	<Header class="block space-y-0.5" />
-	<p><a href="#top" class="underline">Back to top</a></p>
-	<p class="mt-1 text-sm text-muted">&copy;
-		{today.getFullYear()} { AUTHOR }. All rights reserved.</p
-	>
+<footer class="p-1 lg:px-0 bg-black text-white">
+	<div class="lg:grid lg:grid-cols-12">
+		<div class="md:flex md:flex-row-reverse md:justify-between md:gap-1 lg:[grid-column:2/12]">
+			<div class="space-y-1">
+				<section>
+					<p class="leading-tight text-xl md:text-2xl">Feel free to drop a message</p>
+					<p class="mt-0.25 leading-relaxed"><a href={"mailto:"+myEmailAddr} class="underline">{myEmailAddr}</a>
+						or <button class="underline underline-offset-4" onclick="copyemail()">copy email to clipboard</button>.
+					</p>
+				</section>
+				<section>
+					<p>Find me on <a href={socialLinks.github.href}>{socialLinks.github.name}</a>.</p>
+					<p>I practice Haskell on <a href={socialLinks.codewars.href}>{socialLinks.codewars.name}</a>.</p>
+				</section>
+			</div>
+			<Header class="block text-center space-y-0.125" />
+		</div>
+		<section class="text-center md:mt-1 lg:[grid-column:2/12]">
+			<p><a href="#top" class="underline">Back to top</a></p>
+			<p class="mt-0.5 text-sm text-muted-light">&copy;
+				{today.getFullYear()} { AUTHOR }. All rights reserved.</p
+			>
+		</section>
+	</div>
 </footer>
-	
+
 <style>
-	footer {
-		text-align: center;
+	footer > div > div > div> section:nth-child(2) a {
+		text-decoration: underline;
+		color: theme(colors.emerald.500);
 	}
 </style>
+
+<script is:inline>
+	const myEmailAddr = "email@rishavmandal.xyz";
+
+	function copyemail() {
+		navigator.clipboard.writeText(myEmailAddr);
+		const btn = document.querySelector("button[onclick]");
+		btn.innerHTML = "copied to clipboard";
+		setTimeout(() => {
+			btn.innerHTML = "copy email to clipboard"
+		}, 4000);
+	}
+</script>
