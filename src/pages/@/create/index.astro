@@ -15,7 +15,7 @@ const {
   data, error
 } = await supabase.auth.setSession({ access_token, refresh_token });
 
-if (error || !data.session) {
+if (error) {
   Astro.cookies.delete("access-token");
   Astro.cookies.delete("refresh-token");
 
