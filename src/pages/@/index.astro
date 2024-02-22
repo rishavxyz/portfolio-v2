@@ -7,10 +7,6 @@ import { supabase } from "$lib/server/supabase";
 const access_token = Astro.cookies.get("access-token")?.value;
 const refresh_token = Astro.cookies.get("refresh-token")?.value;
 
-const { data: { session } } = await supabase.auth.getSession();
-
-if (!session) return Astro.redirect("/@/auth?r=You are not logged in");
-
 if (!access_token || !refresh_token
 ) return Astro.redirect("/@/auth?r=You have been logged out");
 
