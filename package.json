@@ -24,6 +24,7 @@
     "@fontsource/roboto": "^5.0.8",
     "@fontsource/ubuntu-mono": "^5.0.18",
     "@octokit/rest": "^20.0.2",
+    "@supabase/supabase-js": "^2.39.7",
     "astro": "^4.4.0",
     "bcrypt": "^5.1.1",
     "better-sqlite3": "^9.4.1",

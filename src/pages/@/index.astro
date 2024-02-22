@@ -2,15 +2,39 @@
 export const prerender = false;
 
 import {Layout} from "$lib/layouts";
+import { supabase } from "$lib/server/supabase";
 
-import { Auth } from "./utils";
+const access_token = Astro.cookies.get("access-token")?.value;
+const refresh_token = Astro.cookies.get("refresh-token")?.value;
 
-const id = Astro.cookies.get("session")?.value;
-const session = new Auth().getSession(id);
+const { data: { session } } = await supabase.auth.getSession();
 
-if (!session) return Astro.redirect("/@/auth");
+if (!session) return Astro.redirect("/@/auth?r=You are not logged in");
+
+if (!access_token || !refresh_token
+) return Astro.redirect("/@/auth?r=You have been logged out");
+
+const {
+  data, error
+} = await supabase.auth.setSession({ access_token, refresh_token });
+
+if (error || !data.session) {
+  Astro.cookies.delete("access-token");
+  Astro.cookies.delete("refresh-token");
+
+  return Astro.redirect(
+    "/@/auth?r=" + error?.message ?? "Could not find your session"
+  , 400);
+}
+
+const user = data.user!;
 ---
 
-<Layout class="p-0 space-y-1">
-  Work in progress
+<Layout class="space-y-1">
+  <p>Hello {user.user_metadata.name}</p>
+  <a href="/@/create" class="underline">Create a new post</a>
+  <form action="/api/auth/signout" method="post">
+    <button class="px-1 py-0.125 bg-red-800 text-red-200 label block"
+    >Signout</button>
+  </form>
 </Layout>

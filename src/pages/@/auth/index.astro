@@ -2,27 +2,37 @@
 export const prerender = false;
 
 import {Layout} from "$lib/layouts";
-import { Auth } from "../utils";
+import { supabase } from "$lib/server/supabase";
 
 if (Astro.request.method == "POST") {
-  const data = await Astro.request.formData();
-  const password = data.get("password")?.toString();
-  const auth = new Auth();
+  const formData = await Astro.request.formData();
+  const email = String(formData.get("email"));
+  const password = String(formData.get("password"));
 
-  if (!password) return Astro.redirect("/@/auth?r=Password is not given");
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword(
+      { email, password }
+    );
+
+    if (error && String(error.status).startsWith("4")
+    ) return Astro.redirect("/@/auth?r=" + error.message, 400);
   
-  if (!auth.password(password).verify)
-    return Astro.redirect("/@/auth?r=Password is incorrect");
+    const session = data.session;
+  
+    if (!session
+    ) return Astro.redirect("/@/auth?r=Could not find your session", 400);
 
-  const session = auth.createSession();
-
-  Astro.cookies.set("session", session, {
-    path: "/@",
-    maxAge: 99999999,
-    secure: import.meta.env.PROD
-  });
-
-  return Astro.redirect("/@/create");
+    Astro.cookies.set("access-token", session.access_token, {
+      maxAge: session.expires_in, path: "/"
+    });
+    Astro.cookies.set("refresh-token", session.refresh_token, {
+      maxAge: session.expires_in, path: "/"
+    });
+    return Astro.redirect("/@");
+  }
+  catch (error) {
+    return Astro.redirect("/@/auth?r=" + String(error));
+  }
 }
 
 let toast = {
@@ -37,6 +47,8 @@ if (reason) {
   toast.msg = reason
 }
 
+const inputClass = "block w-full border-muted-dark rounded-md focus:border-muted-light focus:ring-transparent bg-muted-dark/25 text-white placeholder:text-muted-light disabled:placeholder:text-muted-dark disabled:bg-muted-dark disabled:text-muted-light";
+const btnClass = "w-full bg-fuchsia-700 text-fuchsia-200 p-0.25 block rounded-md font-bold label focus:border focus:border-muted-light disabled:bg-muted-dark disabled:text-muted-light";
 ---
 
 <Layout class="md:grid md:grid-cols-8 space-y-2">
@@ -53,13 +65,16 @@ if (reason) {
     </div>
   }
 
-  <form method="post" class="md:[grid-column:2/8] flex flex-col md:flex-row gap-1">
-    <input type="password" name="password" placeholder="Enter the super secured password"
-      class="block w-full border-muted-dark rounded-md focus:border-muted-light focus:ring-transparent
-             bg-muted-dark/25 text-white placeholder:text-muted-light text-sm"
-      autocomplete="off" required
-    />
-    <button class="bg-fuchsia-800 text-fuchsia-200 label p-0.25 w-full rounded-md font-bold"
-    >Enter to the void</button>
+  <form method="post" class="space-y-1 md:[grid-column:2/8]">
+    <div class="flex gap-1">
+      <input type="email" name="email" placeholder="Email" value="rishav.m.19.02@gmail.com"
+        class={inputClass} autocomplete="off" required
+      />
+      <input type="password" name="password" placeholder="Enter the super secured password"
+        class:list={[inputClass, "md:[grid-column:]"]} autocomplete="off" required
+      />
+    </div>
+    
+    <button class={btnClass}>Log in</button>
   </form>
 </Layout>

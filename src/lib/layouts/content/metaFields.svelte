@@ -1,7 +1,7 @@
 <script>
     import { cn } from "$lib/utils";
     import { marked } from "marked";
-    import { slide } from "svelte/transition";
+    import { fly, slide } from "svelte/transition";
     import Header from "./header.svelte";
 
     let content = "";
@@ -36,36 +36,40 @@
             method: "POST",
             body: formData,
         });
-        /**
-         * @type {{ success: boolean; message: string; text: string; fileName: string; type: "image"|"post" }}
-         */
         const data = await res.json();
 
-        response = data.message;
-
-        if (data.success) {
-            console.log(data.fileName);
-            console.log(data.text);
-            console.log(data.success, typeof data.success);
-        }
+        response = data;
     }
     async function uploadImage(/**@type {SubmitEvent} */ event) {
         const formData = new FormData(event.currentTarget);
         const file = formData.get("heroImage");
+        const [, ext] = String(file.type).split("/")
+        const customFileName = String(formData.get("customFileName"));
+        const pureFileName = customFileName.includes("." + ext)
+            ? customFileName
+            : customFileName + "." + ext
+        ;
         let data = {};
-
+        
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = async (e) => {
             const res = await fetch("/api/upload-image", {
                 method: "POST",
-                body: `${file.name}rishavmandal${e.target.result}`,
+                body: `${pureFileName}rishavmandal${e.target.result}`,
             });
             data = await res.json();
             response = data;
         };
     }
 </script>
+
+{#if response.type == "post" && response.success}
+    <div in:fly class="p-0.25 bg-emerald-800 text-emerald-200 rounded-md">
+        <p class="font-bold text-sm label mb-0.125">{response.message}</p>
+        <p><a href="/">Go to home page</a> and wait about a minute to see latest post.</p>
+    </div>
+{/if}
 
 <form
     on:submit|preventDefault={createPost}
@@ -181,7 +185,7 @@
                         </div>
                     {/if}
 
-                    <form on:submit|preventDefault={uploadImage}>
+                    <form on:submit|preventDefault={uploadImage} class="space-y-1">
                         <input
                             type="file"
                             name="heroImage"
@@ -194,6 +198,9 @@
                             )}
                             on:change={() => createImage(files[0])}
                             accept=".jpg, .jpeg, .png, .webp, .avif, .gif"
+                        />
+                        <input type="text" name="customFileName" disabled={files.length < 1} autocomplete="off"
+                            class={inputClass} value={files.length > 0 ? files[0].name : "custom-file-name.png"}
                         />
                         <button
                             disabled={!thumbnail}

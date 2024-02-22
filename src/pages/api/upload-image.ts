@@ -10,17 +10,13 @@ const log = (s: any) => console.log("### Octokit Bot:\n" + s);
 export const POST: APIRoute = async function (context) {
 
   const img = await context.request.text();
-  const [file, data] = img.split("rishavmandal");
+  const [fname, data] = img.split("rishavmandal");
 
   const owner = "rishavxyz";
   const repo = "portfolio-v2";
   const path = "src/media";
   const content = data.replace(/data.+,/, "");
-
-  return new Response(JSON.stringify({
-    message: `"${file}" uploaded to ${path}`, type: "image",
-    success: true, text: "", fileName: file
-  }));
+  const file = fname.replaceAll(/\s|\'|\"/g, "-").toLowerCase();
 
   try {
     const response = await octokit.repos.getContent({
@@ -52,7 +48,6 @@ export const POST: APIRoute = async function (context) {
       });
 
       log(`${file} uploaded`);
-      console.log(uploadFile.data.download_url);
     }
   }
   return new Response(JSON.stringify({ message: "Image uploaded", type: "image",

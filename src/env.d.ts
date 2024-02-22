@@ -12,6 +12,8 @@ interface ImportMetaEnv {
   readonly PRIVATE_PASSWORD: string;
   readonly PRIVATE_KEY: string;
   readonly PRIVATE_GITHUB_TOKEN: string;
+  readonly PRIVATE_SUPABASE_URL: string;
+  readonly PRIVATE_SUPABASE_KEY: string;
 }
 
 interface ImportMeta {
