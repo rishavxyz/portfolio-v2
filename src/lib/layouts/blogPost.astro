@@ -15,7 +15,7 @@ const blogs = unsorted_blogs?.sort((fst, snd) => snd.data.pubon.valueOf() - fst.
 <ul class="auto flex flex-col flex-wrap md:flex-row items-stretch justify-stretch gap-y-2 gap-x-4">
   { blogs.map((d,i) =>
     <li class="list shrink-0 md:max-w-xs lg:max-w-md">
-      <a href={`/blog/${d.slug}`}>
+      <a href={`/blog/${d.slug}`} data-astro-prefetch>
         <article class="grid grid-cols-[2rem_1fr_2rem] grid-rows-[1fr_2rem_auto]">
           { d.data.img &&
             <figure class="[grid-column:2/4] [grid-row:1/3]">

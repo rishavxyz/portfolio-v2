@@ -1,9 +1,9 @@
 ---
 export const prerender = false;
 
-import MetaFields from "$lib/layouts/content/metaFields.svelte";
-import { Layout } from "$lib/layouts";
-import { Auth } from "../utils";
+import {Layout} from "$lib/layouts";
+
+import { Auth } from "./utils";
 
 const id = Astro.cookies.get("session")?.value;
 const session = new Auth().getSession(id);
@@ -11,6 +11,6 @@ const session = new Auth().getSession(id);
 if (!session) return Astro.redirect("/@/auth");
 ---
 
-<Layout class="px-0">
-  <MetaFields client:load />
+<Layout class="p-0 space-y-1">
+  Work in progress
 </Layout>

@@ -7,6 +7,7 @@ import { SuperImg, Fdate, Divider } from "$lib/components";
 import { ReadingTime, Render } from "$lib/components/md";
 import { Layout } from "$lib/layouts";
 import { getCollection } from "astro:content";
+import { Header } from "$lib/layouts/content";
 
 export const getStaticPaths = (async () => {
   const entries = await getCollection("blog");
@@ -32,14 +33,26 @@ const {
   background="bg-white" foreground="text-black"
 >
   <section id="hero">
-    <div class="max-w-5xl mx-auto px-1">
-        { img &&
+    <Header hasDate {title} {desc}>
+      { img &&
         <figure id="hero--image">
           <SuperImg src={img} alt={`blog ${title}`}
-            class="rounded-md" width={1024} aspect="2/1"
+            class="rounded-md" width={1080} aspect="2/1"
           />
         </figure>
-        }
+      }
+      <Fdate slot="date" date={pubon} />
+      <ReadingTime slot="reading-time" content={body} />
+    </Header>
+    <!-- redundant: using Header.svelte -->
+    <!-- <div class="max-w-5xl mx-auto px-1">
+      { img &&
+        <figure id="hero--image">
+          <SuperImg src={img} alt={`blog ${title}`}
+            class="rounded-md" width={1080} aspect="2/1"
+          />
+        </figure>
+      }
       <div id="hero--content"
         class="text-center text-balance py-1 z-[1] md:w-4/5 md:mx-auto">
         <h1 class="font-bold leading-tight text-2xl md:text-4xl">{title}</h1>
@@ -50,7 +63,7 @@ const {
           <ReadingTime content={body} />
         </div>
       </div>
-    </div>
+    </div> -->
   </section>
   <Divider class="w-4/5 my-1 mx-auto" />
   <section class="p-1">

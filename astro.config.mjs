@@ -13,6 +13,7 @@ const site = isProd
 // https://astro.build/config
 export default defineConfig({
   site,
+  prefetch: true,
   integrations: [mdx(), sitemap(), svelte(), tailwind()],
   output: "server",
   adapter: vercel({

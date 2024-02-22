@@ -19,11 +19,11 @@ type Props = {
   Astro.props.class
 )}>
   <ul>
-    <li><a href="/" class="font-display uppercase tracking-wide">{AUTHOR}</a></li>
+    <li><a href="/" class="font-display uppercase tracking-wide" data-astro-prefetch>{AUTHOR}</a></li>
   </ul>
   <ul class="flex flex-wrap justify-center gap-0.5 ml-auto">
 		{ links.map(({name, href}) =>
-			<li><A href={`/${href}`} class="contrast">{name}</A></li>
+			<li><A href={`/${href}`} class="contrast" data-astro-prefetch>{name}</A></li>
 		)}
   </ul>
 </nav>
