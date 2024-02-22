@@ -27,13 +27,12 @@ export const POST: APIRoute = async function (context) {
     if (response.status == 200) {
       log(`${file} already exists! So updating it`);
 
-      const updateFile = await uploadOrUpdateFile({
+      await uploadOrUpdateFile({
         owner, repo, path, file, content,
         sha: response.data.sha
       });
       
       log(`${file} updated`);
-      console.log(updateFile);
     }
   }
   catch(e: unknown) {
@@ -43,7 +42,7 @@ export const POST: APIRoute = async function (context) {
     if (error.status == 404) {
       log(`${file} not found! So uploading it`);
 
-      const uploadFile = await uploadOrUpdateFile({
+      await uploadOrUpdateFile({
         owner, repo, path, file, content
       });
 
