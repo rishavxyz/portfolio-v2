@@ -4,29 +4,16 @@ export const prerender = false;
 import {Layout} from "$lib/layouts";
 import { supabase } from "$lib/server/supabase";
 
-const access_token = Astro.cookies.get("sb-access-token");
-const refresh_token = Astro.cookies.get("sb-refresh-token");
+const { data, error } = await supabase.auth.getSession();
+console.log({data});
 
-if (!access_token || !refresh_token
-) return Astro.redirect("/@/auth?r=You have been logged out");
-
-const {
-  data, error
-} = await supabase.auth.setSession({
-  access_token: access_token.value,
-  refresh_token: refresh_token.value
-});
-
-if (error) {
-  Astro.cookies.delete("refresh-token", { path: "/" });
-  Astro.cookies.delete("access-token", { path: "/" });
-
+if (error || data.session == null) {
   return Astro.redirect(
     "/@/auth?r=" + error?.message ?? "Could not find your session"
   , 400);
 }
 
-const user = data.user!;
+const user = data.session?.user!;
 ---
 
 <Layout class="space-y-1">

@@ -19,12 +19,6 @@ export const POST: APIRoute = async function(context) {
     if (!session
     ) return context.redirect("/@/auth?r=Could not find your session");
 
-    context.cookies.set("sb-access-token", session.access_token, {
-      path: "/"
-    });
-    context.cookies.set("sb-refresh-token", session.refresh_token, {
-      path: "/"
-    });
     return context.redirect("/@");
   }
   catch (error) {

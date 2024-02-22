@@ -2,6 +2,7 @@
 export const prerender = false;
 
 import {Layout} from "$lib/layouts";
+import { supabase } from "$lib/server/supabase";
 
 let toast = {
   access: "",
@@ -14,10 +15,13 @@ if (reason) {
   toast.access = "denied"
   toast.msg = reason
 }
-const access_token = Astro.cookies.get("sb-access-token");
-const refresh_token = Astro.cookies.get("sb-refresh-token");
 
-if (access_token || refresh_token) return Astro.redirect("/@");
+const { data, error } = await supabase.auth.getSession();
+
+console.log({data});
+
+
+if (data.session && error == null) return Astro.redirect("/@");
 
 const inputClass = "block w-full border-muted-dark rounded-md focus:border-muted-light focus:ring-transparent bg-muted-dark/25 text-white placeholder:text-muted-light disabled:placeholder:text-muted-dark disabled:bg-muted-dark disabled:text-muted-light";
 const btnClass = "w-full bg-fuchsia-700 text-fuchsia-200 p-0.25 block rounded-md font-bold label focus:border focus:border-muted-light disabled:bg-muted-dark disabled:text-muted-light";
