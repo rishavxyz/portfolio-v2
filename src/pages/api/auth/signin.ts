@@ -15,11 +15,19 @@ export const POST: APIRoute = async function(context) {
 
     if (error
     ) return context.redirect("/@/auth?r=" + error.message);
-  
+
     const session = data.session;
-  
+
     if (!session
     ) return context.redirect("/@/auth?r=Could not find your session");
+
+    context.cookies.set("sb-access_token", session.access_token, {
+      path: "/"
+    });
+
+    context.cookies.set("sb-refresh_token", session.refresh_token, {
+      path: "/"
+    });
 
     return context.redirect("/@");
   }
