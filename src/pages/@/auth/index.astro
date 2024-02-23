@@ -20,7 +20,6 @@ const { data, error } = await supabase.auth.getSession();
 
 console.log({data});
 
-
 if (data.session && error == null) return Astro.redirect("/@");
 
 const inputClass = "block w-full border-muted-dark rounded-md focus:border-muted-light focus:ring-transparent bg-muted-dark/25 text-white placeholder:text-muted-light disabled:placeholder:text-muted-dark disabled:bg-muted-dark disabled:text-muted-light";

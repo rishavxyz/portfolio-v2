@@ -15,7 +15,7 @@ export default defineConfig({
   site,
   prefetch: true,
   integrations: [mdx(), sitemap(), svelte(), tailwind()],
-  output: "server",
+  output: "hybrid",
   adapter: vercel({
     isr: isProd
   })
