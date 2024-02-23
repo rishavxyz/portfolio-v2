@@ -3,7 +3,7 @@ export const prerender = false;
 import { supabase } from "$lib/server/supabase";
 import type { APIRoute } from "astro";
 
-export const POST: APIRoute = async function(context) {
+export const GET: APIRoute = async function(context) {
 
   context.cookies.delete("sb-access_token", {
     path: "/"

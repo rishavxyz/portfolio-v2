@@ -35,7 +35,7 @@ const user = data.session?.user!;
 <Layout class="space-y-1">
   <p>Hello {user.user_metadata.name}</p>
   <a href="/@/create" class="underline">Create a new post</a>
-  <form action="/api/auth/signout" method="post">
+  <form action="/api/auth/signout">
     <button class="px-1 py-0.125 bg-red-800 text-red-200 label block"
     >Signout</button>
   </form>
