@@ -1,14 +1,10 @@
 ---
-export const prerender = false;
-
 import {Layout} from "$lib/layouts";
 
 const user = Astro.locals.user;
 
 if (!user)
   return Astro.redirect("/@/auth");
-
-console.log(user)
 ---
 
 <Layout class="space-y-1">

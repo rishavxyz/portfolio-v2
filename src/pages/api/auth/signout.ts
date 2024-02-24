@@ -1,6 +1,4 @@
-export const prerender = false;
-
-import { supabase } from "$lib/server/supabase";
+import { supabase } from "$lib/supabase";
 import sb_cookies from "$lib/utils";
 import type { APIRoute } from "astro";
 

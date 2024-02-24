@@ -1,5 +1,3 @@
-export const prerender = false;
-
 import type { APIRoute } from "astro";
 import { Octokit } from "@octokit/rest";
 import { Buffer } from "node:buffer";

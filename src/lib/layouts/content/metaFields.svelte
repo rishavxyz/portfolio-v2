@@ -1,15 +1,30 @@
 <script>
-    import { cn } from "$lib/utils";
     import { marked } from "marked";
     import { fly, slide } from "svelte/transition";
     import Header from "./header.svelte";
+    import { onMount } from "svelte";
 
-    let content = "";
-    let title = "";
-    let description = "";
+    let formData = {
+        content: "",
+        description: "",
+        title: "",
+    };
     let files = [];
     let thumbnail = "";
     let showModal = false;
+    let mounted = false;
+
+    onMount(()=> {
+        mounted = true;
+        const snapshot = sessionStorage.getItem("snapshot");
+        if (snapshot) {
+            formData = JSON.parse(snapshot)
+        }
+    })
+
+    $: if (mounted) {
+        sessionStorage.setItem("snapshot", JSON.stringify(formData))
+    }
 
     const chip = "btn small pill bg-muted-dark !text-[0.75rem]";
     /**
@@ -78,13 +93,13 @@
         <!-- Title -->
         <div class="flex justify-between items-end mb-0.25">
             <label for="input-title">Title</label>
-            <span class={chip}>Characters: {title.trim().length}</span>
+            <span class={chip}>Characters: {formData.title.trim().length}</span>
         </div>
         <input
             type="text"
             minlength="15"
             maxlength="60"
-            bind:value={title}
+            bind:value={formData.title}
             id="input-title"
             placeholder="A nice title within 60 characters"
             autocomplete="off"
@@ -96,13 +111,13 @@
             <input
                 type="text"
                 name="fileName"
-                value={title
+                value={formData.title
                     .trim()
                     .toLowerCase()
                     .replaceAll(/\'|\*|\!|\:|\-\s|\"|\,|\.|\?|\(|\)/g, "")
                     .split(" ")
                     .join("-")}
-                disabled={!title}
+                disabled={!formData.title}
                 class="!rounded-e-none"
                 placeholder="my-file-name"
                 tabindex="-1"
@@ -119,13 +134,13 @@
     <div class="md:[grid-column:1/7] px-4 space-y-2xs">
         <div class="flex justify-between items-end mb-0.25">
             <label for="input-desc">Description</label>
-            <span class={chip}>Characters: {description.trim().length}</span>
+            <span class={chip}>Characters: {formData.description.trim().length}</span>
         </div>
         <textarea
             id="input-desc"
             minlength="55"
             maxlength="160"
-            bind:value={description}
+            bind:value={formData.description}
             rows="3"
             placeholder="A description within 160 characters"
             autocomplete="off"
@@ -195,11 +210,11 @@
                 Content <span class="text-sm text-muted-light">&lpar;With markdown&rpar;</span>
             </label>
             <span class={chip}>
-                Words: {content ? content.trim().split(" ").length : 0}
+                Words: {formData.content ? formData.content.trim().split(" ").length : 0}
             </span>
         </div>
         <textarea
-            bind:value={content}
+            bind:value={formData.content}
             id="textarea-label"
             rows="12"
             placeholder="Write your content with markdown :)"
@@ -214,8 +229,8 @@
     overflow-y-scroll md:rounded-md"
     >
         <div>
-            {#if thumbnail || content || title || description}
-                <Header {title} desc={description}>
+            {#if thumbnail || formData.content || formData.title || formData.description}
+                <Header title={formData.title} desc={formData.description}>
                     {#if thumbnail}
                         <div
                             class="w-full max-h-[320px] bg-muted-light rounded-md overflow-hidden text-muted-dark"
@@ -229,11 +244,11 @@
                         </div>
                     {/if}
                 </Header>
-                <div class="h-[1px] w-4/5 bg-muted-dark/25 my-1 mx-auto" />
+                <div class="h-[1px] w-4/5 bg-muted-dark/25 mx-auto" />
                 <article
-                    class="mt-1 mx-auto min-h-3 prose prose-lg md:prose-xl font-serif"
+                    class="mt-sm mx-auto min-h-3 prose prose-lg md:prose-xl font-serif"
                 >
-                    {@html marked.parse(content.trim())}
+                    {@html marked.parse(formData.content.trim())}
                 </article>
             {:else}
                 <div class="space-y-0.25 text-black">
@@ -262,7 +277,7 @@
 
     <div class="md:[grid-column:5/9] px-4">
         <button class="w-full label primary"
-            disabled={!title || !description || !content}>Create post</button
+            disabled={!formData.title || !formData.description || !formData.content}>Create post</button
         >
     </div>
 </form>

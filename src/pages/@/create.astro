@@ -1,6 +1,4 @@
 ---
-export const prerender = false;
-
 import MetaFields from "$lib/layouts/content/metaFields.svelte";
 import { Layout } from "$lib/layouts";
 
@@ -8,9 +6,6 @@ const user = Astro.locals.user;
 
 if (!user)
   return Astro.redirect("/@/auth");
-
-console.log(user.email);
-
 ---
 
 <Layout class="px-0">
