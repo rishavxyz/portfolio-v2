@@ -1,0 +1,162 @@
+---
+title: Introduction to Haskell for JavaScript developers
+desc: A brief introduction to Haskell. A Purely Functional Programming Language with super powers.
+pubon: 2/24/2024, 08:46 PM
+draft: false
+---
+
+# Introduction to Haskell for JavaScript Developers
+
+As a JavaScript developer, you're already familiar with the dynamic and versatile world of web development. But have you ever wondered what lies beyond the curly braces and semicolons? Enter **Haskell**, a functional programming language that will stretch your mind and revolutionize the way you think about code.
+
+## Why Haskell?
+
+### Functional Programming Buzz
+
+Functional programming is gaining momentum, especially with libraries like ReactJS. By embracing functional concepts and immutable data structures, JavaScript developers can write cleaner, more readable code. Haskell takes functional programming to the next level, opening new doors for problem-solving and creativity.
+
+### Immutable Everything
+
+In Haskell, everything is immutable. A function cannot have side effects, meaning it always produces the same output for the same input. This predictability makes reasoning about your program easier. Imagine React components without unexpected side effects – that's the power of purity!
+
+Let's jump into the world of Haskell.
+
+## Lists and Tuples
+
+### Lists
+
+In Haskell, lists are fundamental data structures. They can hold elements of the same type. Here's how you define a list:
+
+```haskell
+myList :: [Int]
+myList = [1, 2, 3, 4, 5]
+```
+
+### Tuples
+
+Tuples, on the other hand, can hold elements of different types. For example:
+
+```haskell
+myTuple :: (Int, String)
+myTuple = (42, "Answer")
+```
+
+## List Comprehension
+
+List comprehensions are powerful tools in Haskell. They allow concise creation of lists based on existing ones. For example:
+
+- Add 1 to each element: `[x + 1 | x <- myList]`
+- Square each element: `[x * x | x <- myList]`
+
+## Type Variables
+
+Haskell's type system is expressive. You can use type variables to write generic functions. For instance:
+
+```haskell
+lengthOfList :: [a] -> Int
+lengthOfList xs = length xs
+```
+
+Here, `a` represents any type.
+
+## Map and Filter
+
+### Map
+
+The `map` function applies a given function to each element of a list. For example:
+
+```haskell
+doubleList :: [Int] -> [Int]
+doubleList xs = map (* 2) xs
+```
+
+### Filter
+
+The `filter` function selects elements from a list that satisfy a given condition. For instance:
+
+```haskell
+evenNumbers :: [Int] -> [Int]
+evenNumbers xs = filter even xs
+```
+
+## Functions and Lambda Functions
+
+In Haskell, functions are first-class citizens. You can pass them as arguments, return them from other functions, and assign them to variables. Lambda functions allow you to create anonymous functions on the fly:
+
+```haskell
+addOne :: Int -> Int
+addOne = \x -> x + 1
+```
+
+## Function Composition
+
+Haskell encourages function composition. You can combine functions to create new ones:
+
+```haskell
+squareAndDouble :: Int -> Int
+squareAndDouble = (* 2) . (^ 2)
+```
+
+## The `$` Operator
+
+The `$` operator is your friend. It helps avoid parentheses and clarifies function application:
+
+```haskell
+result = sum $ map (^ 2) [1 .. 10]
+```
+
+## Type and Record
+
+### Type
+
+You can define custom data types using the `data` keyword. For example:
+
+```haskell
+data Person = Person
+  { name :: String
+  , age :: Int
+  }
+```
+
+### Record
+
+Records allow you to create structured data with named fields:
+
+```haskell
+alice :: Person
+alice = Person {name = "Alice", age = 30}
+```
+
+## Some common coding problems are solved in Haskell
+
+1. **Find the Last Element of a List**:
+    ```haskell
+    myLast :: [a] -> a
+    myLast xs = last xs
+    ```
+
+2. **Find the Second-Last Element of a List**:
+    ```haskell
+    myButLast :: [a] -> a
+    myButLast xs = xs !! (length xs - 2)
+    ```
+
+3. **Find the K'th Element of a List**:
+    ```haskell
+    elementAt :: [a] -> Int -> a
+    elementAt xs n = xs !! (n - 1)
+    ```
+
+4. **Reverse a List**:
+    ```haskell
+    myReverse :: [a] -> [a]
+    myReverse xs = reverse xs
+    ```
+
+5. **Check if a List is a Palindrome**:
+    ```haskell
+    isPalindrome :: Eq a => [a] -> Bool
+    isPalindrome xs = xs == reverse xs
+    ```
+
+Now you're equipped with the basics of Haskell. Dive deeper, explore monads, and embrace the elegance of functional programming! 🚀
