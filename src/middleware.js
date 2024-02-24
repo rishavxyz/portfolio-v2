@@ -1,5 +1,6 @@
 import { supabase } from "$lib/server/supabase";
 import sb_cookies from "$lib/utils";
+import { defineMiddleware } from "astro:middleware";
 
 export async function onRequest(
   { cookies, locals, redirect, request, url }, next
