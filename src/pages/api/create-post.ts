@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { Octokit } from "@octokit/rest";
-import { Buffer } from "node:buffer";
+import { Buffer } from "buffer";
 
 const octokit = new Octokit({
   auth: import.meta.env.PRIVATE_GITHUB_TOKEN

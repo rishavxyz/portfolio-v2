@@ -25,6 +25,7 @@
     "@octokit/rest": "^20.0.2",
     "@supabase/supabase-js": "^2.39.7",
     "astro": "^4.4.0",
+    "buffer": "^6.0.3",
     "clsx": "^2.1.0",
     "marked": "^12.0.0",
     "motion": "^10.17.0",
