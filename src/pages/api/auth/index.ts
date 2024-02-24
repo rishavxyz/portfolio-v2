@@ -1,3 +1,5 @@
+export const prerender = false;
+
 import { supabase } from "$lib/server/supabase";
 import sb_cookies from "$lib/utils";
 import { AuthError } from "@supabase/supabase-js";
