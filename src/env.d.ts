@@ -3,16 +3,22 @@
 
 import type { User } from "@supabase/supabase-js";
 
-declare namespace App {
-  interface Locals {
-    session: string | undefined;
-    user: User | null;
+// declare namespace App {
+//   interface Locals {
+//     user: User | null;
+//     // This does not work :,(
+//   }
+// }
+
+declare global {
+  namespace App {
+    interface Locals {
+      user: User | null;
+    }
   }
 }
 
 interface ImportMetaEnv {
-  readonly PRIVATE_PASSWORD: string;
-  readonly PRIVATE_KEY: string;
   readonly PRIVATE_GITHUB_TOKEN: string;
   readonly PRIVATE_SUPABASE_URL: string;
   readonly PRIVATE_SUPABASE_KEY: string;

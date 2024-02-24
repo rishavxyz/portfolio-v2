@@ -1,10 +1,10 @@
 import { supabase } from "$lib/server/supabase";
 import sb_cookies from "$lib/utils";
-import { defineMiddleware } from "astro:middleware";
+import type { MiddlewareHandler } from "astro";
 
-export async function onRequest(
+export const onRequest: MiddlewareHandler = async (
   { cookies, locals, redirect, request, url }, next
-) {
+) => {
   if (request.method != "GET") {
     if ( !request.headers.get("Origin")
       || !request.headers.get("Host")
