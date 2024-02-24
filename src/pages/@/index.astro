@@ -3,9 +3,10 @@ export const prerender = false;
 
 import {Layout} from "$lib/layouts";
 import { supabase } from "$lib/server/supabase";
+import sb_cookies from "$lib/utils";
 
-const access_token = Astro.cookies.get("sb-access_token");
-const refresh_token = Astro.cookies.get("sb-refresh_token");
+const access_token = Astro.cookies.get(sb_cookies.access_token);
+const refresh_token = Astro.cookies.get(sb_cookies.refresh_token);
 
 if (!access_token || !refresh_token) {
   return Astro.redirect("/@/auth");
@@ -17,15 +18,12 @@ const { data, error } = await supabase.auth.setSession({
 });
 
 if (error) {
-
-  Astro.cookies.delete("sb-access_token", {
+  Astro.cookies.delete(sb_cookies.access_token, {
     path: "/"
   });
-
-  Astro.cookies.delete("sb-refresh_token", {
+  Astro.cookies.delete(sb_cookies.refresh_token, {
     path: "/"
   });
-
   return Astro.redirect("/@/auth");
 }
 
@@ -34,9 +32,9 @@ const user = data.session?.user!;
 
 <Layout class="space-y-1">
   <p>Hello {user.user_metadata.name}</p>
-  <a href="/@/create" class="underline">Create a new post</a>
+  <a href="/@/create" role="button" class="primary label">Create a new post</a>
   <form action="/api/auth/signout">
-    <button class="px-1 py-0.125 bg-red-800 text-red-200 label block"
+    <button class=" label bg-red-800 text-red-200"
     >Signout</button>
   </form>
 </Layout>

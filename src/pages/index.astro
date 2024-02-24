@@ -3,15 +3,15 @@ import { AUTHOR, DESCRIPTION } from "$lib/consts";
 import { Layout, BlogPost } from "$lib/layouts";
 ---
 
-<Layout class="space-y-2">
-  <section class="max-w-5xl mx-auto space-y-1">
-    <h1 id="h1" class="text-3xl md:text-6xl leading-none font-bold font-display uppercase">{AUTHOR}</h1>
-    <h2 id="h2" class="text-xl md:text-3xl leading-tight font-serif">{DESCRIPTION}.</h2>
+<Layout class="space-y-lg">
+  <section class="max-w-5xl mx-auto space-y-sm">
+    <h1 id="h1" class="heading uppercase">{AUTHOR}</h1>
+    <h2 id="h2" class="text-2xl leading-snug font-serif">{DESCRIPTION}.</h2>
   </section>
 
-  <section id="post" class="space-y-1 max-w-5xl mx-auto">
-    <p class="uppercase tracking-wide text-sm">Latest blogs</p>
-    <BlogPost loading="lazy" />
+  <section id="post" class="max-w-5xl mx-auto">
+    <p class="mb-sm label">Latest blogs</p>
+    <BlogPost />
   </section>
 </Layout>
 

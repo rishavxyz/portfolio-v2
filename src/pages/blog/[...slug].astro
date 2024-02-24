@@ -42,33 +42,13 @@ const {
       <Fdate slot="date" date={pubon} />
       <ReadingTime slot="reading-time" content={body} />
     </Header>
-    <!-- redundant: using Header.svelte -->
-    <!-- <div class="max-w-5xl mx-auto px-1">
-      { img &&
-        <figure id="hero--image">
-          <SuperImg src={img} alt={`blog ${title}`}
-            class="rounded-md" width={1080} aspect="2/1"
-          />
-        </figure>
-      }
-      <div id="hero--content"
-        class="text-center text-balance py-1 z-[1] md:w-4/5 md:mx-auto">
-        <h1 class="font-bold leading-tight text-2xl md:text-4xl">{title}</h1>
-        <p class="py-1 text-lg leading-snug">{desc}</p>
-        <div class="flex justify-between gap-0.25 md:justify-center">
-          <Fdate date={pubon} />
-          <span class="hidden md:inline text-muted-dark/80">&bull;</span>
-          <ReadingTime content={body} />
-        </div>
-      </div>
-    </div> -->
   </section>
-  <Divider class="w-4/5 my-1 mx-auto" />
-  <section class="p-1">
+  <Divider class="w-4/5 my-md mx-auto" />
+  <section class="p-4">
     <Render {render} />
   </section>
   <section class="bg-[var(--color,#abcdef)]">
-    <div class="max-w-[75ch] mx-auto p-1">
+    <div class="max-w-[75ch] mx-auto p-4">
       <p class="text-lg font-bold">More like this</p>
       <p class="text-center mix-blend-difference text-[#fff]">Work in progress</p>
     </div>

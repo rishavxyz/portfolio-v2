@@ -1,5 +1,4 @@
 ---
-
 import "@fontsource/oswald/400.css";
 import "@fontsource/oswald/600.css";
 import "@fontsource/oswald/700.css";
@@ -61,7 +60,7 @@ const { title = TITLE, desc = DESCRIPTION,
 		background, foreground)}
 	>
 		<Header />
-		<main class={cn("p-1", className)}>
+		<main class={cn("p-4", className)}>
 			<slot />
 		</main>
 		<Footer />
@@ -78,8 +77,40 @@ const { title = TITLE, desc = DESCRIPTION,
 		letter-spacing: theme(letterSpacing.wide);
 		font-size: theme(fontSize.sm);
 	}
-	a[href] {
-		text-underline-offset: 4px;
+	a, button {
+		text-underline-offset: 5px;
 		text-decoration-thickness: 1px;
+	}
+	button, a[role=button], .btn {
+		@apply inline-flex items-center justify-center gap-x-2 text-sm rounded-md px-4 py-2
+			ring-transparent border-2 border-transparent
+			disabled:text-muted-light disabled:bg-muted-dark
+			focus:outline-none focus:border-2;
+	}
+	button.inline, .btn.inline {
+		padding: 0;
+		font-size: theme(fontSize.base);
+	}
+	button.small, .btn.small {
+		font-weight: 400;
+		padding-inline: theme(padding[3]);
+		padding-block: theme(padding[1]);
+	}
+	button.pill, .btn.pill {
+		border-radius: 999px;
+	}
+	.heading {
+		@apply text-4xl leading-none font-bold font-display;
+	}
+	input[type=]:not([type*="c"]), textarea {
+		@apply block w-full rounded-md border-0 px-4 py-2 bg-muted-dark text-white
+			ring-1 ring-inset ring-muted-light/60 placeholder:text-muted-light
+			disabled:text-muted-light/60 disabled:placeholder:text-muted-light/60
+			disabled:bg-muted-dark/60 disabled:ring-muted-dark
+			focus:ring-2 focus:ring-inset focus:ring-primary
+			focus:outline-none focus:border-0;
+	}
+	textarea {
+		line-height: 1.5;
 	}
 </style>

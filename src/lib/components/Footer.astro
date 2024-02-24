@@ -12,30 +12,28 @@ const socialLinks = {
 const myEmailAddr = "email@rishavmandal.xyz";
 ---
 
-<footer class="p-1 lg:px-0 bg-black text-white">
-	<div class="lg:grid lg:grid-cols-12">
-		<div class="md:flex md:flex-row-reverse md:justify-between md:gap-1 lg:[grid-column:2/12]">
-			<div class="space-y-1">
+<footer class="p-4 md:px-0 bg-black text-white md:grid md:grid-cols-12">
+		<header class="md:flex md:flex-row-reverse md:justify-between md:gap-s md:[grid-column:2/12]">
+			<div class="space-y-sm">
 				<section>
-					<p class="leading-tight text-xl md:text-2xl">Feel free to drop a message</p>
-					<p class="mt-0.25 leading-relaxed"><a href={"mailto:"+myEmailAddr} class="underline">{myEmailAddr}</a>
-						or <button class="underline underline-offset-4" onclick="copyemail()">copy email to clipboard</button>.
+					<p class="leading-tight text-xl">Feel free to drop a message</p>
+					<p class="mt-2 leading-relaxed"><a href={"mailto:"+myEmailAddr} class="underline">{myEmailAddr}</a>
+						or <button class="inline underline !font-normal" onclick="copyemail()">copy email to clipboard</button>.
 					</p>
 				</section>
-				<section>
+				<section class="[&_a]:underline [&_a]:text-yellow-400">
 					<p>Find me on <a href={socialLinks.github.href}>{socialLinks.github.name}</a>.</p>
 					<p>I practice Haskell on <a href={socialLinks.codewars.href}>{socialLinks.codewars.name}</a>.</p>
 				</section>
 			</div>
-			<Header class="block text-center space-y-0.125" />
-		</div>
-		<section class="text-center md:mt-1 lg:[grid-column:2/12]">
+			<Header class="mt-sm block text-center space-y-1.5" />
+		</header>
+		<section class="text-center md:mt-4 space-y-sm md:[grid-column:2/12]">
 			<p><a href="#top" class="underline">Back to top</a></p>
-			<p class="mt-0.5 text-sm text-muted-light">&copy;
+			<p class="text-sm text-muted-light">&copy;
 				{today.getFullYear()} { AUTHOR }. All rights reserved.</p
 			>
 		</section>
-	</div>
 </footer>
 
 <style>

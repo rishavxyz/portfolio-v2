@@ -11,11 +11,7 @@
     let thumbnail = "";
     let showModal = false;
 
-    const inputClass =
-        "block w-full border-muted-dark rounded-md focus:border-muted-light focus:ring-transparent bg-muted-dark/25 text-white placeholder:text-muted-light disabled:placeholder:text-muted-dark disabled:bg-muted-dark disabled:text-muted-light";
-    const btnClass =
-        "bg-fuchsia-700 text-fuchsia-200 p-0.25 block rounded-md font-bold label focus:border focus:border-muted-light disabled:bg-muted-dark disabled:text-muted-light";
-
+    const chip = "btn small pill bg-muted-dark !text-[0.75rem]";
     /**
      * @type {{ success: boolean; message: string; text: string; fileName: string; type: "image"|"post" }}
      */
@@ -39,6 +35,8 @@
         const data = await res.json();
 
         response = data;
+
+        if (data.success) event.target?.reset();
     }
     async function uploadImage(/**@type {SubmitEvent} */ event) {
         const formData = new FormData(event.currentTarget);
@@ -73,17 +71,14 @@
 
 <form
     on:submit|preventDefault={createPost}
-    class="space-y-2 md:space-y-0 md:grid md:grid-cols-12
-  md:grid-rows-[auto_auto_auto_0.5fr] md:gap-y-2"
+    class="space-y-sm md:space-y-0 md:grid md:grid-cols-12
+  md:grid-rows-[auto_auto_auto_0.5fr] md:gap-y-sm"
 >
-    <div class="md:[grid-column:1/7] px-1">
+    <div class="md:[grid-column:1/7] px-4 space-y-2xs">
         <!-- Title -->
         <div class="flex justify-between items-end mb-0.25">
-            <label for="input-title" class="font-medium">Title</label>
-            <span
-                class="text-xs font-medium py-0.125 px-0.25 bg-muted-dark/25 rounded-full"
-                >Characters: {title.trim().length}</span
-            >
+            <label for="input-title">Title</label>
+            <span class={chip}>Characters: {title.trim().length}</span>
         </div>
         <input
             type="text"
@@ -91,7 +86,6 @@
             maxlength="60"
             bind:value={title}
             id="input-title"
-            class={inputClass}
             placeholder="A nice title within 60 characters"
             autocomplete="off"
             name="title"
@@ -108,33 +102,24 @@
                     .replaceAll(/\'|\*|\!|\:|\-\s|\"|\,|\.|\?|\(|\)/g, "")
                     .split(" ")
                     .join("-")}
-                id="hs-trailing-multiple-add-on"
                 disabled={!title}
-                class={cn(
-                    inputClass,
-                    "rounded-e-none disabled:bg-muted-dark/25",
-                )}
+                class="!rounded-e-none"
                 placeholder="my-file-name"
                 tabindex="-1"
                 autocomplete="off"
             />
             <div
-                class="px-0.5 inline-flex items-center rounded-e-md border border-s-0 border-muted-dark bg-muted-dark"
+                class="px-4 inline-flex items-center rounded-e-md border border-s-0 border-muted-dark bg-muted-dark"
             >
                 <span class="text-sm text-white">.mdx</span>
             </div>
         </div>
     </div>
     <!-- Description -->
-    <div class="md:[grid-column:1/7] px-1">
+    <div class="md:[grid-column:1/7] px-4 space-y-2xs">
         <div class="flex justify-between items-end mb-0.25">
-            <label for="input-desc" class="block font-medium dark:text-white"
-                >Description</label
-            >
-            <span
-                class="text-xs font-medium py-0.125 px-0.25 bg-white/10 rounded-full"
-                >Characters: {description.trim().length}</span
-            >
+            <label for="input-desc">Description</label>
+            <span class={chip}>Characters: {description.trim().length}</span>
         </div>
         <textarea
             id="input-desc"
@@ -142,7 +127,6 @@
             maxlength="160"
             bind:value={description}
             rows="3"
-            class={inputClass}
             placeholder="A description within 160 characters"
             autocomplete="off"
             name="desc"
@@ -150,16 +134,13 @@
         />
     </div>
     <!-- Hero image -->
-    <div class="md:[grid-column:1/7] px-1">
+    <div class="md:[grid-column:1/7] px-4 space-y-2xs">
         <p for="hero-image" class="block font-medium mb-0.25">Hero image</p>
         <div class="w-full rounded-lg bg-muted-dark/25">
             <button
                 disabled={response.success && response.type == "image"}
                 on:click|preventDefault={() => (showModal = !showModal)}
-                class={cn(
-                    btnClass,
-                    "w-full bg-muted-dark/25 text-white focus:border-none",
-                )}
+                class="btn label w-full bg-muted-dark"
             >
                 {#if showModal}
                     Close
@@ -171,7 +152,7 @@
             </button>
 
             {#if showModal}
-                <div class="p-1 space-y-1" transition:slide>
+                <div class="p-4 space-y-sm" transition:slide>
                     {#if thumbnail}
                         <div
                             class="w-full max-h-[360px] overflow-hidden rounded-md bg-muted-light text-muted-dark"
@@ -185,30 +166,22 @@
                         </div>
                     {/if}
 
-                    <form on:submit|preventDefault={uploadImage} class="space-y-1">
+                    <form on:submit|preventDefault={uploadImage} class="space-y-sm">
                         <input
                             type="file"
                             name="heroImage"
                             bind:files
-                            class={cn(
-                                inputClass,
-                                "max-w-xl mx-auto",
-                                "file:bg-fuchsia-700 file:text-fuchsia-200 file:border-none file:me-0.25 file:p-0.25",
-                                "file:focus:border-muted-light file:focus:ring-transparent",
-                            )}
+                            class="file:border-0 file:bg-muted-light file:text-black file:rounded-full file:px-3 file:mr-3"
                             on:change={() => createImage(files[0])}
                             accept=".jpg, .jpeg, .png, .webp, .avif, .gif"
                         />
                         <input type="text" name="customFileName" disabled={files.length < 1} autocomplete="off"
-                            class={inputClass} value={files.length > 0 ? files[0].name : "custom-file-name.png"}
+                            value={files.length > 0 ? files[0].name : "custom-file-name.png"}
                         />
                         <button
                             disabled={!thumbnail}
                             formaction="/api/upload-image"
-                            class={cn(
-                                btnClass,
-                                "mx-auto mt-1 transition-colors",
-                            )}>Upload to GitHub</button
+                            class="w-full label transition-colors">Upload to GitHub</button
                         >
                     </form>
                 </div>
@@ -216,24 +189,18 @@
         </div>
     </div>
     <!-- Markdown -->
-    <div class="md:[grid-column:1/7] px-1">
+    <div class="md:[grid-column:1/7] px-4 space-y-2xs">
         <div class="w-full flex justify-between items-end mb-0.25">
-            <label
-                for="textarea-label"
-                class="block font-medium dark:text-white"
-                >Content <span class="text-white/80 text-sm"
-                    >&lpar;With markdown&rpar;</span
-                ></label
-            >
-            <span
-                class="text-xs font-medium py-0.125 px-0.25 bg-white/10 rounded-full shrink-0"
-                >Words: {content ? content.trim().split(" ").length : 0}</span
-            >
+            <label for="textarea-label">
+                Content <span class="text-sm text-muted-light">&lpar;With markdown&rpar;</span>
+            </label>
+            <span class={chip}>
+                Words: {content ? content.trim().split(" ").length : 0}
+            </span>
         </div>
         <textarea
             bind:value={content}
             id="textarea-label"
-            class={inputClass}
             rows="12"
             placeholder="Write your content with markdown :)"
             autocomplete="off"
@@ -243,7 +210,7 @@
     </div>
 
     <div
-        class="bg-white text-black py-2 px-1 md:[grid-column:7/13] md:[grid-row:1/5] grid-row md:mx-1
+        class="bg-white text-black p-4 md:[grid-column:7/13] md:[grid-row:1/5] grid-row md:mx-1
     overflow-y-scroll md:rounded-md"
     >
         <div>
@@ -280,28 +247,28 @@
         </div>
     </div>
 
-    <div
-        class="md:[grid-column:5/9] px-1 flex justify-center items-center gap-1"
-    >
-        <input
-            type="checkbox"
-            name="draft"
-            id="draft"
-            checked
-            class="bg-muted-dark/25 text-fuchsia-700 rounded border border-muted-dark focus:border-0"
-        />
-        <label for="draft" class="block font-medium text-white">
+    <div class="relative flex gap-x-3 md:[grid-column:5/9] px-4">
+        <div class="flex h-6 items-center">
+          <input id="draft" name="draft" type="checkbox" checked
+            class="h-4 w-4 rounded border-muted-light/50 text-primary bg-muted-dark focus:ring-primary" />
+        </div>
+        <div class="leading-6">
+          <label for="draft">
             <p>Save as draft</p>
-            <p class="text-sm text-muted-light mt-0.125">
-                If checked, the post will not be published but saved.
-            </p>
-        </label>
+            <p class="text-muted-light text-sm">The post will upload to GitHub but won&apos;t be published.</p>
+          </label>
+        </div>
     </div>
 
-    <div class="md:[grid-column:5/9] px-1">
-        <button
-            class={cn(btnClass, "w-full")}
+    <div class="md:[grid-column:5/9] px-4">
+        <button class="w-full label primary"
             disabled={!title || !description || !content}>Create post</button
         >
     </div>
 </form>
+
+<style>
+    label {
+        font-weight: 500;
+    }
+</style>
