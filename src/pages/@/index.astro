@@ -2,36 +2,17 @@
 export const prerender = false;
 
 import {Layout} from "$lib/layouts";
-import { supabase } from "$lib/server/supabase";
-import sb_cookies from "$lib/utils";
 
-const access_token = Astro.cookies.get(sb_cookies.access_token);
-const refresh_token = Astro.cookies.get(sb_cookies.refresh_token);
+const user = Astro.locals.user;
 
-if (!access_token || !refresh_token) {
+if (!user)
   return Astro.redirect("/@/auth");
-}
 
-const { data, error } = await supabase.auth.setSession({
-  access_token: access_token.value,
-  refresh_token: refresh_token.value
-});
-
-if (error) {
-  Astro.cookies.delete(sb_cookies.access_token, {
-    path: "/"
-  });
-  Astro.cookies.delete(sb_cookies.refresh_token, {
-    path: "/"
-  });
-  return Astro.redirect("/@/auth");
-}
-
-const user = data.session?.user!;
+console.log(user)
 ---
 
 <Layout class="space-y-1">
-  <p>Hello {user.user_metadata.name}</p>
+  <p class="text-lg font-bold">Hello {user.user_metadata.name}</p>
   <a href="/@/create" role="button" class="primary label">Create a new post</a>
   <form action="/api/auth/signout">
     <button class=" label bg-red-800 text-red-200"

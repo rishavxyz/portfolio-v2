@@ -5,6 +5,7 @@ import sb_cookies from "$lib/utils";
 import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async function(context) {
+  context.locals.user = null;
 
   context.cookies.delete(sb_cookies.access_token, {
     path: "/"

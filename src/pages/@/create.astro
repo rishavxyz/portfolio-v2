@@ -3,30 +3,14 @@ export const prerender = false;
 
 import MetaFields from "$lib/layouts/content/metaFields.svelte";
 import { Layout } from "$lib/layouts";
-import { supabase } from "$lib/server/supabase";
-import sb_cookies from "$lib/utils";
 
-const access_token = Astro.cookies.get(sb_cookies.access_token);
-const refresh_token = Astro.cookies.get(sb_cookies.refresh_token);
+const user = Astro.locals.user;
 
-if (!access_token || !refresh_token) {
+if (!user)
   return Astro.redirect("/@/auth");
-}
 
-const { error } = await supabase.auth.setSession({
-  access_token: access_token.value,
-  refresh_token: refresh_token.value
-});
+console.log(user.email);
 
-if (error) {
-  Astro.cookies.delete(sb_cookies.access_token, {
-    path: "/"
-  });
-  Astro.cookies.delete(sb_cookies.refresh_token, {
-    path: "/"
-  });
-  return Astro.redirect("/@/auth");
-}
 ---
 
 <Layout class="px-0">

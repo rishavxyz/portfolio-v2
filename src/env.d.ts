@@ -1,10 +1,13 @@
 /// <reference path="../.astro/types.d.ts" />
 /// <reference types="astro/client" />
 
+import type { User } from "@supabase/supabase-js";
+
 declare namespace App {
 
   interface Locals {
     session: string | undefined;
+    user: User | null;
   }
 }
 
