@@ -8,7 +8,8 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "format": "prettier --write"
+    "format": "prettier --write",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@astrojs/check": "^0.5.4",
