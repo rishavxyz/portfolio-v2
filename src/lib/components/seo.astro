@@ -12,6 +12,7 @@ interface Props {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const { title: _title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
+console.log({image})
 
 const enhancedTitle = `${_title} | ${AUTHOR}`
 

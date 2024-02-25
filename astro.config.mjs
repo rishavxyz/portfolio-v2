@@ -15,13 +15,9 @@ export default defineConfig({
   site,
   prefetch: true,
   integrations: [mdx(), sitemap(), svelte(), tailwind()],
-  output: "server",
+  output: "hybrid",
   adapter: vercel({
+    webAnalytics: { enabled: true },
     isr: isProd
   }),
-  vite: {
-    optimizeDeps: {
-			exclude: ["oslo"]
-		}
-  }
 });

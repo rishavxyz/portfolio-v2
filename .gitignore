@@ -24,3 +24,5 @@ pnpm-debug.log*
 *.bak
 public/*.db
 public/secret/*
+.vercel
+.env*.local
