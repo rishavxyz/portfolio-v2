@@ -1,10 +1,11 @@
 ---
 import { AUTHOR } from '$lib/consts';
+import { getImage } from 'astro:assets';
 
 interface Props {
 	title: string;
 	desc: string;
-	img: string;
+	img: string | ImageMetadata;
 	pubon?: Date;
 	section?: string;
 }
@@ -17,7 +18,11 @@ const enhancedTitle = `${_title} | ${AUTHOR}`
 
 const title = _title == AUTHOR ? AUTHOR
 	: enhancedTitle.length > 60 ? _title
-	: enhancedTitle
+	: enhancedTitle;
+
+const { src: ogImg } = await getImage({
+	src: img, format: "png", width: 256, height: 256
+});
 ---
 
 <!-- Global Metadata -->
@@ -40,9 +45,9 @@ const title = _title == AUTHOR ? AUTHOR
 <meta property="og:title" content={title} />
 <meta property="og:description" content={desc} />
 <meta property="og:locale" content="en" />
-<meta property="og:image" content={new URL(img, Astro.url)} />
-<meta property="og:image:width" content="400" />
-<meta property="og:image:height" content="300" />
+<meta property="og:image" content={new URL(ogImg, Astro.url)} />
+<meta property="og:image:width" content="256" />
+<meta property="og:image:height" content="256" />
 { pubon && <>
 	<meta property="article:author" content={AUTHOR} />
 	<meta property="article:published_time" content={new Date(pubon).toISOString()} />
@@ -57,4 +62,4 @@ const title = _title == AUTHOR ? AUTHOR
 <meta property="twitter:url" content={Astro.url} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={desc} />
-<meta property="twitter:image" content={new URL(img, Astro.url)} />
+<meta property="twitter:image" content={new URL(ogImg, Astro.url)} />
