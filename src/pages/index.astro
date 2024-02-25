@@ -7,8 +7,14 @@ import { Layout, BlogPost } from "$lib/layouts";
 
 <Layout class="space-y-lg">
   <section class="max-w-5xl mx-auto space-y-sm">
-    <h1 id="h1" class="heading uppercase">{AUTHOR}</h1>
-    <h2 id="h2" class="text-2xl leading-snug font-serif">{DESCRIPTION}.</h2>
+    
+    <div class="overflow-hidden">
+      <h1 data-animate class="heading uppercase">{AUTHOR}</h1>
+    </div>
+
+    <div class="overflow-hidden">
+      <h2 data-animate class="text-2xl leading-snug font-serif">{DESCRIPTION}.</h2>
+    </div>
   </section>
 
   <section id="post" class="max-w-5xl mx-auto">
@@ -18,27 +24,26 @@ import { Layout, BlogPost } from "$lib/layouts";
 </Layout>
 
 <style>
-  #h1 {
+  [data-animate] {
     will-change: transform, opacity;
-    transform: translateY(-50px);
-    opacity: 0;
+    transform: translateY(100%);
   }
-  #h2 {
+  #post {
     will-change: transform, opacity;
-    transform: rotateY(50px);
+    transform: translateY(80px);
     opacity: 0;
   }
 </style>
 
 <script>
-  import { animate } from "motion";
+  import { animate, stagger } from "motion";
 
-  animate("#h1",
-    { y: [-50, 0], opacity: 1 },
-    { duration: 0.4 }
+  animate("[data-animate]",
+    { y: ["100%", 0] },
+    { duration: 0.8, delay: stagger(0.1) }
   );
-  animate("#h2",
-    { y: [50, 0], opacity: 1 },
-    { duration: 0.4, delay: 0.2 }
+  animate("#post",
+    { y: [80, 0], opacity: [0,1,1,1] },
+    { duration: 0.8, delay: 0.5 }
   );
 </script>

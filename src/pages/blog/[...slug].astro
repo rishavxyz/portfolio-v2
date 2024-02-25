@@ -29,7 +29,7 @@ const {
 } = Astro.props.entry;
 ---
 
-<Layout {title} {desc} img={img?.src} class="p-0"
+<Layout class="p-0" seo={{ title, desc, img: img?.src, pubon }}
   background="bg-white" foreground="text-black"
 >
   <section id="hero">

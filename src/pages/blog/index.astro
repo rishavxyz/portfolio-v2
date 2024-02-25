@@ -3,7 +3,7 @@ export const prerender = true;
 
 import { BlogPost, Layout } from "$lib/layouts";
 ---
-<Layout class="space-y-md">
+<Layout class="space-y-md" seo={{ title: "Blogs" }}>
   <section id="post" class="max-w-5xl mx-auto">
     <p class="mb-md label">Latest blogs</p>
     <BlogPost />

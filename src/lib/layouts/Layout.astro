@@ -9,8 +9,9 @@ import "@fontsource/roboto";
 import type { CSSProperty } from "astro/types"
 import { Header, Footer, SEO } from "$lib/components"
 import { DESCRIPTION, TITLE } from '$lib/consts';
-
 import { cn } from "$lib/utils";
+
+import defaultImg from "@media/blog-placeholder-1.jpg";
 
 type Props = {
 	title?: string;
@@ -20,11 +21,24 @@ type Props = {
 	style?: CSSProperty;
 	background?: string;
 	foreground?: string;
+	seo?: {
+		title?: string;
+		desc?: string;
+		img?: string;
+		pubon?: Date;
+		section?: string;
+	};
 };
 
-const { title = TITLE, desc = DESCRIPTION,
-	img, class: className,
-	background, foreground
+const {
+	class: className, background,
+	foreground, seo = {
+		title: TITLE,
+		desc: DESCRIPTION,
+		img: defaultImg.src,
+		section: undefined,
+		pubon: undefined
+	}
 } = Astro.props;
 ---
 
@@ -34,7 +48,13 @@ const { title = TITLE, desc = DESCRIPTION,
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	<meta name="content-theme" content="light dark" />
-	<SEO {title} description={desc} image={img} />
+	<SEO
+		title={seo.title ?? TITLE}
+		desc={seo.desc ?? DESCRIPTION}
+		img={seo.img ?? defaultImg.src}
+		section={seo.section}
+		pubon={seo.pubon}
+	/>
 	</head>
 
 	<style>
