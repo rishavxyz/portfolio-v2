@@ -8,8 +8,7 @@
     "build": "prisma generate && astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "format": "prettier --write",
-    "postinstall": "prisma generate"
+    "format": "prettier --write"
   },
   "dependencies": {
     "@astrojs/check": "^0.5.4",
@@ -27,6 +26,7 @@
     "@octokit/rest": "^20.0.2",
     "@prisma/client": "^5.10.2",
     "@supabase/supabase-js": "^2.39.7",
+    "@vercel/postgres": "^0.7.2",
     "astro": "^4.4.0",
     "buffer": "^6.0.3",
     "clsx": "^2.1.0",
