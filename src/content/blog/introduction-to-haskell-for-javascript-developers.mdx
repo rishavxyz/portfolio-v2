@@ -16,56 +16,230 @@ Functional programming is gaining momentum, especially with libraries like React
 
 In Haskell, everything is immutable. A function cannot have side effects, meaning it always produces the same output for the same input. This predictability makes reasoning about your program easier. Imagine React components without unexpected side effects – that's the power of purity!
 
-Let's jump into the world of Haskell.
+## Let's jump into the world of Haskell.
+
+Install `ghc` from your Linux distribution's package manager or from [haskell.org/ghc](https://www.haskell.org/ghc/). After installing `ghc`, open a terminal emulator and run the command `ghci`. This command comes from the `ghc` package.
+
+## Declaring a variable
+
+Variables can be global or function scoped and we declare them like this: `name = <initial_value>`.
+
+```haskell
+myNumber = 1
+```
+
+Don't put semi colons at the end. In Haskell, semi colons are not for ending a line. Haskell uses indentation instead.
+Indentation must be at least one space or more.
+
+> If the compiler throws error, indent more.
+
+## Declare types
+
+Haskell is a full statically typed language but you really don't need to declare types for simple expected variables or functions, they will auto generate at the compile time or runtime if using GHCI.
+
+To declare a type for a variable, use the following syntax
+
+```
+name :: TYPE
+```
+
+The double colon `::` is the seperator, the left hand side is always the name and the right hand side is the type.
+
+Haskell has several types, some most common types are, `Int, String, Char, Double, Bool`.
+
+```haskell
+myName :: String
+myName = "Rishav"
+```
+
+From the type we can say that `myName` is a variable of String type.
+
+For a function, the type declaration must have one or more argument type and a return type.
+
+Let's say a function `isOdd` to check if a number is odd or not. Then the function's type be:
+
+```
+isOdd :: Int -> Bool
+```
+
+The `->` is seperates the arguments and the return type. As said you can have several arguments.
+
+```
+someArgs :: Int -> String -> Bool
+```
+
+Here the Int and the String are two seperate arguments, The last thing, the `Bool` is the return type.
+
+## Writing first function
+
+As said, a function consists of a name, one or more arguments and an expression.
+
+```
+-- Single argument
+name arg = expression
+
+-- Multiple arguments
+name arg1 arg2 ... = expression
+```
+
+A real example of a function:
+
+```haskell
+isOdd :: Int -> Bool
+isOdd num = odd num
+```
+
+We can see the type and say that the function `isOdd` takes only one argument of type integer and return a logical value.
+
+Honestly you don't need to write types for simple functions, Haskell is smart enough to auto generate.
 
 ## Lists and Tuples
 
+These are the most fundamentals of Haskell.
+
 ### Lists
 
-In Haskell, lists are fundamental data structures. They can hold elements of the same type. Here's how you define a list:
+In Haskell, lists are fundamental data structures. They can hold elements of the same type. Lists are basically **linked lists** under the hood. Here's how you define a list:
 
 ```haskell
 myList :: [Int]
 myList = [1, 2, 3, 4, 5]
 ```
 
+You can also generate a list of numbers by defining a list `[]`, a start index e.g. `1`, followed by double period `..` and lastly an end value e.g. `5`.
+
+```haskell
+myList' = [Int]
+myList' = [1..5]
+
+-- myList' is will now be [1, 2, 3, 4, 5]
+```
+
+Did you notice I just put a single quote at the end of the variable name?
+
+Well in Haskell you are allowed to use a signle quote as a variable name too.
+
+
+> What if I do `myList' = [1..]` ?
+
+Well in that case you have just created an **infinite loop**. If you call `myList'` then it won't stop producing an integer until the process is terminated.
+
+And if you're wondering, the list generation works for alphabets too!
+
+```haskell
+AtoZ = ['a'..'z']
+-- AtoZ will be "abcdefghijklmnopqrstuvwxyz"
+```
+
+Just make sure that the start and the end values are a `Char` type.
+The generated output is a `String` which actually is a list of characters.
+
+You can also add "steps" to generate a list. Steps are given before the `..` seperated by a comma.
+
+```haskell
+-- even numbers from 0 to 10
+evenNumbers' = [0, 2 .. 10]
+
+-- this will return [0,2,4,6,8,10]
+```
+
+#### Solving a basic coding problem
+
+> Print all the odd numbers from 1 to an integer N
+
+As from the problem statement, we can use the "steps" to generate the list of odds.
+
+```haskell
+myOdds :: Int -> [Int]
+myOdds n = [1, 3 .. n]
+
+-- myOdds 12 -> [1,3,5,7,9,11]
+```
+
+Easy peasy lemon squeezy.
+
+> Get the maximum value from an array of integers
+
+Haskell has built-in `maximum`, `minimum`, `compare`, `mod` etc function so you don't have to.
+
+```haskell
+getMax :: [Int] -> Int
+getMax arr = maximum arr
+
+-- The same can be written as this because of "currying"
+getMax' :: [Int] -> Int
+getMax' = maximum
+```
+
+For minimum just put `minimum` instead of maximum.
+
 ### Tuples
 
-Tuples, on the other hand, can hold elements of different types. For example:
+Tuples, on the other hand, can hold elements of different types in pair. For example:
 
 ```haskell
 myTuple :: (Int, String)
 myTuple = (42, "Answer")
 ```
 
+Your can put 2 or more values too but generally we don't go beyond 2.
+
+Tuples has their own function like `fst`, `snd` and as you can guess, `fst` will return the first element and `snd` will return the second.
+
+```haskell
+myName = ("Rishav", "Mandal")
+
+getMyFirstName = fst myName
+getMyLastName = snd myName
+```
+
+A more practical usage of tuples are storing data for something with it. Like this example:
+
+```haskell
+myName = "Rishav"
+myName' = (length myName, myName) -- length function will reutrn the length of a string
+-- myName -> (6, "Rishav")
+```
+
 ## List Comprehension
 
 List comprehensions are powerful tools in Haskell. They allow concise creation of lists based on existing ones. For example:
 
-- Add 1 to each element: `[x + 1 | x <- myList]`
-- Square each element: `[x * x | x <- myList]`
+```haskell
+addOne :: [Int]
+addOne = [n+1 | n <- [1..10]]
+```
+The syntax is very easy to under stand, the above will be this:
+> From a list of one to ten, we take each number and add one to it.
 
-## Type Variables
+The cherry on top that we can also use predicates here.
 
-Haskell's type system is expressive. You can use type variables to write generic functions. For instance:
+> **Predicate:** is a function that determines whether something is true or not.
 
 ```haskell
-lengthOfList :: [a] -> Int
-lengthOfList xs = length xs
+addOne' :: [Int]
+addOne' = [n+1 | n <- [1..10], n > 3]
 ```
+Predicates are written on the right side seperated by a comma.
 
-Here, `a` represents any type.
+The above code can be said as:
+> From a list of one to ten, we take each number such that the number is greater than three and add one to it.
 
-## Map and Filter
+
+## Higher order functions: Map and Filter
+
+I will only disscuss about these two although Haskell has much more.
 
 ### Map
 
-The `map` function applies a given function to each element of a list. For example:
+The `map` function applies a given function to each element of a list just similar to JavaScript's map. For example:
 
 ```haskell
 doubleList :: [Int] -> [Int]
 doubleList xs = map (* 2) xs
 ```
+
+The abive code will multiply each element from the list by 2 and create a new list.
 
 ### Filter
 
@@ -75,6 +249,20 @@ The `filter` function selects elements from a list that satisfy a given conditio
 evenNumbers :: [Int] -> [Int]
 evenNumbers xs = filter even xs
 ```
+
+The above code will return a new list of even numbers.
+
+**Remember,** both map and filter returns a new list and not in-place. 
+
+### Lazy loading
+
+Haskell is a lazy evaluated language, it uses [currying](https://en.wikipedia.org/wiki/Currying#:~:text=In%20mathematics%20and%20computer%20science,and%20produces%20objects%20in) technique in all the functions and converts one or more arguments into a sequence. So the above `evenNumbers` function can be written as below:
+
+```haskell
+evenNumbers = filter even
+```
+
+This is exact same as the above with the `xs` argument.
 
 ## Functions and Lambda Functions
 
@@ -91,7 +279,7 @@ Haskell encourages function composition. You can combine functions to create new
 
 ```haskell
 squareAndDouble :: Int -> Int
-squareAndDouble = (* 2) . (^ 2)
+squareAndDouble = (* 2) . (+ 2)
 ```
 
 ## The `$` Operator
@@ -99,7 +287,13 @@ squareAndDouble = (* 2) . (^ 2)
 The `$` operator is your friend. It helps avoid parentheses and clarifies function application:
 
 ```haskell
-result = sum $ map (^ 2) [1 .. 10]
+result = sum $ map (* 2) [1 .. 10]
+```
+
+Without the `$` we have to write the function as:
+
+```haskell
+result = sum (map (* 2) [1 .. 10])
 ```
 
 ## Type and Record

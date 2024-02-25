@@ -21,7 +21,7 @@ type Props = {
 	seo?: {
 		title?: string;
 		desc?: string;
-		img?: any;
+		img?: ImageMetadata;
 		pubon?: Date;
 		section?: string;
 	};
@@ -48,7 +48,7 @@ const {
 	<SEO
 		title={seo.title ?? TITLE}
 		desc={seo.desc ?? DESCRIPTION}
-		img={seo.img ?? defaultImg.src}
+		img={seo.img ?? defaultImg}
 		section={seo.section}
 		pubon={seo.pubon}
 	/>
