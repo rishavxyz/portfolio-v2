@@ -1,43 +1,41 @@
-import { supabase } from "$lib/supabase";
-import sb_cookies from "$lib/utils";
+import { lucia } from "$lib/server/auth";
 import type { MiddlewareHandler } from "astro";
+import { verifyRequestOrigin } from "lucia";
 
 export const onRequest: MiddlewareHandler = async (
-  { cookies, locals, redirect, request, url }, next
+  { cookies, locals, request }, next
 ) => {
   if (request.method != "GET") {
-    if ( !request.headers.get("Origin")
-      || !request.headers.get("Host")
-    ) return new Response("CSRF Error", { status: 403 });
-  }
-  const access_token = cookies.get(sb_cookies.access_token)?.value ?? null;
-  const refresh_token = cookies.get(sb_cookies.refresh_token)?.value ?? null;
-  
-  console.log("middleware:", url.pathname);
-  console.log("middleware test:", /\/@\/[auth]/i.test(url.pathname));
-  console.log("AUTH NEEDED IF:", url.pathname.includes("/@") && !/\/@\/[auth]/i.test(url.pathname));
+      
+    const origin = request.headers.get("Origin");
+    const host = request.headers.get("Host");
 
-  if (!access_token || !refresh_token) {
+    if ( !origin || !host || !verifyRequestOrigin(origin, [host])
+    ) return new Response("CSRF error", { status: 403 });
+  }
+
+  const sessionID = cookies.get(lucia.sessionCookieName)?.value ?? null;
+
+  if (!sessionID) {
+    locals.session = null;
     locals.user = null;
     return next();
   }
-  if (url.pathname.includes("/@")) {
-    const { data: { session }, error } = await supabase.auth.setSession({
-      access_token, refresh_token
-    });
 
-    if (error || !session) {
-      locals.user = null;
-      cookies.delete(sb_cookies.access_token, { path: "/" });
-      cookies.delete(sb_cookies.refresh_token, { path: "/" });
+  const { session, user } = await lucia.validateSession(sessionID);
 
-      return redirect("/@/auth");
-    }
-
-    locals.user = session.user;
-    
-    return next();
+  if (session && session.fresh) {
+    const sessionCookie = lucia.createSessionCookie(session.id);
+    cookies.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
   }
+
+  if (!session) {
+    const sessionCookie = lucia.createBlankSessionCookie();
+    cookies.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+  }
+
+  locals.session = session;
+  locals.user = user;
   
   return next();
 };

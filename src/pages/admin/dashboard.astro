@@ -1,0 +1,19 @@
+---
+import {Layout} from "$lib/layouts";
+
+const user = Astro.locals.user;
+
+if (!user) return Astro.redirect("/admin/signin");
+---
+
+<Layout title="Sign in" class="max-w-md mx-auto space-y-md">
+  <p class="font-semibold text-lg">Hello, {user.name}</p>
+  <a href="/admin/create" class="label underline">Create a new post</a>
+  <form action="/api/signout" method="post" class="space-y-sm">
+    <button class="label bg-red-800 text-red-200">Sign out</button>
+  </form>
+</Layout>
+
+<style>
+  label { padding-bottom: 0.75rem; }
+</style>

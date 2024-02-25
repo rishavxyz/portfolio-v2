@@ -1,0 +1,23 @@
+---
+import {Layout} from "$lib/layouts";
+
+if (Astro.locals.user) return Astro.redirect("/admin/dashboard");
+---
+
+<Layout title="Sign in" class="max-w-md mx-auto">
+  <form action="/api/signin" method="post" class="space-y-sm">
+    <div>
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required />
+    </div>
+    <div>
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required />
+    </div>
+    <button class="label primary">Sign in</button>
+  </form>
+</Layout>
+
+<style>
+  label { padding-bottom: 0.75rem; }
+</style>

@@ -18,5 +18,10 @@ export default defineConfig({
   output: "server",
   adapter: vercel({
     isr: isProd
-  })
+  }),
+  vite: {
+    optimizeDeps: {
+			exclude: ["oslo"]
+		}
+  }
 });
