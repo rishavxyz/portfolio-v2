@@ -31,68 +31,68 @@ const {
   background="bg-white"
   foreground="text-black"
 >
-  <section id="hero" class="breakout">
+  <section id="hero" class:list={[
+    "in-grid flex flex-col lg:flex-row gap-md",
+    { "lg:justify-between": img },
+    { "lg:justify-center": !img } 
+  ]}>
     {
       img && (
-        <figure id="hero--image" class="mb-md">
+        <figure id="hero--image" class="shrink-0">
           <SuperImg
             src={img}
             alt={`blog ${title}`}
-            class="rounded-md"
-            width={1080}
-            aspect="2/1"
+            width={720}
           />
         </figure>
       )
     }
-    <div id="hero--content" class="md:w-4/5 md:mx-auto space-y-sm text-center">
-      <h3>{title}</h3>
-      <p class="text-lg text-balance leading-snug">{desc}</p>
-      <div class="flex justify-between gap-2xs md:justify-center">
-        <Fdate slot="date" date={pubon} />
-        <span class="hidden md:inline text-muted-light">&bull;</span>
-        <ReadingTime slot="reading-time" content={body} />
+    <div id="hero--content" class:list={['space-y-sm text-center', { 'lg:text-left': img }]}>
+      <div class="overflow-hidden">
+        <h4 data-animate>{title}</h4>
+      </div>
+      <div class="overflow-hidden">
+        <p data-animate class="text-lg text-balance leading-snug">{desc}</p>
+      </div>
+      <div class="overflow-hidden">
+        <div data-animate class="space-x-2 [&>*]:inline-block">
+          <Fdate slot="date" date={pubon} />
+          <span class="hidden md:inline text-muted-light">&bull;</span>
+          <ReadingTime slot="reading-time" content={body} />
+        </div>
       </div>
     </div>
   </section>
-  <Divider class="w-4/5 mx-auto" />
-  <section
-    class="in-grid lg:flex lg:flex-row-reverse lg:justify-center lg:gap-x-sm"
-  >
-    <Render {render} class="shrink-0" />
+  <Divider class="breakout" />
+  <section>
+    <Render {render} />
   </section>
-  <section class="bg-[var(--color,#abcdef)]">
-    <div class="max-w-[75ch] mx-auto p-4">
-      <p class="text-lg font-bold">More like this</p>
-      <p class="text-center mix-blend-difference text-[#fff]">
-        Work in progress
-      </p>
-    </div>
+  <section class="full-w content py-sm"
+    style="
+    color: color-mix(in lch, var(--color) 20%, currentColor);
+    background-color: var(--color, #abcdef);
+  ">
+    <h6>More like this</h6>
+    <p>Coming very soon</p>
   </section>
 </Layout>
 
 <style>
-  #hero {
+  [data-animate] {
     will-change: transform;
-    transform: translate3d(0, -100%, 0);
-    animation: slide-down 800ms ease-out forwards;
-  }
-  #hero--image {
-    will-change: transform;
-    transform: translate3d(0, -100%, 0);
-    animation: slide-down 450ms ease-in forwards;
-    animation-delay: 500ms;
-  }
-
-  @keyframes slide-down {
-    from {
-      transform: translate3d(0, -100%, 0);
-    }
-    to {
-      transform: translate3d(0, 0%, 0);
-    }
+    transform: translateY(100%);
   }
 </style>
+
+<script>
+  import { animate, stagger } from "motion";
+
+  animate(
+    "[data-animate]",
+    { y: ["100%", 0] },
+    { duration: 0.8, delay: stagger(0.1) },
+  );
+</script>
 
 <script>
   import Vibrant from "node-vibrant";

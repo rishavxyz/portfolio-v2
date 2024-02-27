@@ -21,7 +21,7 @@
   .content > * {
     grid-column: content;
   }
-  .content > .fw {
+  .content > .full-w {
     grid-column: fw;
   }
   .content > .in-grid {

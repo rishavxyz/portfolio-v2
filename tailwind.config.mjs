@@ -49,6 +49,48 @@ export default {
         xl: "clamp(3rem, 2.6379rem + 2.069vi, 4.5rem)",
         "2xl": "clamp(4rem, 3.3362rem + 3.7931vi, 6.75rem)",
       },
+      typography: function({ theme }) {
+        return {
+          black: {
+            css: {
+              // light mode | light background
+              '--tw-prose-body': theme('colors.black'),
+              '--tw-prose-headings': theme('colors.black'),
+              '--tw-prose-lead': theme('colors.neutral[700]'),
+              '--tw-prose-links': theme('colors.black'),
+              '--tw-prose-bold': theme('colors.black'),
+              '--tw-prose-counters': theme('colors.neutral[600]'),
+              '--tw-prose-bullets': theme('colors.neutral[900]'),
+              '--tw-prose-hr': theme('colors.neutral[300]'),
+              '--tw-prose-quotes': theme('colors.neutral[900]'),
+              '--tw-prose-quote-borders': theme('colors.neutral[300]'),
+              '--tw-prose-captions': theme('colors.neutral[700]'),
+              '--tw-prose-code': theme('colors.black'),
+              '--tw-prose-pre-code': theme('colors.neutral[100]'),
+              '--tw-prose-pre-bg': theme('colors.black'),
+              '--tw-prose-th-borders': theme('colors.neutral[400]'),
+              '--tw-prose-td-borders': theme('colors.neutral[300]'),
+              // dark mode | invert | dark background
+              '--tw-prose-invert-body': theme('colors.white'),
+              '--tw-prose-invert-headings': theme('colors.white'),
+              '--tw-prose-invert-lead': theme('colors.neutral[300]'),
+              '--tw-prose-invert-links': theme('colors.white'),
+              '--tw-prose-invert-bold': theme('colors.white'),
+              '--tw-prose-invert-counters': theme('colors.neutral[400]'),
+              '--tw-prose-invert-bullets': theme('colors.neutral[600]'),
+              '--tw-prose-invert-hr': theme('colors.neutral[700]'),
+              '--tw-prose-invert-quotes': theme('colors.neutral[100]'),
+              '--tw-prose-invert-quote-borders': theme('colors.neutral[700]'),
+              '--tw-prose-invert-captions': theme('colors.neutral[400]'),
+              '--tw-prose-invert-code': theme('colors.white'),
+              '--tw-prose-invert-pre-code': theme('colors.neutral[300]'),
+              '--tw-prose-invert-pre-bg': 'rgb(0 0 0 / 50%)',
+              '--tw-prose-invert-th-borders': theme('colors.neutral[600]'),
+              '--tw-prose-invert-td-borders': theme('colors.neutral[700]'),
+            }
+          }
+        }
+      }
     },
   },
   plugins: [
