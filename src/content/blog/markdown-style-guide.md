@@ -2,7 +2,7 @@
 title: 'Markdown Style Guide'
 desc: 'Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.'
 pubon: 'Jul 01 2022'
-img: '@media/blog-placeholder-1.jpg'
+img: '$img/blog-placeholder-1.jpg'
 ---
 
 Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.

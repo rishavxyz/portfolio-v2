@@ -5,8 +5,11 @@ type Props = {
   class?: string;
 };
 ---
-<div class={cn(
-  "w-full h-[1px] isolate mix-blend-difference bg-muted-dark/25",
-  Astro.props.class
+
+<div
+  class={cn(
+    "w-full h-[1px] isolate mix-blend-difference bg-muted-dark",
+    Astro.props.class,
   )}
-/>
+>
+</div>

@@ -1,0 +1,208 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .content {
+    display: grid;
+    grid-template-columns:
+      [fw-start] theme(spacing.sm) [in-grid-start] minmax(0, 1fr)
+      [breakout-start] minmax(0, 8rem) [content-start] min(
+        100% - 2 * theme(spacing.sm),
+        theme(maxWidth.prose)
+      )
+      [content-end] minmax(0, 8rem) [breakout-end] minmax(0, 1fr) [in-grid-end] theme(
+        spacing.sm
+      )
+      [fw-end];
+    row-gap: theme(spacing.md);
+  }
+
+  .content > * {
+    grid-column: content;
+  }
+  .content > .fw {
+    grid-column: fw;
+  }
+  .content > .in-grid {
+    grid-column: in-grid;
+  }
+  .content > .breakout {
+    grid-column: breakout;
+  }
+
+  .label {
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  button,
+  .btn {
+    --border-color: inherit;
+
+    position: relative;
+    font-size: 1rem;
+    font-weight: 500;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: theme(spacing.2xs);
+    padding-block: theme(spacing.3xs);
+    padding-inline: theme(spacing.xs);
+    border-radius: theme(spacing.2xs);
+    cursor: pointer;
+    border: transparent 2px solid;
+    outline: 0;
+    text-underline-offset: 4px;
+  }
+
+  button.inline,
+  .btn.inline {
+    padding: 0;
+    display: inline-block;
+  }
+
+  button:not(.inline):is(:focus, :active),
+  .btn:not(.inline):is(:focus, :active) {
+    outline: 0;
+    border: transparent;
+    text-decoration: underline;
+  }
+
+  button.inline:is(:focus, :active),
+  .btn.inline:is(:focus, :active) {
+    outline: 0;
+    border: transparent;
+    text-underline-offset: 8px;
+    text-decoration-thickness: 2px;
+  }
+  .primary {
+    background-color: theme(colors.primary.DEFAULT);
+    color: theme(colors.primary[950]);
+  }
+
+  .secondary {
+    background-color: theme(colors.secondary.DEFAULT);
+    color: theme(colors.secondary[950]);
+  }
+
+  .card {
+    padding: theme(spacing.sm);
+    border-radius: theme(borderRadius.2xl);
+  }
+  .card > * + * {
+    margin-top: theme(spacing.md);
+  }
+
+  .card.border {
+    border: theme(colors.muted.dark) 2px solid;
+  }
+
+  @media (hover: hover) {
+    button:not(.inline):hover,
+    .btn:not(.inline):hover {
+      border-color: var(--border-color, currentColor);
+    }
+  }
+}
+
+@layer utilities {
+  h1,
+  h2 {
+    line-height: 0.85;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: bold;
+  }
+
+  h1 {
+    font-size: theme(fontSize.6xl);
+  }
+
+  h2 {
+    font-size: theme(fontSize.4xl);
+  }
+
+  h3 {
+    font-size: theme(fontSize.3xl);
+    line-height: theme(lineHeight.tight);
+  }
+
+  h4 {
+    font-size: theme(fontSize.2xl);
+    line-height: theme(lineHeight.tight);
+  }
+
+  h6 {
+    font-size: theme(fontSize.lg);
+  }
+
+  body {
+    font-size: theme(fontSize.base);
+  }
+
+  a[href] {
+    text-underline-offset: 4px;
+    text-decoration-color: currentColor;
+    text-decoration: underline;
+  }
+
+  a[href].nou {
+    text-decoration: none;
+  }
+
+  a[href]:is(:focus, :active) {
+    outline: 0;
+    border: transparent;
+    text-underline-offset: 8px;
+    text-decoration-thickness: 2px;
+  }
+  input[type] {
+    all: unset;
+    width: calc(100% - 2 * theme(spacing.sm));
+    display: block;
+    background-color: transparent;
+    color: theme(colors.white);
+    padding-block: theme(spacing.2xs);
+    padding-inline: theme(spacing.sm);
+    border-radius: theme(borderRadius.lg);
+    border: theme(colors.muted.light / 25%) 2px solid;
+  }
+
+  input[type]::placeholder {
+    color: theme(colors.muted.light);
+  }
+
+  input[type]:active,
+  input[type]:focus {
+    border-color: theme(colors.muted.light);
+    outline: none;
+  }
+
+  input[type]:disabled {
+    background: theme(colors.muted.dark / 25%);
+    color: theme(colors.muted.dark);
+    border-color: theme(colors.muted.dark);
+    cursor: not-allowed;
+  }
+
+  input[type]:disabled::placeholder {
+    color: theme(colors.muted.light/50%);
+  }
+
+  @media (hover: hover) {
+    input[type]:not(:disabled):hover {
+      border-color: theme(colors.muted.light);
+    }
+    a[href]:hover {
+      text-decoration: underline;
+    }
+  }
+}

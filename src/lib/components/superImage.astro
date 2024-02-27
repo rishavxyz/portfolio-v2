@@ -29,12 +29,39 @@ const ratio = {
 <Image {src} {alt} {width} {loading} format="avif"
   height={height || width * ratio.h / ratio.w}
   style={`
-    background-image:  url(${bg.src});
-    background-repeat: no-repeat;
-    background-color:  #abcdef;
-    background-size:   cover;
-    object-fit:        cover;
-    aspect-ratio:      ${aspect};
+    aspect-ratio: ${aspect};
   `}
   class={className}
+  id="super-image"
+  onload="this.style.animationName = 'none'"
 />
+
+<style is:global>
+  #super-image {
+		background-repeat: no-repeat;
+		overflow: hidden;
+		will-change: background-position;
+		background-color: hsl(222, 55%, 89%);
+		background-image: radial-gradient(at 3% 13%, hsl(0, 100%, 69%) 0px, transparent 50%),
+			radial-gradient(at 41% 37%, hsl(31, 98%, 75%) 0px, transparent 50%),
+			radial-gradient(at 12% 46%, hsl(320, 100%, 75%) 0px, transparent 50%),
+			radial-gradient(at 17% 90%, hsl(240, 88%, 80%) 0px, transparent 50%),
+			radial-gradient(at 91% 89%, hsl(275, 100%, 77%) 0px, transparent 50%);
+
+		background-size: 400% 400%;
+		object-fit: cover;
+		animation: slickback 4s ease infinite;
+	}
+
+	@keyframes slickback {
+		0% {
+			background-position: 20% 0%;
+		}
+		50% {
+			background-position: 81% 100%;
+		}
+		100% {
+			background-position: 20% 0%;
+		}
+	}
+</style>

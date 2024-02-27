@@ -23,6 +23,7 @@
     "@fontsource/roboto": "^5.0.8",
     "@fontsource/ubuntu-mono": "^5.0.18",
     "astro": "^4.4.0",
+    "astro-compress": "^2.2.11",
     "clsx": "^2.1.0",
     "marked": "^12.0.0",
     "motion": "^10.17.0",

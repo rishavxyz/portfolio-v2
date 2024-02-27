@@ -15,11 +15,11 @@ type Props = {
 ---
 
 <nav id="top" class={cn(
-  "p-4 flex justify-between flex-wrap gap-4",
+  "flex justify-between flex-wrap gap-4",
   Astro.props.class
 )}>
   <ul>
-    <li><a href="/" class="font-display uppercase tracking-wide" data-astro-prefetch>{AUTHOR}</a></li>
+    <li><a href="/" class="font-display font-semibold uppercase" data-astro-prefetch>{AUTHOR}</a></li>
   </ul>
   <ul class="flex flex-wrap justify-center gap-4 ml-auto">
 		{ links.map(({name, href}) =>
@@ -27,3 +27,9 @@ type Props = {
 		)}
   </ul>
 </nav>
+
+<style>
+  a[href] {
+    text-decoration: none;
+  }
+</style>

@@ -1,51 +1,67 @@
 ---
 import { Fdate, SuperImg } from "$lib/components";
-import {getCollection} from "astro:content";
+import { dev } from "$lib/env";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
 
 type Props = {
-  loading?: "lazy"|"eager";
+  loading?: "lazy" | "eager";
 };
 
 const { loading } = Astro.props;
 
-const unsorted_blogs = await getCollection("blog", ({data}) => !data.draft);
-const blogs = unsorted_blogs?.sort((fst, snd) => snd.data.pubon.valueOf() - fst.data.pubon.valueOf());
+const getPosts = await getCollection("blog");
+function sortPosts(posts: CollectionEntry<"blog">[]) {
+  const filterDraftPosts = posts.filter((post) =>
+    dev ? post : post.data.draft != true,
+  );
+  const sortedPosts = filterDraftPosts.sort(
+    (fst, snd) => snd.data.pubon.getTime() - fst.data.pubon.getTime(),
+  );
+
+  return sortedPosts;
+}
+const blogs = sortPosts(getPosts);
 ---
 
-<ul class="flex flex-col flex-wrap md:flex-row items-stretch justify-stretch gap-lg">
-  { blogs.map((d,i) =>
-    <li class="list shrink-0 md:max-w-xs lg:max-w-md">
-      <a href={`/blog/${d.slug}`}
-        class="grid grid-cols-[2rem_1fr_2rem] grid-rows-[1fr_2rem_auto]"
-        data-astro-prefetch
-      >
-          { d.data.img &&
+<ul id="blogs">
+  {
+    blogs.map((d, i) => (
+      <li class="group" data-list>
+        <a
+          href={`/blog/${d.slug}`}
+          class="grid grid-cols-[2rem_1fr_2rem] grid-rows-[1fr_2rem_auto]"
+          data-astro-prefetch
+        >
+          {d.data.img && (
             <figure class="[grid-column:2/4] [grid-row:1/3]">
               <SuperImg
-                src={d.data.img} loading={loading || i <= 3 ? "eager" : "lazy"}
+                src={d.data.img}
+                loading={loading || i <= 3 ? "eager" : "lazy"}
                 alt={`Thumbnail of the post ${d.data.title}`}
                 width={480}
               />
             </figure>
-          }
-          <div class:list={[
+          )}
+          <div
+            class:list={[
               "[grid-column:1/3] [grid-row:2/4] pr-sm lg:pb-sm space-y-xs bg-black text-white",
-              {"pt-sm": d.data.img}
-            ]}>
-            <p class="text-lg font-semibold leading-snug">
-              <span class="mark">{d.data.title}</span>
-            </p>
+              { "pt-sm": d.data.img },
+            ]}
+          >
+            <h6 class="group-hover:underline">{d.data.title}</h6>
             <Fdate date={d.data.pubon} class="block text-sm text-muted-light" />
             <p>{d.data.desc}</p>
           </div>
-      </a>
-    </li>
-  )}
+        </a>
+      </li>
+    ))
+  }
 </ul>
 
 <style>
   @media (max-width: 765px) {
-    .list + .list::before {
+    [data-list] + [data-list]::before {
       content: "";
       display: block;
       width: 90%;
@@ -54,5 +70,13 @@ const blogs = unsorted_blogs?.sort((fst, snd) => snd.data.pubon.valueOf() - fst.
       margin-bottom: 2rem;
       background-color: theme(colors.muted.dark);
     }
+  }
+  a[href] {
+    text-decoration: none;
+  }
+  #blogs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr));
+    gap: theme(spacing.md);
   }
 </style>

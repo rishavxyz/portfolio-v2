@@ -7,52 +7,66 @@ import { SuperImg, Fdate, Divider } from "$lib/components";
 import { ReadingTime, Render } from "$lib/components/md";
 import { Layout } from "$lib/layouts";
 import { getCollection } from "astro:content";
-import { Header } from "$lib/layouts/content";
 
 export const getStaticPaths = (async () => {
   const entries = await getCollection("blog");
 
-  return entries.map(entry => ({
+  return entries.map((entry) => ({
     params: {
-      slug: entry.slug
+      slug: entry.slug,
     },
-    props: { entry }
+    props: { entry },
   }));
 }) satisfies GetStaticPaths;
 
 const {
   render,
-  data: {
-    title, desc, img, pubon
-  },
-  body
+  data: { title, desc, img, pubon },
+  body,
 } = Astro.props.entry;
 ---
 
-<Layout class="p-0" seo={{ title, desc, img, pubon }}
-  background="bg-white" foreground="text-black"
+<Layout
+  seo={{ title, desc, img, pubon }}
+  background="bg-white"
+  foreground="text-black"
 >
-  <section id="hero">
-    <Header hasDate {title} {desc}>
-      { img &&
-        <figure id="hero--image">
-          <SuperImg src={img} alt={`blog ${title}`}
-            class="rounded-md" width={1080} aspect="2/1"
+  <section id="hero" class="breakout">
+    {
+      img && (
+        <figure id="hero--image" class="mb-md">
+          <SuperImg
+            src={img}
+            alt={`blog ${title}`}
+            class="rounded-md"
+            width={1080}
+            aspect="2/1"
           />
         </figure>
-      }
-      <Fdate slot="date" date={pubon} />
-      <ReadingTime slot="reading-time" content={body} />
-    </Header>
+      )
+    }
+    <div id="hero--content" class="md:w-4/5 md:mx-auto space-y-sm text-center">
+      <h3>{title}</h3>
+      <p class="text-lg text-balance leading-snug">{desc}</p>
+      <div class="flex justify-between gap-2xs md:justify-center">
+        <Fdate slot="date" date={pubon} />
+        <span class="hidden md:inline text-muted-light">&bull;</span>
+        <ReadingTime slot="reading-time" content={body} />
+      </div>
+    </div>
   </section>
-  <Divider class="w-4/5 my-md mx-auto" />
-  <section class="p-4">
-    <Render {render} />
+  <Divider class="w-4/5 mx-auto" />
+  <section
+    class="in-grid lg:flex lg:flex-row-reverse lg:justify-center lg:gap-x-sm"
+  >
+    <Render {render} class="shrink-0" />
   </section>
   <section class="bg-[var(--color,#abcdef)]">
     <div class="max-w-[75ch] mx-auto p-4">
       <p class="text-lg font-bold">More like this</p>
-      <p class="text-center mix-blend-difference text-[#fff]">Work in progress</p>
+      <p class="text-center mix-blend-difference text-[#fff]">
+        Work in progress
+      </p>
     </div>
   </section>
 </Layout>
@@ -71,47 +85,60 @@ const {
   }
 
   @keyframes slide-down {
-    from { transform: translate3d(0, -100%, 0); }
-    to { transform: translate3d(0, 0%, 0); }
+    from {
+      transform: translate3d(0, -100%, 0);
+    }
+    to {
+      transform: translate3d(0, 0%, 0);
+    }
   }
 </style>
 
 <script>
   import Vibrant from "node-vibrant";
 
-  const img = document.querySelector("figure > img") as HTMLImageElement | undefined;
+  const img = document.querySelector("figure > img") as
+    | HTMLImageElement
+    | undefined;
 
   async function extractColors(img: HTMLImageElement) {
     if (typeof img == "undefined") return;
-    
+
     const { WebWorker, MMCQ } = Vibrant.Quantizer;
     const quantizer = WebWorker || MMCQ;
 
     try {
       const palette = await Vibrant.from(img.src)
-        .useQuantizer(quantizer).getPalette(); 
-      
-      const [hue] = palette.LightVibrant?.getHsl() ?? [245, 245, 245];
-      
-      document.documentElement.style.setProperty("--color",
-        `hsl(${Math.floor(hue*360)} 95 85)`
+        .useQuantizer(quantizer)
+        .getPalette();
+
+      const [hue] = palette.LightVibrant?.getHsl() ?? [245];
+
+      document.documentElement.style.setProperty(
+        "--color",
+        `hsl(${Math.floor(hue * 360)} 95 85)`,
       );
-      document.querySelector("body")?.animate(
-        [{ height: "80vh" }], {
-          delay: 480, duration: 800,
-          easing: "ease-in", fill: "forwards",
-          pseudoElement: "::before"
-        }
-      )
+      setTimeout(
+        () =>
+          // 1s delay so the animation does not get blocked
+          document.querySelector("body")?.animate([{ height: "80vh" }], {
+            delay: 480,
+            duration: 800,
+            easing: "ease-in",
+            fill: "forwards",
+            pseudoElement: "::before",
+          }),
+        1000,
+      );
     } catch (error) {
       console.error("Error:", error);
     }
-    
-    img.removeEventListener("load", ()=> extractColors(img));
+
+    img.removeEventListener("load", () => extractColors(img));
   }
 
   if (img) {
     if (img.complete) extractColors(img);
-    else img.addEventListener("load", ()=> extractColors(img));
+    else img.addEventListener("load", () => extractColors(img));
   }
 </script>

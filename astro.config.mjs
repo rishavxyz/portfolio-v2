@@ -4,11 +4,9 @@ import sitemap from '@astrojs/sitemap';
 import vercel from "@astrojs/vercel/serverless";
 import svelte from "@astrojs/svelte";
 import tailwind from "@astrojs/tailwind";
-
-const isProd = import.meta.env.PROD;
-const site = isProd
-  ? "https://v2.rishavmandal.xyz"
-  : "http://localhost:4321";
+// import compress from "astro-compress";
+import { dev }from "./src/lib/env";
+const site = dev ? "http://localhost:4321" : "https://v2.rishavmandal.xyz";
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,9 +15,11 @@ export default defineConfig({
   integrations: [mdx(), sitemap(), svelte(), tailwind()],
   output: "hybrid",
   adapter: vercel({
-    webAnalytics: { enabled: true },
+    webAnalytics: {
+      enabled: dev
+    },
     isr: {
-      expiration: false,
+      expiration: false
     }
-  }),
+  })
 });

@@ -5,20 +5,21 @@ import { AUTHOR, DESCRIPTION } from "$lib/consts";
 import { Layout, BlogPost } from "$lib/layouts";
 ---
 
-<Layout class="space-y-lg">
-  <section class="max-w-5xl mx-auto space-y-sm">
-    
+<Layout>
+  <section class="breakout primary rounded-lg p-sm space-y-sm">
     <div class="overflow-hidden">
-      <h1 data-animate class="heading uppercase">{AUTHOR}</h1>
+      <h1 data-animate class="leading-none uppercase font-display">{AUTHOR}</h1>
     </div>
 
     <div class="overflow-hidden">
-      <h2 data-animate class="text-2xl leading-snug font-serif">{DESCRIPTION}.</h2>
+      <h4 data-animate class="font-serif">
+        {DESCRIPTION}.
+      </h4>
     </div>
   </section>
 
-  <section id="post" class="max-w-5xl mx-auto">
-    <p class="mb-sm label">Latest blogs</p>
+  <section id="post" class="in-grid mb-md">
+    <p class="mb-md label">Latest blogs</p>
     <BlogPost />
   </section>
 </Layout>
@@ -28,22 +29,14 @@ import { Layout, BlogPost } from "$lib/layouts";
     will-change: transform, opacity;
     transform: translateY(100%);
   }
-  #post {
-    will-change: transform, opacity;
-    transform: translateY(80px);
-    opacity: 0;
-  }
 </style>
 
 <script>
   import { animate, stagger } from "motion";
 
-  animate("[data-animate]",
+  animate(
+    "[data-animate]",
     { y: ["100%", 0] },
-    { duration: 0.8, delay: stagger(0.1) }
-  );
-  animate("#post",
-    { y: [80, 0], opacity: [0,1,1,1] },
-    { duration: 0.8, delay: 0.5 }
+    { duration: 0.8, delay: stagger(0.1) },
   );
 </script>
