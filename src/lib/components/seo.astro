@@ -1,32 +1,40 @@
 ---
-import { AUTHOR } from '$lib/consts';
-import { getImage } from 'astro:assets';
+import { AUTHOR, DESCRIPTION } from "$lib/consts";
+import { getImage } from "astro:assets";
 
 interface Props {
-	title: string;
-	desc: string;
-	img: ImageMetadata;
-	pubon?: Date;
-	section?: string;
+  title: string;
+  desc: string;
+  img: ImageMetadata;
+  pubon?: Date;
+  section?: string;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const { title: _title, desc, img, pubon, section } = Astro.props;
 
-const enhancedTitle = `${_title} | ${AUTHOR}`
+const enhancedTitle = `${_title} | ${AUTHOR}`;
 
-const title = _title == AUTHOR ? AUTHOR
-	: enhancedTitle.length > 60 ? _title
-	: enhancedTitle;
+const title =
+  _title == AUTHOR
+    ? AUTHOR
+    : enhancedTitle.length > 60
+      ? _title
+      : enhancedTitle;
 
 const { src: ogImg } = await getImage({
-	src: img, format: "png", width: 1200, height: 630
+  src: img,
+  format: "png",
+  width: 1200,
+  height: 630,
 });
+
+const ogImgUrl = `https://ogcdn.net/2c2c6737-47d4-4459-9969-e711eb48394c/v1/${Astro.site}/${title}/${desc}/${ogImg}/og.png`;
 ---
 
 <!-- Global Metadata -->
-<link rel="shortcut icon" href="//fav.farm/🔥" type="image/x-icon">
+<link rel="shortcut icon" href="//fav.farm/🔥" type="image/x-icon" />
 <meta name="generator" content={Astro.generator} />
 
 <!-- Font preloads -->
@@ -45,23 +53,26 @@ const { src: ogImg } = await getImage({
 <meta property="og:title" content={title} />
 <meta property="og:description" content={desc} />
 <meta property="og:locale" content="en" />
-<meta property="og:image" content={new URL(ogImg, Astro.url)} />
+<meta property="og:image" content={ogImgUrl} />
 <!-- <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" /> -->
-{ pubon && <>
-	<meta property="article:author" content={AUTHOR} />
-	<meta property="article:published_time" content={new Date(pubon).toISOString()} />
-	</>
+{
+  pubon && (
+    <>
+      <meta property="article:author" content={AUTHOR} />
+      <meta
+        property="article:published_time"
+        content={new Date(pubon).toISOString()}
+      />
+    </>
+  )
 }
-{ section &&
-	<meta property="article:section" content={section} />
-}
+{section && <meta property="article:section" content={section} />}
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={Astro.url} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={desc} />
-<meta property="twitter:image" content={new URL(ogImg, Astro.url)} />
-<meta property="twitter:domain" content="v2.rishavmandal.xyz">
-	
+<meta property="twitter:image" content={ogImgUrl} />
+<meta property="twitter:domain" content="v2.rishavmandal.xyz" />
