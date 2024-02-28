@@ -1,5 +1,5 @@
 ---
-import { AUTHOR, DESCRIPTION } from "$lib/consts";
+import { AUTHOR } from "$lib/consts";
 import { getImage } from "astro:assets";
 
 interface Props {
@@ -54,8 +54,8 @@ const ogImgUrl = `https://ogcdn.net/2c2c6737-47d4-4459-9969-e711eb48394c/v1/${As
 <meta property="og:description" content={desc} />
 <meta property="og:locale" content="en" />
 <meta property="og:image" content={ogImgUrl} />
-<!-- <meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" /> -->
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 {
   pubon && (
     <>
