@@ -28,26 +28,29 @@ const {
 
 <Layout
   seo={{ title, desc, img, pubon }}
+  class="content"
   background="bg-white"
   foreground="text-black"
 >
-  <section id="hero" class:list={[
-    "in-grid flex flex-col lg:flex-row gap-md",
-    { "lg:justify-between": img },
-    { "lg:justify-center": !img } 
-  ]}>
+  <section
+    id="hero"
+    class:list={[
+      "mt-[calc(var(--space-xl)_+_0.5rem)] in-grid flex flex-col lg:flex-row gap-md",
+      { "lg:justify-between": img },
+      { "lg:justify-center": !img },
+    ]}
+  >
     {
       img && (
-        <figure id="hero--image" class="shrink-0">
-          <SuperImg
-            src={img}
-            alt={`blog ${title}`}
-            width={720}
-          />
+        <figure id="hero--image" class="shrink-0 rounded overflow-hidden">
+          <SuperImg src={img} alt={`blog ${title}`} width={720} />
         </figure>
       )
     }
-    <div id="hero--content" class:list={['space-y-sm text-center', { 'lg:text-left': img }]}>
+    <div
+      id="hero--content"
+      class:list={["space-y-sm text-center", { "lg:text-left": img }]}
+    >
       <div class="overflow-hidden">
         <h4 data-animate>{title}</h4>
       </div>
@@ -67,11 +70,13 @@ const {
   <section>
     <Render {render} />
   </section>
-  <section class="full-w content py-sm"
+  <section
+    class="full-w content pt-sm pb-lg rounded-t"
     style="
     color: color-mix(in lch, var(--color) 20%, currentColor);
     background-color: var(--color, #abcdef);
-  ">
+  "
+  >
     <h6>More like this</h6>
     <p>Coming very soon</p>
   </section>

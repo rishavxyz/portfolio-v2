@@ -24,33 +24,33 @@ function sortPosts(posts: CollectionEntry<"blog">[]) {
 const blogs = sortPosts(getPosts);
 ---
 
-<ul id="blogs">
+<ul id="blogs" class="[&>li+li]:border-t">
   {
     blogs.map((d, i) => (
-      <li class="group" data-list>
+      <li class="border-muted-light md:border-none">
         <a
           href={`/blog/${d.slug}`}
-          class="grid grid-cols-[2rem_1fr_2rem] grid-rows-[1fr_2rem_auto]"
+          class="group grid grid-cols-[var(--space-sm)_1fr_var(--space-sm)] grid-rows-[1fr_var(--space-md)_auto]"
           data-astro-prefetch
         >
           {d.data.img && (
-            <figure class="[grid-column:2/4] [grid-row:1/3]">
+            <figure class="[grid-column:2/4] [grid-row:1/3] mt-md md:mt-0 rounded overflow-hidden">
               <SuperImg
                 src={d.data.img}
                 loading={loading || i <= 3 ? "eager" : "lazy"}
                 alt={`Thumbnail of the post ${d.data.title}`}
-                width={480}
+                width={540}
               />
             </figure>
           )}
-          <div
-            class:list={[
-              "[grid-column:1/3] [grid-row:2/4] pr-sm lg:pb-sm space-y-xs bg-black text-white",
-              { "pt-sm": d.data.img },
-            ]}
-          >
-            <h6 class="group-hover:underline">{d.data.title}</h6>
-            <Fdate date={d.data.pubon} class="block text-sm text-muted-light" />
+          <div class="[grid-column:1/3] [grid-row:2/4] bg-white text-black rounded-tr pe-sm ps-0 pb-0 pt-sm">
+            <p class="font-semibold text-lg leading-snug group-hover:underline">
+              {d.data.title}
+            </p>
+            <Fdate
+              date={d.data.pubon}
+              class="block my-1 text-sm text-muted-dark"
+            />
             <p>{d.data.desc}</p>
           </div>
         </a>
@@ -60,23 +60,12 @@ const blogs = sortPosts(getPosts);
 </ul>
 
 <style>
-  @media (max-width: 765px) {
-    [data-list] + [data-list]::before {
-      content: "";
-      display: block;
-      width: 90%;
-      height: 1px;
-      margin-inline: auto;
-      margin-bottom: 2rem;
-      background-color: theme(colors.muted.dark);
-    }
-  }
   a[href] {
     text-decoration: none;
   }
   #blogs {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
     gap: theme(spacing.md);
   }
 </style>

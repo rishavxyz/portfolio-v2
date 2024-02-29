@@ -6,37 +6,97 @@ import { Layout, BlogPost } from "$lib/layouts";
 ---
 
 <Layout>
-  <section class="breakout primary rounded-lg p-sm space-y-sm">
-    <div class="overflow-hidden">
-      <h1 data-animate class="leading-none uppercase font-display">{AUTHOR}</h1>
-    </div>
-
-    <div class="overflow-hidden">
-      <h4 data-animate class="font-serif">
-        {DESCRIPTION}.
-      </h4>
+  <section class="fixed left-0 top-0 w-full" id="hero">
+    <div
+      class="h-[calc(100vh_+_200px)] space-y-sm pt-xl nice-background-with-animation"
+    >
+      <div class="content">
+        <div class="breakout">
+          <div class="overflow-hidden" id="author">
+            <p
+              data-text
+              class="text-6xl font-display leading-none mb-sm font-bold tracking-tight"
+            >
+              {AUTHOR}
+            </p>
+          </div>
+          <p data-text class="text-3xl leading-tight font-display" id="desc">
+            {
+              DESCRIPTION.split(" ").map((w, i) => (
+                <span style={`--delay:${i}00ms;`}>{w}&nbsp;</span>
+              ))
+            }
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section id="post" class="in-grid mb-md">
-    <p class="mb-md label">Latest blogs</p>
-    <BlogPost />
-  </section>
+  <div class="content" id="post-wrapper">
+    <section
+      id="post"
+      class="full-w rounded-t p-sm pb-xl relative z-[2] bg-white text-black"
+    >
+      <p class="mb-sm label">Latest blogs</p>
+      <BlogPost />
+    </section>
+  </div>
+
+  <style>
+    #post-wrapper {
+      will-change: transform;
+      margin-top: 100vh;
+      animation: top-up 0.8s ease-out forwards;
+      animation-delay: 2s;
+    }
+
+    @keyframes top-up {
+      to {
+        margin-top: 80vh;
+      }
+    }
+
+    p[data-text] > span {
+      display: inline-block;
+      opacity: 0.25;
+      will-change: opacity;
+      animation: appear 1s ease-out forwards;
+      animation-delay: calc(var(--delay) + 300ms);
+    }
+
+    @keyframes appear {
+      to {
+        opacity: 1;
+      }
+    }
+
+    #author > p {
+      transform: translateY(110%);
+      animation: show-up 0.8s ease-out forwards;
+      animation-delay: 10ms;
+    }
+
+    @keyframes show-up {
+      to {
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+  <script>
+    import gsap from "gsap";
+    import ScrollTrigger from "gsap/ScrollTrigger";
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.to("#hero", {
+      scrollTrigger: {
+        trigger: "#post",
+        markers: true,
+        start: "top 80%",
+        end: "+=0 0%",
+        scrub: 1,
+      },
+      y: -200,
+    });
+  </script>
 </Layout>
-
-<style>
-  [data-animate] {
-    will-change: transform, opacity;
-    transform: translateY(100%);
-  }
-</style>
-
-<script>
-  import { animate, stagger } from "motion";
-
-  animate(
-    "[data-animate]",
-    { y: ["100%", 0] },
-    { duration: 0.8, delay: stagger(0.1) },
-  );
-</script>

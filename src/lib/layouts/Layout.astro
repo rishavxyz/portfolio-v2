@@ -1,8 +1,4 @@
 ---
-import "@fontsource/oswald/400.css";
-import "@fontsource/oswald/500.css";
-import "@fontsource/oswald/600.css";
-import "@fontsource/oswald/700.css";
 import "@fontsource/pt-serif";
 import "@fontsource/ubuntu-mono";
 import "@fontsource/roboto/400.css";
@@ -83,15 +79,13 @@ const {
     </style></head
   >
 
-  <body class={cn("text-base bg-black text-white", background, foreground)}>
-    <div class="content">
-      <Header class="in-grid py-sm" />
+  <body class={cn("text-base bg-white text-black", background, foreground)}>
+    <div class="fixed top-0 left-0 w-full z-10" id="nav">
+      <Header class={cn("p-sm")} />
     </div>
-    <main class={"content " + cn(className)}>
+    <main class={cn(className)}>
       <slot />
     </main>
-    <div class="mt-md content">
-      <Footer />
-    </div>
+    <Footer class="-mt-md relative rounded-t z-[2] w-full" />
   </body>
 </html>

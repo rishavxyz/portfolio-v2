@@ -1,30 +1,40 @@
 ---
-import { AUTHOR } from "$lib/consts"
+import { AUTHOR } from "$lib/consts";
 import { cn } from "$lib/utils";
-import A from "./navLink.astro"
+import A from "./navLink.astro";
 
-const links =
-[ {name: "About", href: "about"}
-// , {name: "Projects", href: "project"}
-, {name: "Blogs", href: "blog"}
+const links = [
+  { name: "About", href: "about" },
+  // , {name: "Projects", href: "project"}
+  { name: "Blogs", href: "blog" },
 ];
 
 type Props = {
   class?: string;
-}
+};
 ---
 
-<nav id="top" class={cn(
-  "flex justify-between flex-wrap gap-4",
-  Astro.props.class
-)}>
+<nav
+  id="top"
+  class={cn("flex justify-between flex-wrap gap-x-4", Astro.props.class)}
+>
   <ul>
-    <li><a href="/" class="font-display font-semibold uppercase" data-astro-prefetch>{AUTHOR}</a></li>
+    <li>
+      <a href="/" class="font-display font-semibold" data-astro-prefetch
+        >{AUTHOR}</a
+      >
+    </li>
   </ul>
   <ul class="flex flex-wrap justify-center gap-4 ml-auto">
-		{ links.map(({name, href}) =>
-			<li><A href={`/${href}`} class="contrast" data-astro-prefetch>{name}</A></li>
-		)}
+    {
+      links.map(({ name, href }) => (
+        <li>
+          <A href={`/${href}`} class="contrast" data-astro-prefetch>
+            {name}
+          </A>
+        </li>
+      ))
+    }
   </ul>
 </nav>
 

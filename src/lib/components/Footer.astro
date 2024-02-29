@@ -1,57 +1,82 @@
 ---
 import { AUTHOR } from "$lib/consts";
+import { cn } from "$lib/utils";
 import Header from "./Header.astro";
 
 const today = new Date();
 
 const socialLinks = {
-	github: { name: "GitHub", href: "https://github.com/rishavxyz" },
-	codewars: { name: "Codewars", href: "https://www.codewars.com/users/rishavxyz" }
+  github: { name: "GitHub", href: "https://github.com/rishavxyz" },
+  codewars: {
+    name: "Codewars",
+    href: "https://www.codewars.com/users/rishavxyz",
+  },
 };
 
 const myEmailAddr = "email@rishavmandal.xyz";
+type Props = {
+  class?: string;
+};
+const className = Astro.props.class;
 ---
 
-<footer class="in-grid mb-sm p-sm bg-[lightpink] rounded-lg md:flex md:flex-row-reverse md:justify-between"
+<footer
+  class={cn(
+    "p-sm bg-[lightpink] md:flex md:flex-row-reverse md:justify-between",
+    className,
+  )}
   style="color: color-mix(in lch, lightpink 20%, black);"
-  >
-		<section>
-			<p class="text-2xl font-serif font-semibold mb-3xs leading-tight">Feel free to drop me a message</p>
-			<p class="flex flex-wrap gap-1.5 leading-tight">
-				<a href={`mailto:${myEmailAddr}`}>{myEmailAddr}</a>
-				or
-				<button onclick="copyemail()" class="inline underline">copy email to clipboard</button>
-			</p>
-			<p class="mt-xs">Find me on <a href={socialLinks.github.href}>{socialLinks.github.name}</a>.</p>
-			<p>I learn Haskell at <a href={socialLinks.codewars.href}>{socialLinks.codewars.name}</a>.</p>
-		</section>
-		<section class="text-center">
-			<Header class="mb-2 block text-center" />
-			<p class="mb-sm"><a href="#top" class="underline">Back to top</a></p>
-			<p class="text-sm text-muted-dark">&copy;
-				{today.getFullYear()} { AUTHOR }. All rights reserved.</p
-			>
-		</section>
+>
+  <section>
+    <p class="text-2xl font-serif font-semibold mb-3xs leading-tight">
+      Feel free to drop me a message
+    </p>
+    <p class="flex flex-wrap gap-1.5 leading-tight">
+      <a href={`mailto:${myEmailAddr}`}>{myEmailAddr}</a>
+      or
+      <button onclick="copyemail()" class="inline underline"
+        >copy email to clipboard</button
+      >
+    </p>
+    <p class="mt-xs">
+      Find me on <a href={socialLinks.github.href}>{socialLinks.github.name}</a
+      >.
+    </p>
+    <p>
+      I learn Haskell at <a href={socialLinks.codewars.href}
+        >{socialLinks.codewars.name}</a
+      >.
+    </p>
+  </section>
+  <section class="text-center">
+    <Header class="mb-2 block text-center" />
+    <p class="mb-sm"><a href="#top" class="underline">Back to top</a></p>
+    <p class="text-sm text-muted-dark">
+      &copy;
+      {today.getFullYear()}
+      {AUTHOR}. All rights reserved.
+    </p>
+  </section>
 </footer>
 
 <style>
-	footer > section:first-child > p > a[href^="http"] {
-		color: theme(colors.secondary.800);
-	}
-	footer > section + section {
-		margin-top: theme(spacing.sm);
-	}
+  footer > section:first-child > p > a[href^="http"] {
+    color: theme(colors.secondary.800);
+  }
+  footer > section + section {
+    margin-top: theme(spacing.sm);
+  }
 </style>
 
 <script is:inline>
-	const myEmailAddr = "email@rishavmandal.xyz";
+  const myEmailAddr = "email@rishavmandal.xyz";
 
-	function copyemail() {
-		navigator.clipboard.writeText(myEmailAddr);
-		const btn = document.querySelector("button[onclick]");
-		btn.innerHTML = "copied to clipboard";
-		setTimeout(() => {
-			btn.innerHTML = "copy email to clipboard"
-		}, 4000);
-	}
+  function copyemail() {
+    navigator.clipboard.writeText(myEmailAddr);
+    const btn = document.querySelector("button[onclick]");
+    btn.innerHTML = "copied to clipboard";
+    setTimeout(() => {
+      btn.innerHTML = "copy email to clipboard";
+    }, 4000);
+  }
 </script>
