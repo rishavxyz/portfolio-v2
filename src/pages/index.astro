@@ -5,98 +5,87 @@ import { AUTHOR, DESCRIPTION } from "$lib/consts";
 import { Layout, BlogPost } from "$lib/layouts";
 ---
 
-<Layout>
-  <section class="fixed left-0 top-0 w-full" id="hero">
-    <div
-      class="h-[calc(100vh_+_200px)] space-y-sm pt-xl nice-background-with-animation"
-    >
-      <div class="content">
-        <div class="breakout">
-          <div class="overflow-hidden" id="author">
-            <p
-              data-text
-              class="text-6xl font-display leading-none mb-sm font-bold tracking-tight"
-            >
-              {AUTHOR}
-            </p>
-          </div>
-          <p data-text class="text-3xl leading-tight font-display" id="desc">
-            {
-              DESCRIPTION.split(" ").map((w, i) => (
-                <span style={`--delay:${i}00ms;`}>{w}&nbsp;</span>
-              ))
-            }
-          </p>
-        </div>
+<Layout class="pb-md">
+  <section
+    id="hero"
+    class="full-w h-[90vh] lg:h-screen top-0 left-0 py-xl nice-background-with-animation"
+  >
+    <div class="content">
+      <div class="breakout pt-2xs overflow-hidden" id="h1-wrapper">
+        <h1 class="tracking-tight uppercase">
+          {
+            AUTHOR.split("").map((c) =>
+              c == " " ? (
+                <span class="char invisible inline-block">{c}&nbsp;</span>
+              ) : (
+                <span class="char invisible inline-block">{c}</span>
+              ),
+            )
+          }
+        </h1>
+      </div>
+      <div class="breakout mt-md">
+        <h2 class="font-display font-light leading-[1.075]">
+          {
+            DESCRIPTION.split(" ").map((w) => (
+              <span class="word inline-block opacity-25">{w}&nbsp;</span>
+            ))
+          }
+        </h2>
       </div>
     </div>
   </section>
 
-  <div class="content" id="post-wrapper">
-    <section
-      id="post"
-      class="full-w rounded-t p-sm pb-xl relative z-[2] bg-white text-black"
-    >
-      <p class="mb-sm label">Latest blogs</p>
+  <section class="block full-w -mt-sm p-sm rounded-t z-[2] bg-white">
+    <div id="blogs">
+      <p class="label mb-sm">Latest blogs</p>
       <BlogPost />
-    </section>
-  </div>
+    </div>
+  </section>
+</Layout>
 
-  <style>
-    #post-wrapper {
-      will-change: transform;
-      margin-top: 100vh;
-      animation: top-up 0.8s ease-out forwards;
-      animation-delay: 2s;
-    }
+<script>
+  import gsap from "gsap";
+  import ScrollTrigger from "gsap/ScrollTrigger";
 
-    @keyframes top-up {
-      to {
-        margin-top: 80vh;
-      }
-    }
-
-    p[data-text] > span {
-      display: inline-block;
-      opacity: 0.25;
-      will-change: opacity;
-      animation: appear 1s ease-out forwards;
-      animation-delay: calc(var(--delay) + 300ms);
-    }
-
-    @keyframes appear {
-      to {
-        opacity: 1;
-      }
-    }
-
-    #author > p {
-      transform: translateY(110%);
-      animation: show-up 0.8s ease-out forwards;
-      animation-delay: 10ms;
-    }
-
-    @keyframes show-up {
-      to {
-        transform: translateY(0);
-      }
-    }
-  </style>
-
-  <script>
-    import gsap from "gsap";
-    import ScrollTrigger from "gsap/ScrollTrigger";
+  onload = () => {
     gsap.registerPlugin(ScrollTrigger);
 
-    gsap.to("#hero", {
-      scrollTrigger: {
-        trigger: "#post",
-        markers: true,
-        start: "top 80%",
-        end: "+=0 0%",
-        scrub: 1,
-      },
-      y: -200,
+    const tl = gsap.timeline();
+    gsap.set("span.char", {
+      yPercent: 100,
+      visibility: "visible",
     });
-  </script>
-</Layout>
+
+    gsap.to("span.char", { yPercent: 0, stagger: 0.1, ease: "back.out" });
+    tl.to("span.word", { opacity: 1, stagger: 0.05, delay: 0.5 });
+    tl.to("#hero", { height: "auto" });
+
+    // gsap.to("#hero", {
+    //   y: -200,
+    //   scrollTrigger: {
+    //     trigger: "#blogs",
+    //     scrub: 0.8,
+    //     markers: true,
+    //     start: `top 90%`,
+    //     end: "top +=0",
+    //   },
+    // });
+  };
+</script>
+
+<noscript>
+  <style>
+    span.char {
+      visibility: visible;
+    }
+    span.word {
+      opacity: 1;
+    }
+    #blogs {
+      visibility: visible;
+      margin-top: calc(var(--space-md) * -1);
+      transform: translateY(0);
+    }
+  </style>
+</noscript>

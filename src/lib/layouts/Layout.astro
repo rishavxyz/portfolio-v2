@@ -83,9 +83,18 @@ const {
     <div class="fixed top-0 left-0 w-full z-10" id="nav">
       <Header class={cn("p-sm")} />
     </div>
-    <main class={cn(className)}>
+    <main class={cn("content", className)}>
       <slot />
     </main>
     <Footer class="-mt-md relative rounded-t z-[2] w-full" />
+    <script>
+      onscroll = () => {
+        const nav = document.querySelector("#nav")! as HTMLElement;
+        nav.style.transition = "transform 0.8s ease-out";
+        if (scrollY > 0) {
+          nav.style.transform = "translateY(-100%)";
+        } else nav.style.transform = "translateY(0%)";
+      };
+    </script>
   </body>
 </html>

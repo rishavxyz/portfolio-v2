@@ -20,6 +20,7 @@
     radial-gradient(at 12% 46%, hsl(320, 100%, 75%) 0px, transparent 50%),
     radial-gradient(at 17% 90%, hsl(240, 88%, 80%) 0px, transparent 50%),
     radial-gradient(at 91% 89%, hsl(275, 100%, 77%) 0px, transparent 50%);
+  background-position: 50% 100%;
 }
 
 .nice-background-with-animation {
@@ -38,8 +39,10 @@
     radial-gradient(at 91% 89%, hsl(275, 100%, 77%) 0px, transparent 25%);
 
   background-size: 400% 400%;
+  background-position: 50% 100%;
   object-fit: cover;
   animation: chicken 3s ease forwards;
+  animation-delay: 1s;
 }
 
 @keyframes chicken {
@@ -59,14 +62,17 @@
   display: grid;
   grid-template-columns:
     [fw-start] theme(spacing.sm) [in-grid-start] minmax(0, 1fr)
-    [breakout-start] minmax(0, 8rem) [content-start] min(
+    [breakout-start] minmax(0, 15rem) [content-start] min(
       100% - 2 * theme(spacing.sm),
       theme(maxWidth.prose)
     )
-    [content-end] minmax(0, 8rem) [breakout-end] minmax(0, 1fr) [in-grid-end] theme(
+    [content-end] minmax(0, 15rem) [breakout-end] minmax(0, 1fr) [in-grid-end] theme(
       spacing.sm
     )
     [fw-end];
+}
+
+.content-gap {
   row-gap: theme(spacing.md);
 }
 

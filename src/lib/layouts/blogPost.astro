@@ -3,12 +3,14 @@ import { Fdate, SuperImg } from "$lib/components";
 import { dev } from "$lib/env";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
+import { cn } from "$lib/utils";
 
 type Props = {
   loading?: "lazy" | "eager";
+  class?: string;
 };
 
-const { loading } = Astro.props;
+const { loading, class: cls } = Astro.props;
 
 const getPosts = await getCollection("blog");
 function sortPosts(posts: CollectionEntry<"blog">[]) {
@@ -24,7 +26,7 @@ function sortPosts(posts: CollectionEntry<"blog">[]) {
 const blogs = sortPosts(getPosts);
 ---
 
-<ul id="blogs" class="[&>li+li]:border-t">
+<ul id="blogs" class={"[&>li+li]:border-t " + cn(cls)}>
   {
     blogs.map((d, i) => (
       <li class="border-muted-light md:border-none">
