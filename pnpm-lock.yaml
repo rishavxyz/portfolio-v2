@@ -38,6 +38,9 @@ dependencies:
   '@fontsource/ubuntu-mono':
     specifier: ^5.0.18
     version: 5.0.18
+  '@studio-freight/lenis':
+    specifier: ^1.0.39
+    version: 1.0.39
   astro:
     specifier: ^4.4.0
     version: 4.4.4(typescript@5.3.3)
@@ -1352,6 +1355,10 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /@studio-freight/lenis@1.0.39:
+    resolution: {integrity: sha512-63LPZD087kFSiNS3lF6Uve8fFeshQwNCXrl7DUocoeUYiElVTzr9a+dLodNBa0Yn5NZ4umAoQQ6LOosB5I6AAQ==}
+    dev: false
 
   /@sveltejs/vite-plugin-svelte-inspector@2.0.0(@sveltejs/vite-plugin-svelte@3.0.2)(svelte@4.2.12)(vite@5.1.4):
     resolution: {integrity: sha512-gjr9ZFg1BSlIpfZ4PRewigrvYmHWbDrq2uvvPB1AmTWKuM+dI1JXQSUu2pIrYLb/QncyiIGkFDFKTwJ0XqQZZg==}

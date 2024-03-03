@@ -79,22 +79,30 @@ const {
     </style></head
   >
 
-  <body class={cn("text-base bg-white text-black", background, foreground)}>
-    <div class="fixed top-0 left-0 w-full z-10" id="nav">
-      <Header class={cn("p-sm")} />
-    </div>
+  <body class={cn("text-base bg-black text-white", background, foreground)}>
     <main class={cn("content", className)}>
       <slot />
     </main>
-    <Footer class="-mt-md relative rounded-t z-[2] w-full" />
-    <script>
-      onscroll = () => {
-        const nav = document.querySelector("#nav")! as HTMLElement;
-        nav.style.transition = "transform 0.8s ease-out";
-        if (scrollY > 0) {
-          nav.style.transform = "translateY(-100%)";
-        } else nav.style.transform = "translateY(0%)";
-      };
-    </script>
+    <style is:inline>
+      html.lenis {
+        height: auto;
+      }
+
+      .lenis.lenis-smooth {
+        scroll-behavior: auto !important;
+      }
+
+      .lenis.lenis-smooth [data-lenis-prevent] {
+        overscroll-behavior: contain;
+      }
+
+      .lenis.lenis-stopped {
+        overflow: hidden;
+      }
+
+      .lenis.lenis-scrolling iframe {
+        pointer-events: none;
+      }
+    </style>
   </body>
 </html>

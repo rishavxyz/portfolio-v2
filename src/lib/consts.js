@@ -3,7 +3,5 @@
 
 export const TITLE = "Rishav Mandal";
 export const AUTHOR = "Rishav Mandal";
-export const DESCRIPTION = "I build websites with a blend of frontend engineering and perfect design experience";
-
-
-
+export const DESCRIPTION =
+  "I like to build websites with a blend of frontend engineering and design experience.";

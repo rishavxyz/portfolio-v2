@@ -5,87 +5,169 @@ import { AUTHOR, DESCRIPTION } from "$lib/consts";
 import { Layout, BlogPost } from "$lib/layouts";
 ---
 
-<Layout class="pb-md">
+<div
+  class="fixed w-full h-screen bg-black text-white grid place-items-center z-10"
+  id="loader"
+>
+  <div class="p-sm overflow-hidden invisible" id="loader--text-wrapper">
+    <p class="label loader--text" id="loader--text">Naam toh suna hi hoga</p>
+    <p class="text-muted-light text-sm loader--text">Kehetw hai mujhe...</p>
+  </div>
+</div>
+
+<Layout class="overflow-hidden">
   <section
     id="hero"
-    class="full-w h-[90vh] lg:h-screen top-0 left-0 py-xl nice-background-with-animation"
+    class="full-w relative bg-primary-600 grid place-items-center text-white h-screen py-md"
   >
-    <div class="content">
-      <div class="breakout pt-2xs overflow-hidden" id="h1-wrapper">
-        <h1 class="tracking-tight uppercase">
-          {
-            AUTHOR.split("").map((c) =>
-              c == " " ? (
-                <span class="char invisible inline-block">{c}&nbsp;</span>
-              ) : (
-                <span class="char invisible inline-block">{c}</span>
-              ),
-            )
-          }
-        </h1>
+    <canvas id="gradient-canvas" data-transition-in></canvas>
+    <div class="breakout space-y-sm p-sm">
+      <h1 class="text-center tracking-tighter uppercase">
+        {AUTHOR}
+      </h1>
+      <p class="font-display">{DESCRIPTION}</p>
+    </div>
+  </section>
+
+  <section
+    id="desc"
+    class="full-w content bg-white text-black min-h-screen py-md overflow-hidden"
+  >
+    <div class="breakout">
+      <p class="label">About me</p>
+      <div class="relative overflow-hidden">
+        <div id="shader" class="absolute inset-0 bg-white"></div>
+        <p
+          id="about-me"
+          class="text-2xl md:text-4xl font-display font-light leading-tight text-white [&>span]:text-black"
+        >
+          I'm currently a <span>final year</span> computer science <span
+            >student</span
+          > based in India <span>who loves</span> building websites. Not only <span
+            >frontend</span
+          > but also interested in backend technologies.
+        </p>
       </div>
-      <div class="breakout mt-md">
-        <h2 class="font-display font-light leading-[1.075]">
-          {
-            DESCRIPTION.split(" ").map((w) => (
-              <span class="word inline-block opacity-25">{w}&nbsp;</span>
-            ))
-          }
-        </h2>
+    </div>
+
+    <div class="relative min-h-80" id="ball-wrapper">
+      <div
+        id="ball"
+        class="z-[-1] absolute top-0 right-0 h-96 w-96 rounded-full bg-indigo-700 blur-md"
+      >
       </div>
     </div>
   </section>
 
-  <section class="block full-w -mt-sm p-sm rounded-t z-[2] bg-white">
-    <div id="blogs">
-      <p class="label mb-sm">Latest blogs</p>
-      <BlogPost />
-    </div>
+  <section
+    id="something"
+    class="z-[2] full-w content bg-indigo-700 min-h-screen grid place-items-center"
+  >
+    <h3>Work in progress</h3>
   </section>
 </Layout>
 
+<style>
+  #gradient-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    height: 100vh;
+    width: 100%;
+    filter: brightness(0.89) saturate(0.8);
+    /* --gradient-color-1: #fe6860;
+    --gradient-color-2: #fe8a71;
+    --gradient-color-3: #d9bbae;
+    --gradient-color-4: #f3c9bf; */
+
+    --gradient-color-1: black;
+    --gradient-color-2: theme(colors.emerald.600);
+    --gradient-color-3: black;
+    --gradient-color-4: theme(colors.primary.300);
+  }
+</style>
+
 <script>
+  import { Gradient } from "$lib/gradient.js";
+
+  import Lenis from "@studio-freight/lenis";
   import gsap from "gsap";
   import ScrollTrigger from "gsap/ScrollTrigger";
 
-  onload = () => {
-    gsap.registerPlugin(ScrollTrigger);
+  // Create your instance
+  const gradient = new Gradient();
+  // Call `initGradient` with the selector to your canvas
+  // @ts-expect-error
+  gradient.initGradient("#gradient-canvas");
 
-    const tl = gsap.timeline();
-    gsap.set("span.char", {
-      yPercent: 100,
-      visibility: "visible",
-    });
+  const lenis = new Lenis();
+  lenis.on("scroll", ScrollTrigger.update);
+  gsap.registerPlugin(ScrollTrigger);
 
-    gsap.to("span.char", { yPercent: 0, stagger: 0.1, ease: "back.out" });
-    tl.to("span.word", { opacity: 1, stagger: 0.05, delay: 0.5 });
-    tl.to("#hero", { height: "auto" });
+  gsap.ticker.add((t) => lenis.raf(t * 1e3));
+  gsap.ticker.lagSmoothing(0);
 
-    // gsap.to("#hero", {
-    //   y: -200,
-    //   scrollTrigger: {
-    //     trigger: "#blogs",
-    //     scrub: 0.8,
-    //     markers: true,
-    //     start: `top 90%`,
-    //     end: "top +=0",
-    //   },
-    // });
-  };
+  // progressive enhancements
+  gsap.set("#loader--text-wrapper", { visibility: "visible" });
+  gsap.set(".loader--text", { y: 100 });
+  gsap.set("#desc", { scale: 0.8 });
+
+  // animations
+  gsap
+    .timeline()
+    .to(".loader--text", { y: 0, stagger: 0.02, ease: "expo.out", duration: 1 })
+    .to("#loader", { yPercent: -100, delay: 4, duration: 1.2 });
+
+  gsap.to("#hero", {
+    scale: 0.8,
+    yPercent: 100,
+    scrollTrigger: {
+      trigger: "#desc",
+      start: "top bottom",
+      end: "top 20%",
+      // markers: true,
+      scrub: true,
+    },
+  });
+  gsap.to("#shader", {
+    yPercent: 100,
+    scrollTrigger: {
+      trigger: "#desc",
+      start: "top 75%",
+      end: "+=100",
+      // markers: true,
+      scrub: true,
+    },
+  });
+  gsap.to("#desc", {
+    scale: 1,
+    scrollTrigger: {
+      trigger: "#desc",
+      start: "top 80%",
+      end: "top 40%",
+      // markers: true,
+      toggleActions: "play pause resume reset",
+      scrub: true,
+    },
+  });
+  gsap.to("#ball", {
+    scale: 8,
+    scrollTrigger: {
+      trigger: "#ball-wrapper",
+      // markers: true,
+      scrub: true,
+      start: "top bottom",
+      end: "top 60%",
+    },
+  });
+  gsap.to("#ball", {
+    display: "none",
+    scrollTrigger: {
+      trigger: "#something",
+      // markers: true,
+      start: "top top",
+      end: "top top",
+      scrub: true,
+    },
+  });
 </script>
-
-<noscript>
-  <style>
-    span.char {
-      visibility: visible;
-    }
-    span.word {
-      opacity: 1;
-    }
-    #blogs {
-      visibility: visible;
-      margin-top: calc(var(--space-md) * -1);
-      transform: translateY(0);
-    }
-  </style>
-</noscript>

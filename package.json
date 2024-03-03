@@ -22,6 +22,7 @@
     "@fontsource/pt-serif": "^5.0.19",
     "@fontsource/roboto": "^5.0.8",
     "@fontsource/ubuntu-mono": "^5.0.18",
+    "@studio-freight/lenis": "^1.0.39",
     "astro": "^4.4.0",
     "astro-compress": "^2.2.11",
     "clsx": "^2.1.0",
