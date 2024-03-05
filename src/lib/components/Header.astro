@@ -20,16 +20,14 @@ type Props = {
 >
   <ul>
     <li>
-      <a href="/" class="font-display font-semibold" data-astro-prefetch
-        >{AUTHOR}</a
-      >
+      <a href="/" class="font-semibold" data-astro-prefetch>{AUTHOR}</a>
     </li>
   </ul>
   <ul class="flex flex-wrap justify-center gap-4 ml-auto">
     {
       links.map(({ name, href }) => (
         <li>
-          <A href={`/${href}`} class="contrast" data-astro-prefetch>
+          <A href={`/${href}`} data-astro-prefetch>
             {name}
           </A>
         </li>

@@ -54,7 +54,27 @@ const {
       section={seo.section}
       pubon={seo.pubon}
     />
-    <style>
+    <style is:inline>
+      html.lenis {
+        height: auto;
+      }
+
+      .lenis.lenis-smooth {
+        scroll-behavior: auto !important;
+      }
+
+      .lenis.lenis-smooth [data-lenis-prevent] {
+        overscroll-behavior: contain;
+      }
+
+      .lenis.lenis-stopped {
+        overflow: hidden;
+      }
+
+      .lenis.lenis-scrolling iframe {
+        pointer-events: none;
+      }
+    </style><style>
       body::before {
         content: "";
         position: absolute;
@@ -80,29 +100,10 @@ const {
   >
 
   <body class={cn("text-base bg-black text-white", background, foreground)}>
-    <main class={cn("content", className)}>
+    <Header class="fixed top-0 w-full z-10 p-sm mix-blend-difference" />
+    <main class={cn(className)}>
       <slot />
     </main>
-    <style is:inline>
-      html.lenis {
-        height: auto;
-      }
-
-      .lenis.lenis-smooth {
-        scroll-behavior: auto !important;
-      }
-
-      .lenis.lenis-smooth [data-lenis-prevent] {
-        overscroll-behavior: contain;
-      }
-
-      .lenis.lenis-stopped {
-        overflow: hidden;
-      }
-
-      .lenis.lenis-scrolling iframe {
-        pointer-events: none;
-      }
-    </style>
+    <Footer />
   </body>
 </html>

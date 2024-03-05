@@ -4,14 +4,43 @@ import {
 } from "tailwindcss/defaultTheme";
 import typography from "@tailwindcss/typography";
 import forms from "@tailwindcss/forms";
-import { amber, rose, neutral } from "tailwindcss/colors";
+import colors, { amber, rose, neutral } from "tailwindcss/colors";
 import plugin from "tailwindcss/plugin";
+import svelteUX from "svelte-ux/plugins/tailwind.cjs";
 
 const { DEFAULT, ...borderRadiuses } = rounded;
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  content: [
+    "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
+    "./node_modules/svelte-ux/**/*.{svelte,js}",
+  ],
+  ux: {
+    // See customization docs
+    themes: {
+      light: {
+        primary: colors["orange"]["500"],
+        "primary-content": "white",
+        secondary: colors["blue"]["500"],
+        "surface-100": "white",
+        "surface-200": colors["gray"]["100"],
+        "surface-300": colors["gray"]["300"],
+        "surface-content": colors["gray"]["900"],
+        "color-scheme": "light",
+      },
+      dark: {
+        primary: colors["orange"]["500"],
+        "primary-content": "white",
+        secondary: colors["blue"]["500"],
+        "surface-100": colors["zinc"]["800"],
+        "surface-200": colors["zinc"]["900"],
+        "surface-300": colors["zinc"]["950"],
+        "surface-content": colors["zinc"]["100"],
+        "color-scheme": "dark",
+      },
+    },
+  },
   theme: {
     borderRadius: {
       DEFAULT: "clamp(1.44rem, 1.3051rem + 0.771vi, 1.999rem)",
@@ -117,5 +146,6 @@ export default {
         },
       }),
     ),
+    svelteUX,
   ],
 };

@@ -26,17 +26,17 @@ function sortPosts(posts: CollectionEntry<"blog">[]) {
 const blogs = sortPosts(getPosts);
 ---
 
-<ul id="blogs" class={"[&>li+li]:border-t " + cn(cls)}>
+<ul id="blogs" class={cn(cls)}>
   {
     blogs.map((d, i) => (
-      <li class="border-muted-light md:border-none">
+      <li class="border-muted-light md:border-none blog">
         <a
           href={`/blog/${d.slug}`}
-          class="group grid grid-cols-[var(--space-sm)_1fr_var(--space-sm)] grid-rows-[1fr_var(--space-md)_auto]"
+          class="block overflow-hidden rounded"
           data-astro-prefetch
         >
           {d.data.img && (
-            <figure class="[grid-column:2/4] [grid-row:1/3] mt-md md:mt-0 rounded overflow-hidden">
+            <figure class="overflow-hidden bg-black">
               <SuperImg
                 src={d.data.img}
                 loading={loading || i <= 3 ? "eager" : "lazy"}
@@ -45,16 +45,14 @@ const blogs = sortPosts(getPosts);
               />
             </figure>
           )}
-          <div class="[grid-column:1/3] [grid-row:2/4] bg-white text-black rounded-tr pe-sm ps-0 pb-0 pt-sm">
-            <p class="font-semibold text-lg leading-snug group-hover:underline">
-              {d.data.title}
-            </p>
+          <div class="bg-black p-sm rounded relative z-[1]" class:list={[{"-mt-md": d.data.img}]}>
+            <p class="font-semibold text-lg leading-snug">{d.data.title}</p>
             <Fdate
               date={d.data.pubon}
-              class="block my-1 text-sm text-muted-dark"
+              class="block my-1 text-sm text-muted-light"
             />
             <p>{d.data.desc}</p>
-          </div>
+          <sdiv>
         </a>
       </li>
     ))
@@ -68,6 +66,6 @@ const blogs = sortPosts(getPosts);
   #blogs {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
-    gap: theme(spacing.md);
+    gap: theme(spacing.sm);
   }
 </style>

@@ -31,7 +31,9 @@
     "motion": "^10.17.0",
     "node-vibrant": "3.1.6",
     "sharp": "^0.33.2",
+    "splitting": "^1.0.6",
     "svelte": "^4.2.10",
+    "svelte-ux": "^0.60.6",
     "tailwind-merge": "^2.2.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3"
@@ -39,6 +41,7 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.10",
+    "@types/splitting": "^1.0.6",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11"
   },
