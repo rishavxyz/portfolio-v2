@@ -10,9 +10,11 @@ type Props = {
   class?: string;
 };
 
+
 const { loading, class: cls } = Astro.props;
 
 const getPosts = await getCollection("blog");
+
 function sortPosts(posts: CollectionEntry<"blog">[]) {
   const filterDraftPosts = posts.filter((post) =>
     dev ? post : post.data.draft != true,
@@ -23,6 +25,7 @@ function sortPosts(posts: CollectionEntry<"blog">[]) {
 
   return sortedPosts;
 }
+
 const blogs = sortPosts(getPosts);
 ---
 

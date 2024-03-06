@@ -3,7 +3,8 @@ title: Introduction to Haskell for JavaScript developers
 desc: A brief introduction to Haskell. A Purely Functional Programming Language with super powers.
 pubon: 2/24/2024, 08:46 PM
 draft: false
-img: '$img/panda-haskell.png'
+img: "$img/panda-haskell.png"
+category: haskell
 ---
 
 ## Why Haskell?
@@ -119,7 +120,6 @@ Did you notice I just put a single quote at the end of the variable name?
 
 Well in Haskell you are allowed to use a signle quote as a variable name too.
 
-
 > What if I do `myList' = [1..]` ?
 
 Well in that case you have just created an **infinite loop**. If you call `myList'` then it won't stop producing an integer until the process is terminated.
@@ -209,7 +209,9 @@ List comprehensions are powerful tools in Haskell. They allow concise creation o
 addOne :: [Int]
 addOne = [n+1 | n <- [1..10]]
 ```
+
 The syntax is very easy to under stand, the above will be this:
+
 > From a list of one to ten, we take each number and add one to it.
 
 The cherry on top that we can also use predicates here.
@@ -220,11 +222,12 @@ The cherry on top that we can also use predicates here.
 addOne' :: [Int]
 addOne' = [n+1 | n <- [1..10], n > 3]
 ```
+
 Predicates are written on the right side seperated by a comma.
 
 The above code can be said as:
-> From a list of one to ten, we take each number such that the number is greater than three and add one to it.
 
+> From a list of one to ten, we take each number such that the number is greater than three and add one to it.
 
 ## Higher order functions: Map and Filter
 
@@ -252,7 +255,7 @@ evenNumbers xs = filter even xs
 
 The above code will return a new list of even numbers.
 
-**Remember,** both map and filter returns a new list and not in-place. 
+**Remember,** both map and filter returns a new list and not in-place.
 
 ### Lazy loading
 
@@ -321,33 +324,37 @@ alice = Person {name = "Alice", age = 30}
 ## Some common coding problems are solved in Haskell
 
 1. **Find the Last Element of a List**:
-    ```haskell
-    myLast :: [a] -> a
-    myLast xs = last xs
-    ```
+
+   ```haskell
+   myLast :: [a] -> a
+   myLast xs = last xs
+   ```
 
 2. **Find the Second-Last Element of a List**:
-    ```haskell
-    myButLast :: [a] -> a
-    myButLast xs = xs !! (length xs - 2)
-    ```
+
+   ```haskell
+   myButLast :: [a] -> a
+   myButLast xs = xs !! (length xs - 2)
+   ```
 
 3. **Find the K'th Element of a List**:
-    ```haskell
-    elementAt :: [a] -> Int -> a
-    elementAt xs n = xs !! (n - 1)
-    ```
+
+   ```haskell
+   elementAt :: [a] -> Int -> a
+   elementAt xs n = xs !! (n - 1)
+   ```
 
 4. **Reverse a List**:
-    ```haskell
-    myReverse :: [a] -> [a]
-    myReverse xs = reverse xs
-    ```
+
+   ```haskell
+   myReverse :: [a] -> [a]
+   myReverse xs = reverse xs
+   ```
 
 5. **Check if a List is a Palindrome**:
-    ```haskell
-    isPalindrome :: Eq a => [a] -> Bool
-    isPalindrome xs = xs == reverse xs
-    ```
+   ```haskell
+   isPalindrome :: Eq a => [a] -> Bool
+   isPalindrome xs = xs == reverse xs
+   ```
 
 Now you're equipped with the basics of Haskell. Dive deeper, explore monads, and embrace the elegance of functional programming! 🚀

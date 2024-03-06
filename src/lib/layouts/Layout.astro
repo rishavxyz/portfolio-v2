@@ -5,6 +5,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "/src/tailwind.css";
+import "splitting/dist/splitting.css";
 
 import type { CSSProperty } from "astro/types";
 import { Header, Footer, SEO } from "$lib/components";
@@ -15,6 +16,7 @@ import defaultImg from "$img/blog-placeholder-1.jpg";
 
 type Props = {
   class?: string;
+  navClass?: string;
   style?: CSSProperty;
   background?: string;
   foreground?: string;
@@ -29,6 +31,7 @@ type Props = {
 
 const {
   class: className,
+  navClass,
   background,
   foreground,
   seo = {
@@ -100,10 +103,17 @@ const {
   >
 
   <body class={cn("text-base bg-black text-white", background, foreground)}>
-    <Header class="fixed top-0 w-full z-10 p-sm mix-blend-difference" />
-    <main class={cn(className)}>
+    <div id="top"></div>
+    <Header
+      class={cn("fixed top-0 w-full z-10 p-sm mix-blend-difference", navClass)}
+    />
+    <main class={cn("pt-[calc(var(--space-xl)+0.5rem)]", className)}>
       <slot />
     </main>
-    <Footer />
+    <Footer class="bg-black text-white" />
+    <script>
+      import { lenis } from "$lib/effects";
+      lenis();
+    </script>
   </body>
 </html>

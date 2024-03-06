@@ -1,0 +1,58 @@
+<div
+  id="splash"
+  class="overflow-hidden fixed grid place-items-center w-full h-screen bg-black text-white z-20"
+>
+  <h1
+    class="uppercase overflow-hidden px-sm"
+    id="splash-text"
+    data-splitting="words"
+  >
+    Rishav mandal
+  </h1>
+  <div
+    class="absolute overflow-hidden inset-0 flex flex-col h-full justify-between"
+  >
+    <div class="bg-white flex-grow" id="splash-overlay-top"></div>
+    <div class="bg-white flex-grow" id="splash-overlay-bot"></div>
+  </div>
+</div>
+
+<script>
+  import { gsap } from "$lib/effects";
+  gsap.to("#splash-overlay-top", {
+    yPercent: -30,
+    duration: 0.8,
+    delay: 0.5,
+    ease: "power2.out",
+  });
+  gsap.to("#splash-overlay-bot", {
+    yPercent: 30,
+    duration: 0.8,
+    delay: 0.5,
+    ease: "power2.out",
+  });
+  gsap.from("#splash-text .word:first-child", {
+    yPercent: 100,
+    delay: 1,
+  });
+  gsap.from("#splash-text .word:last-child", {
+    yPercent: -100,
+    delay: 1.03,
+  });
+  gsap.to("#splash-overlay-top", {
+    yPercent: -100,
+    duration: 0.8,
+    delay: 2,
+    ease: "power2.out",
+  });
+  gsap.to("#splash-overlay-bot", {
+    yPercent: 100,
+    duration: 0.8,
+    delay: 2,
+    ease: "power2.out",
+  });
+  gsap.to("#splash", {
+    display: "none",
+    delay: 2.5,
+  });
+</script>

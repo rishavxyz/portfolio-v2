@@ -1,0 +1,12 @@
+---
+import { BlogPost } from "$lib/layouts";
+import { Shine } from "$lib/components";
+---
+<section class="min-h-screen bg-black">
+  <p class="label mb-md">Latest blogs</p>
+  <Shine client:visible>
+    <BlogPost />
+    <a href="/blog" class="btn bg-black label">View all</a>
+  </Shine>
+</section>
+

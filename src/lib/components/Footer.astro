@@ -21,14 +21,10 @@ const className = Astro.props.class;
 ---
 
 <footer
-  class={cn(
-    "p-sm bg-[lightpink] md:flex md:flex-row-reverse md:justify-between",
-    className,
-  )}
-  style="color: color-mix(in lch, lightpink 20%, black);"
+  class={cn("p-sm md:flex md:flex-row-reverse md:justify-between", className)}
 >
   <section>
-    <p class="text-2xl font-serif font-semibold mb-3xs leading-tight">
+    <p class="text-2xl font-display font-light mb-2xs leading-tight">
       Feel free to drop me a message
     </p>
     <p class="flex flex-wrap gap-1.5 leading-tight">
@@ -50,11 +46,15 @@ const className = Astro.props.class;
   </section>
   <section class="text-center">
     <Header class="mb-2 block text-center" />
-    <p class="mb-sm"><a href="#top" class="underline">Back to top</a></p>
-    <p class="text-sm text-muted-dark">
+    <p class="mb-sm">
+      <a href="#top" onclick="lenis.scrollTo('#top')" class="underline"
+        >Back to top</a
+      >
+    </p>
+    <p class="text-sm text-white/50">
       &copy;
       {today.getFullYear()}
-      {AUTHOR}. All rights reserved.
+      {AUTHOR}
     </p>
   </section>
 </footer>

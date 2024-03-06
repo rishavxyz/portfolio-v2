@@ -4,7 +4,7 @@ import { cn } from "$lib/utils";
 import A from "./navLink.astro";
 
 const links = [
-  { name: "About", href: "about" },
+  // { name: "About", href: "about" },
   // , {name: "Projects", href: "project"}
   { name: "Blogs", href: "blog" },
 ];
@@ -15,12 +15,14 @@ type Props = {
 ---
 
 <nav
-  id="top"
-  class={cn("flex justify-between flex-wrap gap-x-4", Astro.props.class)}
+  class={cn(
+    "flex justify-between flex-wrap gap-x-4 !font-display",
+    Astro.props.class,
+  )}
 >
   <ul>
     <li>
-      <a href="/" class="font-semibold" data-astro-prefetch>{AUTHOR}</a>
+      <a href="/" data-astro-prefetch>{AUTHOR}</a>
     </li>
   </ul>
   <ul class="flex flex-wrap justify-center gap-4 ml-auto">

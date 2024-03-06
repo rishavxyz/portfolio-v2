@@ -1,0 +1,42 @@
+<section
+  class="bg-indigo-400 text-black relative z-[2]"
+  id="flex-on-haskell-wrapper"
+>
+  <p
+    class="font-display text-3xl lg:text-4xl leading-tight tracking-tight font-light overflow-hidden will-change-transform"
+    id="flex-on-haskell-text"
+    data-splitting
+  >
+    Beside the world wide web, I am also interested in functional programming
+    and currently learning Haskell.
+  </p>
+</section>
+
+<script>
+  import { gsap, split } from "$lib/effects";
+
+  split();
+
+  gsap.from("#flex-on-haskell-text .char", {
+    x: 300,
+    ease: "expo.out",
+    duration: 0.7,
+    scrollTrigger: {
+      trigger: "#flex-on-haskell-wrapper",
+      start: "top 80%",
+      // end: "+=400",
+      // scrub: true,
+      // markers: true,
+    },
+  });
+</script>
+
+<style is:global>
+  #flex-on-haskell-text .word {
+    overflow: hidden;
+    will-change: transform;
+  }
+  #flex-on-haskell-text .word .char {
+    will-change: transform;
+  }
+</style>

@@ -1,11 +1,15 @@
 ---
 export const prerender = true;
 
+import { Shine } from "$lib/components";
 import { BlogPost, Layout } from "$lib/layouts";
 ---
-<Layout class="space-y-md" seo={{ title: "Blogs" }}>
-  <section id="post" class="max-w-5xl mx-auto">
+
+<Layout class="content space-y-md pt-xl" seo={{ title: "Blogs" }}>
+  <section id="post" class="in-grid">
     <p class="mb-md label">Latest blogs</p>
-    <BlogPost />
+    <Shine client:load>
+      <BlogPost />
+    </Shine>
   </section>
 </Layout>

@@ -3,6 +3,7 @@ title: Arch Linux installation guide
 desc: This guide walks you through installing and setting up Arch Linux from scratch like a pro
 pubon: "feb 16 2024"
 img: "$img/arch-linux.png"
+category: Linux
 ---
 
 Arch Linux is yet another Linux distribution that follows the simple KISS principles which makes it very minimal. The image size of Arch Linux is just aroud 850 MB whereas other full setup Linux distributions are over 2 GB.
@@ -17,11 +18,11 @@ The iso is the image of Arch Linux which you need to download and flash it in a 
 
 Head over to [archlinux.org/download](https://archlinux.org/download/).
 
-Now there are so many ways to download the iso and you might get overwelhmd. *But don't worry I'm here to help* 👮‍♂️.
+Now there are so many ways to download the iso and you might get overwelhmd. _But don't worry I'm here to help_ 👮‍♂️.
 
 #### If you have torrent
 
-Then click on the **Torrent for *date* link**
+Then click on the **Torrent for _date_ link**
 
 #### If you just want to download from the web
 
@@ -29,12 +30,12 @@ Then click on the **Torrent for *date* link**
 
 - Click on any link **which is under the country of yours**. It will open a new page and there will be so many links.
 
-*Don't panic*
+_Don't panic_
 
 - Click on the link that says `archlinux-year.month.day-x86_64.iso`.
 
 - Also you can download the `archlinux-year.month.day-x86_64.iso.sig`.
-This is the signature key which will assure that the iso is valid and not modified.
+  This is the signature key which will assure that the iso is valid and not modified.
 
 But you really don't need to verify as all mirrors are well trusted.
 
@@ -46,7 +47,7 @@ Now you need to put the iso into a USB stick. I'll tell you how to create a boot
 
 - Download and install [Balena etcher](https://etcher.balena.io/).
 
-- Open *etcher* and select the just downloaded iso.
+- Open _etcher_ and select the just downloaded iso.
 
 - Insert a USB stick **but make sure that it is atleast 8 GB in size**.
 
@@ -64,30 +65,30 @@ You can do the same steps as mentioned for Windows but as both Mac and Linux are
 
 - Open a terminal
 
-- Type `lsblk` and hit *Enter/Return*.
-There you can see some data on a table like format. Like this:
+- Type `lsblk` and hit _Enter/Return_.
+  There you can see some data on a table like format. Like this:
 
 ```bash
 ~ $ lsblk
 NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
-sda      8:0    0 465.8G  0 disk 
+sda      8:0    0 465.8G  0 disk
 ├─sda1   8:1    0   500M  0 part /boot/efi
 ├─sda2   8:2    0     4G  0 part [SWAP]
 ├─sda3   8:3    0    30G  0 part /
 ├─sda4   8:4    0   200G  0 part /home
 └─sda5   8:5    0   150G  0 part
 sdb      10:0   0  62.3G  0 disk
-├─sdb1   10:1   0  200M   0 part 
+├─sdb1   10:1   0  200M   0 part
 └─sdb2   10:2   0  52G    0 part
 ```
 
-These are the disks your computer have. Now focus on the *SIZE* column and look for if the sizes matches or closer to the actual size of you USB stick.
+These are the disks your computer have. Now focus on the _SIZE_ column and look for if the sizes matches or closer to the actual size of you USB stick.
 
 > **For example,** my USB is 64 GB and `sdb` is the closest to that size so that's the **block device name** of my USB stick.
 
-If you've noticed it, **note it's *NAME*.**
+If you've noticed it, **note it's _NAME_.**
 
-> **NOTE:** The *NAME* may not be `sdb` for you. It depends on which type of disk you have. For HDD and SSD it's `sd[a-z]` where **sd** means solid disk and **[a-z]** is the alphabetical order. It can also also `nvme[a-z]` if you have a NVME disk installed.
+> **NOTE:** The _NAME_ may not be `sdb` for you. It depends on which type of disk you have. For HDD and SSD it's `sd[a-z]` where **sd** means solid disk and **[a-z]** is the alphabetical order. It can also also `nvme[a-z]` if you have a NVME disk installed.
 
 After that use this comman below to flash:
 
@@ -99,7 +100,7 @@ We have used the `dd` command which is responsible to write data from one file t
 
 Now type the path to where is the iso file located as the `if` (input file) parameter.
 
-And type the name of the *block device* as the `of` (output file) parameter.
+And type the name of the _block device_ as the `of` (output file) parameter.
 
 Lastly, `status=progress` is to tell the `dd` command that we want to see a progress while flashing the iso to the drive.
 
@@ -107,7 +108,7 @@ Wait until the flashing is done and now you have succesfully made a bootable liv
 
 ## Step 3: Boot it with Live USB
 
-Poweroff your computer and boot in *bootloader menu*. This can be done by pressing some keys of combinations. Now typically each manufactures have different key combinations to boot.
+Poweroff your computer and boot in _bootloader menu_. This can be done by pressing some keys of combinations. Now typically each manufactures have different key combinations to boot.
 
 Basically you have to power the computer on and as soon as the brand logo appears, continously press the keys to boot.
 
@@ -118,11 +119,11 @@ You can easily find out in Google which key combination is needed to boot to boo
 
 ### After booting to boot menu
 
-In the boot menu there will be some boot options, you have to look for which says `USE: Drive USB` and select it by pressing the *arrow up/down keys* and press *enter* to boot.
+In the boot menu there will be some boot options, you have to look for which says `USE: Drive USB` and select it by pressing the _arrow up/down keys_ and press _enter_ to boot.
 
 ## In the live ISO
 
-After booting into the live iso you will get a black screen white some text or options. Select the first option (it will be automatically selected) hit *enter*.
+After booting into the live iso you will get a black screen white some text or options. Select the first option (it will be automatically selected) hit _enter_.
 
 Wait until it loads, those text are logs saying what is actually being done.
 
@@ -145,13 +146,15 @@ Conneciton to Wifi is a bit tricky. Here are the following steps to connect to W
 2. Now link up you IP by doing `ip link set wlan0 up`.
 
 3. Use the `iwtcl` to scan Wifi and connect.
+
 ```bash
 iwtcl device scan
 iwtcl station get-networks
 ```
+
 You will see all the available Wifi networks, Find the name of your Wifi and do the next step.
 
-4. `iwctl station connect *wifi_name*`. Change *wifi_name* to your name of the Wifi. Now you surely have a password set to connect, `iwctl` will ask you to enter your password in the `passphrase` section. Simply enter your password and hit *enter*.
+4. `iwctl station connect *wifi_name*`. Change _wifi_name_ to your name of the Wifi. Now you surely have a password set to connect, `iwctl` will ask you to enter your password in the `passphrase` section. Simply enter your password and hit _enter_.
 
 5. Do `ping google.com` to check if you're connected or not.
 
@@ -183,18 +186,18 @@ Type `lsblk` to list all the block devices, which we did while flashing the iso 
 
 - If that drive has partitions, then delete all the partitions one by one, by selecting them and pressing `d`.
 
-- After deleting all partitions you will have one partition named as *Free space*.
+- After deleting all partitions you will have one partition named as _Free space_.
 
 ### Partitions you will need
 
 While installing Linux it is always recommended to have multiple partitions. Here is my best strategy to create the perfect partitions.
 
-| Partition | Name | Size | Type | Mount point |
-| --- | --- | --- | --- | --- |
-| /dev/sda1 | Boot | 512M | Efi System | /boot/efi |
-| /dev/sda2 | Swap | 2G | Swap | NONE |
-| /dev/sda3 | Root | 30G | Linux root (x86-64) | / |
-| /dev/sda4 | Home | Remaining | Linux file system | /home |
+| Partition | Name | Size      | Type                | Mount point |
+| --------- | ---- | --------- | ------------------- | ----------- |
+| /dev/sda1 | Boot | 512M      | Efi System          | /boot/efi   |
+| /dev/sda2 | Swap | 2G        | Swap                | NONE        |
+| /dev/sda3 | Root | 30G       | Linux root (x86-64) | /           |
+| /dev/sda4 | Home | Remaining | Linux file system   | /home       |
 
 This is the perfect file system for any Linux distribution. Every important partitions are separated so there is very very low chance for a system break.
 
@@ -203,7 +206,7 @@ Now create the partitons as the above table:
 - Press `n` to create a new partition and give the size as mentioned
 - Press `t` to select its type as mentioned
 
-After creating all the partitions like the table press `w` to write, type *yes* to confirm.
+After creating all the partitions like the table press `w` to write, type _yes_ to confirm.
 
 ## Format the partitions
 
@@ -294,7 +297,7 @@ gen-fstab -U -p /mnt >> /etc/fstab
 
 ## Switch from live system to newly created system
 
-Yes, generating fstab and installing kernel means your system has been created! But it's not over yet. First switch to the new system, in Arch we call it *changing root* hence the command name is also same.
+Yes, generating fstab and installing kernel means your system has been created! But it's not over yet. First switch to the new system, in Arch we call it _changing root_ hence the command name is also same.
 
 ```bash
 arch-chroot /mnt

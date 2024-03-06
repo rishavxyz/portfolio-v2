@@ -3,9 +3,10 @@ title: "A fish shell script to easily deal with Arch Linux's pacman"
 desc: "I made a simple script in fish shell that runs pacman commands without those hard-to-remember arguments and flags. In fact it resembles FreeBSD's pkg commands."
 pubon: "feb 17 2024"
 img: "$img/fish.png"
+category: Linux
 ---
 
-pkg is a function which is an alias for the Arch based Linux distributions. The name *"pkg"* is inspired by the FreeBSD package manager `pkg`. Which means `pkg-fish` has some similarities with the `pkg` itself.
+pkg is a function which is an alias for the Arch based Linux distributions. The name _"pkg"_ is inspired by the FreeBSD package manager `pkg`. Which means `pkg-fish` has some similarities with the `pkg` itself.
 
 ## Installation
 
@@ -18,17 +19,16 @@ pkg is a function which is an alias for the Arch based Linux distributions. The 
 
 pkg is similar to FreeBSD's pkg command with additional shortcuts and arguments.
 
-> **Additional arguments**
-> `-y` alias for `--noconfirm` in pacman
-> `-s` alias for `-yy` in pacman (force sync) 
+> **Additional arguments** > `-y` alias for `--noconfirm` in pacman
+> `-s` alias for `-yy` in pacman (force sync)
 
-| argument | shortcut | pacman command | additional argument | description |
-| -------- | ----- | ----------------- | ------------------- | ----------- |
-| install  | i, in | `pacman -S`       | `-y`, `-s`          | Install packages |
-| remove   | r, rm | `pacman -Runsc`   | `-y`                | Remove packages  |
-| update   | u, up | `pacman -Su`      | `-y`, `-s`          | Update packages  |
-| find     | f, fd | `pacman -Si`      | `-s`                | Query a package  |
-| search   | s     | `pacman -Ss`      | `-s`                | Search packages  |
+| argument | shortcut | pacman command  | additional argument | description      |
+| -------- | -------- | --------------- | ------------------- | ---------------- |
+| install  | i, in    | `pacman -S`     | `-y`, `-s`          | Install packages |
+| remove   | r, rm    | `pacman -Runsc` | `-y`                | Remove packages  |
+| update   | u, up    | `pacman -Su`    | `-y`, `-s`          | Update packages  |
+| find     | f, fd    | `pacman -Si`    | `-s`                | Query a package  |
+| search   | s        | `pacman -Ss`    | `-s`                | Search packages  |
 
 ## Example
 
@@ -43,7 +43,7 @@ pkg search vifm
 pacman -Ss vifm
 ```
 
-**Install a package with assuming *yes* to all the propmts**
+**Install a package with assuming _yes_ to all the propmts**
 
 ```bash
 pkg i vifm -y

@@ -45,6 +45,8 @@ const { Content } = await render();
 // });
 ---
 
-<article class={cn("prose prose-lg prose-black md:prose-xl", "font-serif", className)}>
+<article
+  class={cn("prose prose-lg prose-black md:prose-xl", "font-serif", className)}
+>
   <Content components={{ table: Table }} />
 </article>

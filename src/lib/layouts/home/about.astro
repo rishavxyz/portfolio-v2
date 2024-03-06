@@ -1,0 +1,82 @@
+<section class="mt-xl relative primary space-y-md z-[2]" id="desc">
+  <p
+    class="font-display text-3xl lg:text-4xl font-light leading-none"
+    id="desc-text"
+  >
+    I'm currently a final year computer science student who loves web
+    development and creative designing.
+    <p class="label mt-md">Read more <a href="/about">about me</a>.</p>
+  </p>
+  <p
+    class="font-display text-3xl lg:text-4xl font-light leading-none"
+    id="desc-text-2"
+  >
+    I also like to write articles about web technologies and what I have learnt.
+    <p class="label mt-md">Check out <a href="/blog">my blogs</a>.</p>
+  </p>
+  <!-- ball -->
+  <div
+    id="ball-marker"
+    aria-hidden="true"
+    class="isolate relative z-[-1] min-h-screen max-w-xs mx-auto translate-y-[180px]"
+  >
+    <div
+      id="ball"
+      aria-hidden="true"
+      class="bg-indigo-400 shadow-inner shadow-white blur-lg aspect-square rounded-full will-change-transform"
+    >
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "$lib/effects";
+
+  gsap.set("#desc", { rotateZ: 15, scale: 0.8 });
+
+  gsap.to("#desc", {
+    scale: 1,
+    rotateZ: 0,
+    scrollTrigger: {
+      trigger: "#desc",
+      start: "top 90%",
+      end: "top 20%",
+      scrub: true,
+      // markers: true,
+    },
+  });
+  gsap.from("#desc-text", {
+    y: 150,
+    x: 100,
+    scale: 0.8,
+    scrollTrigger: {
+      trigger: "#desc",
+      start: "top 70%",
+      end: "top 20%",
+      scrub: true,
+      // markers: true,
+    },
+  });
+  gsap.from("#desc-text-2", {
+    y: 150,
+    x: -50,
+    scrollTrigger: {
+      trigger: "#desc-text",
+      start: "top 70%",
+      end: "top 20%",
+      scrub: true,
+      // markers: true,
+    },
+  });
+  gsap.to("#ball", {
+    scale: 10,
+    scrollTrigger: {
+      trigger: "#ball-marker",
+      start: "top 80%",
+      end: "+=1000",
+      scrub: true,
+      // markers: true,
+      // pin: true,
+    },
+  });
+</script>
