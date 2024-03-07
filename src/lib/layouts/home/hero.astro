@@ -1,5 +1,5 @@
 ---
-import { AUTHOR, DESCRIPTION } from "$lib/consts";
+import { AUTHOR, DESCRIPTION } from '$lib/consts';
 ---
 
 <section
@@ -22,29 +22,30 @@ import { AUTHOR, DESCRIPTION } from "$lib/consts";
 </section>
 
 <script>
-  import { Gradient } from "$lib/gradient.js";
-  import { gsap, split } from "$lib/effects";
+  import { Gradient } from '$lib/gradient.js';
+  import gsap from 'gsap';
+  import Splitting from 'splitting';
+
+  Splitting();
 
   const gradient = new Gradient();
   // @ts-ignore
-  gradient.initGradient("#gradient-canvas");
+  gradient.initGradient('#gradient-canvas');
 
-  split();
-
-  gsap.to("#gradient-canvas", {
-    filter: "brightness(1)",
+  gsap.to('#gradient-canvas', {
+    filter: 'brightness(1)',
     duration: 0.8,
     delay: 3,
   });
-  gsap.from("#sub-title", { opacity: 0, ease: "power2.out", delay: 3 });
-  gsap.to("#hero", {
+  gsap.from('#sub-title', { opacity: 0, ease: 'power2.out', delay: 3 });
+  gsap.to('#hero', {
     scale: 0.8,
     rotateZ: -6,
     y: 50,
     scrollTrigger: {
-      trigger: "#desc",
-      start: "top bottom",
-      end: "top top",
+      trigger: '#desc',
+      start: 'top bottom',
+      end: 'top top',
       scrub: true,
       // markers: true,
     },

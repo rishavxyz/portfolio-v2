@@ -1,7 +1,7 @@
 /// <reference path="../.astro/types.d.ts" />
 /// <reference types="astro/client" />
 
-import type { Session, User } from "lucia";
+import type { Session, User } from 'lucia';
 
 // declare namespace App {
 //   interface Locals {

@@ -93,7 +93,6 @@
   font-size: 1rem;
   text-transform: uppercase;
   font-weight: 500;
-  font-family: theme(fontFamily.display);
 }
 
 button,

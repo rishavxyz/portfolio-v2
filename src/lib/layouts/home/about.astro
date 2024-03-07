@@ -36,34 +36,35 @@
 </section>
 
 <script>
-  import { gsap, split } from "$lib/effects";
+  import gsap from 'gsap';
+  import Splitting from 'splitting';
 
-  split();
+  Splitting();
 
-  gsap.set("#desc", { rotateZ: 6, scale: 0.6 });
+  gsap.set('#desc', { rotateZ: 6, scale: 0.6 });
 
-  gsap.to("#desc", {
+  gsap.to('#desc', {
     scale: 1,
     rotateZ: 0,
-    ease: "sine.out",
+    ease: 'sine.out',
     scrollTrigger: {
-      trigger: "#desc",
-      start: "top 90%",
-      end: "bottom bottom",
+      trigger: '#desc',
+      start: 'top 90%',
+      end: 'bottom bottom',
       scrub: true,
       // markers: true,
     },
   });
-  gsap.timeline().from("p[data-text] .word", {
+  gsap.timeline().from('p[data-text] .word', {
     yPercent: 100,
     rotateZ: 5,
     opacity: 0,
     stagger: 0.04,
-    ease: "power4.out",
+    ease: 'power4.out',
     scrollTrigger: {
-      trigger: "#desc",
-      start: "top 70%",
-      end: "bottom 50%",
+      trigger: '#desc',
+      start: 'top 70%',
+      end: 'bottom 50%',
       scrub: true,
       // markers: true,
     },

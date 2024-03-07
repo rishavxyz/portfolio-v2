@@ -18,41 +18,44 @@
 </div>
 
 <script>
-  import { gsap } from "$lib/effects";
-  gsap.to("#splash-overlay-top", {
+  import gsap from 'gsap';
+  import Splitting from 'splitting';
+
+  Splitting();
+  gsap.to('#splash-overlay-top', {
     yPercent: -30,
     duration: 0.8,
     delay: 0.5,
-    ease: "power2.out",
+    ease: 'power2.out',
   });
-  gsap.to("#splash-overlay-bot", {
+  gsap.to('#splash-overlay-bot', {
     yPercent: 30,
     duration: 0.8,
     delay: 0.5,
-    ease: "power2.out",
+    ease: 'power2.out',
   });
-  gsap.from("#splash-text .word:first-child", {
+  gsap.from('#splash-text .word:first-child', {
     yPercent: 100,
     delay: 1,
   });
-  gsap.from("#splash-text .word:last-child", {
+  gsap.from('#splash-text .word:last-child', {
     yPercent: -100,
     delay: 1.03,
   });
-  gsap.to("#splash-overlay-top", {
+  gsap.to('#splash-overlay-top', {
     yPercent: -100,
     duration: 0.8,
     delay: 2,
-    ease: "power2.out",
+    ease: 'power2.out',
   });
-  gsap.to("#splash-overlay-bot", {
+  gsap.to('#splash-overlay-bot', {
     yPercent: 100,
     duration: 0.8,
     delay: 2,
-    ease: "power2.out",
+    ease: 'power2.out',
   });
-  gsap.to("#splash", {
-    display: "none",
+  gsap.to('#splash', {
+    display: 'none',
     delay: 2.5,
   });
 </script>

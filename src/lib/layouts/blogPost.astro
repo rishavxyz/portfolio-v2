@@ -1,32 +1,18 @@
 ---
 import { Fdate, SuperImg } from "$lib/components";
-import { dev } from "$lib/env";
-import type { CollectionEntry } from "astro:content";
-import { getCollection } from "astro:content";
-import { cn } from "$lib/utils";
+import { cn, getBlogPosts } from "$lib/utils";
 
 type Props = {
   loading?: "lazy" | "eager";
   class?: string;
+  skip?: string;
+  count?: number;
+  category?: string;
 };
 
+const { loading, class: cls, skip, count = 6, category } = Astro.props;
 
-const { loading, class: cls } = Astro.props;
-
-const getPosts = await getCollection("blog");
-
-function sortPosts(posts: CollectionEntry<"blog">[]) {
-  const filterDraftPosts = posts.filter((post) =>
-    dev ? post : post.data.draft != true,
-  );
-  const sortedPosts = filterDraftPosts.sort(
-    (fst, snd) => snd.data.pubon.getTime() - fst.data.pubon.getTime(),
-  );
-
-  return sortedPosts;
-}
-
-const blogs = sortPosts(getPosts);
+const blogs = await getBlogPosts({skip, count, category})
 ---
 
 <ul id="blogs" class={cn(cls)}>

@@ -1,7 +1,7 @@
 ---
 title: Basic Linux commands to learn
 desc: The 5 Linux commands are essential to learn for everyone
-pubon: "feb 16 2024"
+pubon: 'feb 16 2024'
 category: Linux
 ---
 

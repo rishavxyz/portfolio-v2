@@ -1,18 +1,14 @@
 ---
-import "@fontsource/pt-serif";
-import "@fontsource/ubuntu-mono";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
-import "/src/tailwind.css";
-import "splitting/dist/splitting.css";
+import '@fontsource/ubuntu-mono';
+import '/src/tailwind.css';
+import 'splitting/dist/splitting.css';
 
-import type { CSSProperty } from "astro/types";
-import { Header, Footer, SEO } from "$lib/components";
-import { DESCRIPTION, TITLE } from "$lib/consts";
-import { cn } from "$lib/utils";
+import type { CSSProperty } from 'astro/types';
+import { Header, Footer, SEO } from '$lib/components';
+import { DESCRIPTION, TITLE } from '$lib/consts';
+import { cn } from '$lib/utils';
 
-import defaultImg from "$img/blog-placeholder-1.jpg";
+import defaultImg from '$img/blog-placeholder-1.jpg';
 
 type Props = {
   class?: string;
@@ -79,7 +75,7 @@ const {
       }
     </style><style>
       body::before {
-        content: "";
+        content: '';
         position: absolute;
         inset-inline: 0;
         height: 0;
@@ -102,18 +98,32 @@ const {
     </style></head
   >
 
-  <body class={cn("text-base bg-black text-white", background, foreground)}>
+  <body class={cn('text-base bg-black text-white', background, foreground)}>
     <div id="top"></div>
     <Header
-      class={cn("fixed top-0 w-full z-10 p-sm mix-blend-difference", navClass)}
+      class={cn('fixed top-0 w-full z-10 p-sm mix-blend-difference', navClass)}
     />
-    <main class={cn("pt-[calc(var(--space-xl)+0.5rem)]", className)}>
+    <main class={cn('pt-[calc(var(--space-xl)+0.5rem)]', className)}>
       <slot />
     </main>
     <Footer class="bg-black text-white" />
     <script>
-      import { lenis } from "$lib/effects";
-      lenis();
+      import gsap from 'gsap';
+      import ScrollTrigger from 'gsap/ScrollTrigger';
+      import Lenis from '@studio-freight/lenis';
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      const lenis = new Lenis({
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      });
+
+      function raf(time: number) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+
+      requestAnimationFrame(raf);
     </script>
   </body>
 </html>

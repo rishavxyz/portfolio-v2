@@ -1,15 +1,16 @@
 ---
 export const prerender = true;
 
-import type { GetStaticPaths } from "astro";
+import type { GetStaticPaths } from 'astro';
 
-import { SuperImg, Fdate } from "$lib/components";
-import { ReadingTime, Render } from "$lib/components/md";
-import { Layout } from "$lib/layouts";
-import { getCollection } from "astro:content";
+import { SuperImg, Fdate } from '$lib/components';
+import { ReadingTime, Render } from '$lib/components/md';
+import Layout from '$lib/layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { getBlogPosts } from '$lib/utils';
 
 export const getStaticPaths = (async () => {
-  const entries = await getCollection("blog");
+  const entries = await getCollection('blog');
 
   return entries.map((entry) => ({
     params: {
@@ -20,10 +21,13 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const {
+  slug,
   render,
   data: { title, desc, img, pubon, category },
   body,
 } = Astro.props.entry;
+
+const relatedPosts = await getBlogPosts({ category, skip: slug });
 ---
 
 <Layout
@@ -36,21 +40,23 @@ const {
   <section
     id="hero"
     class:list={[
-      "in-grid flex flex-col lg:flex-row gap-md",
-      { "lg:justify-between": img },
-      { "lg:justify-center": !img },
+      'in-grid flex flex-col lg:flex-row gap-md',
+      { 'lg:justify-between': img },
+      { 'lg:justify-center': !img },
     ]}
   >
     {
       img && (
-        <figure id="hero--image" class="shrink-0 overflow-hidden">
-          <SuperImg src={img} alt={`blog ${title}`} width={720} />
-        </figure>
+        <div class="shrink-0 overflow-hidden">
+          <figure id="hero--image" class="overflow-hidden">
+            <SuperImg src={img} alt={`blog ${title}`} width={720} />
+          </figure>
+        </div>
       )
     }
     <div
       id="hero--content"
-      class:list={["space-y-sm text-center", { "lg:text-left": img }]}
+      class:list={['space-y-sm text-center', { 'lg:text-left': img }]}
     >
       <div class="overflow-hidden">
         <h4 data-animate>{title}</h4>
@@ -67,47 +73,107 @@ const {
       </div>
     </div>
   </section>
-  <section class="my-md">
+  <section class="my-md" data-content>
     <Render {render} />
   </section>
   <section
-    class="full-w content py-md"
+    id="related"
+    class="full-w content py-sm"
     style="
     color: color-mix(in lch, var(--color) 20%, currentColor);
     background-color: var(--color, #abcdef);
   "
   >
-    <h6>More like this</h6>
-    <p>Coming very soon</p>
+    <div class="overflow-hidden mb-sm">
+      <p class="label" id="related-label" data-blog>More from {category}</p>
+    </div>
+
+    <div class="overflow-hidden">
+      <ul class="space-y-md overflow-hidden">
+        {
+          relatedPosts.length > 0 ? (
+            relatedPosts.map((post) => (
+              <li data-blog>
+                <a
+                  href={`/blog/${post.slug}`}
+                  data-astro-prefetch
+                  class="!no-underline"
+                >
+                  <h4>{post.data.title}</h4>
+                  <Fdate date={post.data.pubon} class="my-2" />
+                  <p>{post.data.desc}</p>
+                </a>
+              </li>
+            ))
+          ) : (
+            <p class="text-center" data-blog>
+              No posts yet
+            </p>
+          )
+        }
+      </ul>
+    </div>
   </section>
 </Layout>
 
 <style>
-  [data-animate] {
-    will-change: transform;
-    transform: translateY(100%);
+  [data-animate],
+  [data-content],
+  #related-label {
+    visibility: hidden;
   }
 </style>
 
-<script>
-  import { animate, stagger } from "motion";
+<noscript>
+  <style>
+    [data-animate],
+    [data-content],
+    #related-label {
+      visibility: visible;
+    }
+  </style>
+</noscript>
 
-  animate(
-    "[data-animate]",
-    { y: ["100%", 0] },
-    { duration: 0.8, delay: stagger(0.1) },
-  );
+<script>
+  import gsap from 'gsap';
+  import ScrollTrigger from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.defaults({
+    ease: 'power2.out',
+    duration: 1,
+  });
+  gsap.set('[data-animate]', { autoAlpha: 1, yPercent: 100 });
+  gsap.set('[data-content]', { autoAlpha: 1, y: 100 });
+  gsap.set('[data-blog]', { autoAlpha: 1, yPercent: 100 });
+
+  gsap.to('[data-animate]', {
+    yPercent: 0,
+    stagger: 0.03,
+  });
+  gsap.to('[data-content]', {
+    y: 0,
+  });
+  gsap.to('[data-blog]', {
+    yPercent: 0,
+    stagger: 0.03,
+    scrollTrigger: {
+      trigger: '#related',
+      start: 'top 80%',
+      end: '+=0',
+    },
+  });
 </script>
 
 <script>
-  import Vibrant from "node-vibrant";
+  import Vibrant from 'node-vibrant';
 
-  const img = document.querySelector("figure > img") as
+  const img = document.querySelector('figure > img') as
     | HTMLImageElement
     | undefined;
 
   async function extractColors(img: HTMLImageElement) {
-    if (typeof img == "undefined") return;
+    if (typeof img == 'undefined') return;
 
     const { WebWorker, MMCQ } = Vibrant.Quantizer;
     const quantizer = WebWorker || MMCQ;
@@ -120,30 +186,30 @@ const {
       const [hue] = palette.LightVibrant?.getHsl() ?? [245];
 
       document.documentElement.style.setProperty(
-        "--color",
+        '--color',
         `hsl(${Math.floor(hue * 360)} 95 85)`,
       );
       setTimeout(
         () =>
           // 1s delay so the animation does not get blocked
-          document.querySelector("body")?.animate([{ height: "80vh" }], {
+          document.querySelector('body')?.animate([{ height: '80vh' }], {
             delay: 480,
             duration: 800,
-            easing: "ease-in",
-            fill: "forwards",
-            pseudoElement: "::before",
+            easing: 'ease-in',
+            fill: 'forwards',
+            pseudoElement: '::before',
           }),
-        1000,
+        300,
       );
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
     }
 
-    img.removeEventListener("load", () => extractColors(img));
+    img.removeEventListener('load', () => extractColors(img));
   }
 
   if (img) {
     if (img.complete) extractColors(img);
-    else img.addEventListener("load", () => extractColors(img));
+    else img.addEventListener('load', () => extractColors(img));
   }
 </script>

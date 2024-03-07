@@ -1,9 +1,9 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection, z } from 'astro:content';
 
-const seoMsg = "For the best SEO keep it within";
+const seoMsg = 'For the best SEO keep it within';
 
 const blog = defineCollection({
-  type: "content",
+  type: 'content',
   schema: ({ image }) =>
     z.object({
       title: z.string().max(60, { message: `${seoMsg} 60 characters` }),
@@ -12,7 +12,7 @@ const blog = defineCollection({
       updatedOn: z.coerce.date().optional(),
       img: image().optional(),
       draft: z.boolean().default(false),
-      category: z.string().toLowerCase().default("NONE"),
+      category: z.string().toLowerCase().default('NONE'),
     }),
 });
 
