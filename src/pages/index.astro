@@ -2,16 +2,14 @@
 export const prerender = true;
 
 import { Layout } from "$lib/layouts";
-import { About, Blog, FlexOnHaskell, Splash, Hero } from "$lib/layouts/home";
+import { About, Blog, Splash, Hero } from "$lib/layouts/home";
 ---
 
 <Splash />
-
 <Layout
   class="[&>section]:px-sm [&>section]:py-md [&>section]:overflow-hidden overflow-clip pt-0"
 >
   <Hero />
   <About />
-  <FlexOnHaskell />
   <Blog />
 </Layout>

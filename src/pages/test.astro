@@ -1,0 +1,31 @@
+---
+
+---
+
+<div
+  class="fixed bg-white inset-0 h-screen grid grid-cols-12 overflow-hidden"
+  id="main"
+>
+  <div id="text-wrapper" class="absolute inset-0 grid place-items-center">
+    <p>Hello</p>
+  </div>
+  {
+    [...Array(12)].map((_, i) => (
+      <div class="bg-red-400 w-0" data-grid-col={i} />
+    ))
+  }
+</div>
+
+<section class="h-screen bg-yellow-700"></section>
+
+<script>
+  import { gsap } from "gsap";
+  gsap
+    .timeline()
+    .to("[data-grid-col]", {
+      width: "100%",
+      ease: "power.in",
+      stagger: 0.03,
+    })
+    .to("#main", { yPercent: -100, delay: 1, duration: 1, ease: "power1.out" });
+</script>

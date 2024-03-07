@@ -32,14 +32,14 @@ const blogs = sortPosts(getPosts);
 <ul id="blogs" class={cn(cls)}>
   {
     blogs.map((d, i) => (
-      <li class="border-muted-light md:border-none blog">
+      <li class="relative" data-blog-link>
         <a
           href={`/blog/${d.slug}`}
-          class="block overflow-hidden rounded"
+          class="block overflow-hidden"
           data-astro-prefetch
         >
           {d.data.img && (
-            <figure class="overflow-hidden bg-black">
+            <figure class="overflow-hidden">
               <SuperImg
                 src={d.data.img}
                 loading={loading || i <= 3 ? "eager" : "lazy"}
@@ -48,11 +48,11 @@ const blogs = sortPosts(getPosts);
               />
             </figure>
           )}
-          <div class="bg-black p-sm rounded relative z-[1]" class:list={[{"-mt-md": d.data.img}]}>
+          <div class="p-sm border-muted-light border" class:list={[{'border-t-0': d.data.img}]}>
             <p class="font-semibold text-lg leading-snug">{d.data.title}</p>
             <Fdate
               date={d.data.pubon}
-              class="block my-1 text-sm text-muted-light"
+              class="block my-2 text-sm text-muted-dark"
             />
             <p>{d.data.desc}</p>
           <sdiv>
@@ -62,6 +62,22 @@ const blogs = sortPosts(getPosts);
   }
 </ul>
 
+<script>
+  import gsap from "gsap";
+
+  gsap.timeline({scrollTrigger: {
+    trigger: '#blogs',
+    scrub: true,
+    start: 'top bottom',
+    end: 'bottom bottom',
+  }})
+  .from('[data-blog-link]', {
+    y: 700,
+    stagger: 0.2,
+    ease: 'power2.out'
+  })
+</script>
+
 <style>
   a[href] {
     text-decoration: none;
@@ -69,6 +85,6 @@ const blogs = sortPosts(getPosts);
   #blogs {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
-    gap: theme(spacing.sm);
+    gap: theme(spacing.xs);
   }
 </style>

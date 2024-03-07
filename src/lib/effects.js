@@ -6,7 +6,7 @@ import Lenis from "@studio-freight/lenis";
 gsap.registerPlugin(ScrollTrigger);
 
 const _lenis = new Lenis({
-  easing: (x) => 1 - Math.pow(1 - x, 4),
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
 });
 
 export function lenis(time = 1000) {
